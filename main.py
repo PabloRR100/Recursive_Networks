@@ -26,7 +26,7 @@ import torch.optim as optim
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
 BS = 16
 LR = 0.01
-EPOCHS = 30
+EPOCHS = 100
 MOMEMTUM = 0
 WEIGHT_DECAY = 0
 NESTEROV = False
@@ -58,8 +58,8 @@ ts_loader = create_torch_dataset(X_test, y_test, BS=BS, shuffle=True)
 # Config Neural Network
 # ---------------------
 
-n_layers = 3                                                # Number of hidden Layers
-lay_size = 10                                               # Width of hidden layers
+n_layers = 4                                                # Number of hidden Layers
+lay_size = 50                                               # Width of hidden layers
 inp_dim = X_train.shape[1]                                  # Input dimension
 n_class = len(np.unique(y_train))                           # Output dimension
 
@@ -111,7 +111,7 @@ modelR = TorchNet('ReLU', inp_dim, n_class, lay_size, n_layers, actf='relu', tra
 
 # Select models to train
 models += [modelN, modelS, modelT, modelR]
-
+models = [modelR]
 for model in models:
     
     r = Results()
@@ -138,6 +138,17 @@ from plots import true_vs_pred
 confusion_matrices = true_vs_pred(models, X_train, X_test, y_test)
 colors = ['red', 'blue', 'green', 'grey', 'black', 'yellow', 'purple']
 
+import numpy as np
+import torch
+from torch.autograd import Variable
+X_fake = np.random.randn(X_test.shape[0], X_test.shape[1])
+X_fake = torch.tensor(X_fake, dtype=torch.long)
+X_fake.type()
+
+model = models[0]
+
+y_fake = model(Variable(X_fake))
+
 
 # Train Validation Loss Accuracy
 m = models[0]
@@ -162,6 +173,10 @@ fig.suptitle('Network --> Act f: {}.    # Hidden Layers: {}.    Hidden Layers Wi
              .format(m.activation, m.n_lay, m.lay_size))
 plt.plot()
 
+
+
+model = models[0]
+X_fake = np.random.rand()
 
 
 # Network Analysis
