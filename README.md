@@ -1,6 +1,7 @@
 # Recursive Networks
 
-Empirical analysis on ["Understanding Deep Architectures using a Recursive Convolutional Network"][paper]
+Empirical analysis on ["Understanding Deep Architectures using a Recursive Convolutional Network"][paper]   
+
 ![recursive][recursive_img]
 
 Get insights of how recursive networks works, under which circusntances outperform original models and how they could serve as a simulation on a increase of the network budget (number of parameters).   
