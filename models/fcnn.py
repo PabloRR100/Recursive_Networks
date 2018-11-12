@@ -60,22 +60,23 @@ class TorchNet(nn.Module):
                  actf: str = 'relu', recursive=None, track_stats=True, print_sizes=False):
         super(TorchNet, self).__init__()
         
-        opt = ['relu', 'sigm', 'tanh']
+        opt = ['none', 'relu', 'sigm', 'tanh']
         err = 'Select a correct activation function from: {}'.format(opt)
         assert actf in opt, err
         
         self.name = name
         self.lay_size = hid
         self.n_lay = n_layers
+        self.activation = actf
         self.fcInp = nn.Linear(inp, hid, bias=False)
         
         self.fcHid = nn.ModuleList([nn.Linear(hid, hid, bias=False) for _ in range(self.n_lay)])        
         self.fcOut = nn.Linear(hid, out, bias=False)
-
-        self.p = print_sizes          
+     
         self.track_stats = track_stats
         self.recursive = None if recursive == 0 else recursive
         
+        if actf == 'none': self.actf = self.linact
         if actf == 'relu': self.actf = nn.ReLU(inplace=True)
         if actf == 'sigm': self.actf = nn.Sigmoid()
         if actf == 'tanh': self.actf = nn.Tanh()
@@ -99,12 +100,12 @@ class TorchNet(nn.Module):
             self.lInp = dict(mean = list(), var = list())
             self.lHid = [dict(mean = list(), var = list()) for _ in range(self.n_lay)]        
         
+    def linact(self, x):
+        return x
         
     def forward(self, x):
          
-        # Input Layer 
-        if self.p: print("\t FC1 input size: ", x.size())        
-        
+        # Input Layer         
         x = self.actf(self.fcInp(x))
         if self.track_stats:
             self.lInp['mean'].append(float(x.mean()))
@@ -113,22 +114,18 @@ class TorchNet(nn.Module):
         # Hidden Layers
         for l in range(self.n_lay):
             
-            if self.p: print("\t FC Hidden {} input size: {}".format(l, x.size()))
             x = self.actf(self.fcHid[l](x))
             if self.track_stats:
                 self.lHid[l]['mean'].append(float(x.mean()))
                 self.lHid[l]['mean'].append(float(x.var()))
             
-            # Apply recursivity to the last layer
+            # Recursive Layer (last layer)
             if l == max(range(self.n_lay)) and self.recursive is not None:
                 for _ in range(self.recursive):
                     x = self.actf(self.fcHid[l](x))
 
         # Output Layer 
-        if self.p: print('\t FC2 input size: ', x.size())
         x = self.fcOut(x)
-        
-        if self.p: print("\t Output size: ", x.size())
         return x
     
     

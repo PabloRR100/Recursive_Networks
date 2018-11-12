@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 
-import pickle
-import numpy as np
-from utils import to_df, scatterplot
-
+import torch
+import torch.utils.data as data_utils
+from plots import to_df, scatterplot
 from sklearn.datasets import make_moons, make_classification, load_iris, load_digits
 
 
@@ -33,6 +32,16 @@ def load_dataset(name:str, visualize=False, *args):
         y = nist.target
         
     return X,y
+
+
+
+
+def create_torch_dataset(inputs, labels, BS, shuffle):
+    t = data_utils.TensorDataset(
+            torch.tensor(inputs, dtype=torch.float32),     ## Inputs are float
+            torch.tensor(labels, dtype=torch.torch.int64)) ## Labels are int
+    loader = data_utils.DataLoader(t, batch_size=BS, shuffle=shuffle)
+    return loader
 
     
 

@@ -18,16 +18,15 @@ Created on Thu Nov  1 09:47:02 2018
 '''
 
 
-import torch
 import numpy as np
 import torch.nn as nn
 import torch.optim as optim
-from torch.autograd import Variable
+
 
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
 BS = 16
 LR = 0.01
-EPOCHS = 100
+EPOCHS = 30
 MOMEMTUM = 0
 WEIGHT_DECAY = 0
 NESTEROV = False
@@ -51,7 +50,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
 #df_train = to_df(X_train, y_train); #df_test = to_df(X_test, y_test)
 #scatterplot([df, df_train, df_test], ['Original data', 'Training set', 'Test set'])
 
-from utils import create_torch_dataset
+from data import create_torch_dataset
 tr_loader = create_torch_dataset(X_train, y_train, BS, shuffle=True)
 ts_loader = create_torch_dataset(X_test, y_test, BS=BS, shuffle=True)
 
@@ -59,8 +58,8 @@ ts_loader = create_torch_dataset(X_test, y_test, BS=BS, shuffle=True)
 # Config Neural Network
 # ---------------------
 
-n_layers = 2                                                # Number of hidden Layers
-lay_size = 4                                               # Width of hidden layers
+n_layers = 3                                                # Number of hidden Layers
+lay_size = 10                                               # Width of hidden layers
 inp_dim = X_train.shape[1]                                  # Input dimension
 n_class = len(np.unique(y_train))                           # Output dimension
 
@@ -68,7 +67,9 @@ n_class = len(np.unique(y_train))                           # Output dimension
 # Define Training
 # --------------    
 
+from utils import timeit
 from train_valid_test import train_epoch, valid_epoch
+@timeit
 def train(model, criterion, optimizer, results, EPOCHS, LR):
     for epoch in range(EPOCHS):    
         
@@ -103,12 +104,13 @@ criterion = nn.CrossEntropyLoss()
 results = []
 
 # Create variants of different models to compare
-model = TorchNet('No_Recursive', inp_dim, n_class, lay_size, n_layers, track_stats=False, recursive=0)
-model2 = TorchNet('Recursive_2', inp_dim, n_class, lay_size, n_layers, track_stats=False, recursive=2)
-model5 = TorchNet('Recursive_5', inp_dim, n_class, lay_size, n_layers, track_stats=False, recursive=5)
+modelN = TorchNet('No Activation', inp_dim, n_class, lay_size, n_layers, actf='none', track_stats=True, recursive=0)
+modelS = TorchNet('Sigmoid', inp_dim, n_class, lay_size, n_layers, actf='sigm', track_stats=True, recursive=0)
+modelT = TorchNet('TanH', inp_dim, n_class, lay_size, n_layers, actf='tanh', track_stats=True, recursive=0)
+modelR = TorchNet('ReLU', inp_dim, n_class, lay_size, n_layers, actf='relu', track_stats=True, recursive=0)
 
 # Select models to train
-models += [model, model2, model5]
+models += [modelN, modelS, modelT, modelR]
 
 for model in models:
     
@@ -127,47 +129,37 @@ for model in models:
 
 import pandas as pd
 import seaborn as sns
-from utils import to_df
 import matplotlib.pyplot as plt
-from sklearn.metrics import confusion_matrix
 
 # Performance Analysis
 # ---------------------
 
-## TODO: for model in models:
-confusion_matrices = []
-for m, model in enumerate(models):
-
-    y_pred_all = model(Variable(torch.tensor(X_test, dtype=torch.float32)))
-    y_pred_all = torch.max(y_pred_all.data, 1)[1].detach().numpy()
-    
-    # Targets vs Predictions (Only for 2D Inputs)
-    if X_train.shape[1] == 2:
-        
-        from utils import true_vs_pred
-        df_test = to_df(X_test, y_test)
-        df_pred = to_df(X_test, y_pred_all)
-        
-        true_vs_pred(df_test, df_pred)
-
-    # Confusion Matrix
-    confusion_matrices.append(confusion_matrix(y_test, y_pred_all))
+from plots import true_vs_pred
+confusion_matrices = true_vs_pred(models, X_train, X_test, y_test)
+colors = ['red', 'blue', 'green', 'grey', 'black', 'yellow', 'purple']
 
 
 # Train Validation Loss Accuracy
-fig, axs = plt.subplots(nrows=2, ncols=1)
 m = models[0]
 def lab(a,m):
     if a == 'T': return 'Training {}'.format(m.name)
     else: return 'Validation {}'.format(m.name)
+
+fig, axs = plt.subplots(nrows=2, ncols=1, figsize=(15,15))
+c = colors[:len(models)]
 for i, r in enumerate(results):
-    sns.lineplot(range(EPOCHS), r.train_loss, label=lab('T',models[i]), ax=axs[0])
-    sns.lineplot(range(EPOCHS), r.valid_loss, label=lab('V',models[i]), ax=axs[0])
-    sns.lineplot(range(EPOCHS), r.train_accy, label=lab('T',models[i]), ax=axs[1])
-    sns.lineplot(range(EPOCHS), r.valid_accy, label=lab('V',models[i]), ax=axs[1])
+    sns.lineplot(range(EPOCHS), r.train_loss, color=c[i], label=lab('T',models[i]), ax=axs[0])
+    sns.lineplot(range(EPOCHS), r.valid_loss, color=c[i], dashes=True, label=lab('V',models[i]), ax=axs[0])
+    sns.lineplot(range(EPOCHS), r.train_accy, color=c[i], label=lab('T',models[i]), ax=axs[1])
+    sns.lineplot(range(EPOCHS), r.valid_accy, color=c[i], dashes=True, label=lab('V',models[i]), ax=axs[1])
+for i in range(len(axs[0].lines)):
+    if i % 2 != 0:
+        axs[0].lines[i].set_linestyle("--")
+        axs[1].lines[i].set_linestyle("--")
 axs[0].set_title('Loss')
 axs[1].set_title('Accuracy')
-fig.suptitle('Network:: # Hidden Layers: {}.  Hidden Layers Width: '.format(m.n_lay, m.lay_size))
+fig.suptitle('Network --> Act f: {}.    # Hidden Layers: {}.    Hidden Layers Width: {}' \
+             .format(m.activation, m.n_lay, m.lay_size))
 plt.plot()
 
 
@@ -175,14 +167,14 @@ plt.plot()
 # Network Analysis
 # -----------------
 
-for net in models:
+net = models[0]
 
-    Winp_stats = net.weight_stats['Winp']
-    Whid_stats = net.weight_stats['Whid']
-    Wout_stats = net.weight_stats['Wout']
-    Winp_scale = net.weight_stats['rWinp']
-    Whid_scale = net.weight_stats['rWhid']
-    Wout_scale = net.weight_stats['rWout']
+Winp_stats = net.weight_stats['Winp']
+Whid_stats = net.weight_stats['Whid']
+Wout_stats = net.weight_stats['Wout']
+Winp_scale = net.weight_stats['rWinp']
+Whid_scale = net.weight_stats['rWhid']
+Wout_scale = net.weight_stats['rWout']
 
 xaxis = range(len(Winp_stats['mean']))
 
