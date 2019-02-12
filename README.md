@@ -1,5 +1,9 @@
 # Recursive Networks
 
+**Note**:
+Previous work on analysis of saturation of layers using recursivity has moved [this other repository][saturation]
+Also, there is a similar analysis covering weight initizalization sensitivity [here][initialization]
+
 Empirical analysis on ["Understanding Deep Architectures using a Recursive Convolutional Network"][paper]   
 
 ![recursive][recursive_img]
@@ -11,6 +15,9 @@ Example of 3 Networks on a Binary Classification.
  - Recursive Networks: Extend last layer by 2 and 5 recursions
 
 ![analysis][recursiveanalysis]
+
+[saturation]: https://github.com/PabloRR100/Distilling-Deep-Networks.git
+[initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
 
 [recursive_img]: https://github.com/PabloRR100/Recursive_Networks/blob/master/figures/recursive.png?raw=true
 [recursiveanalysis]: https://github.com/PabloRR100/Recursive_Networks/blob/master/figures/recursive_h2_w4.png?raw=true  
