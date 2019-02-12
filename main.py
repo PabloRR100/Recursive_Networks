@@ -117,9 +117,29 @@ from collections import OrderedDict
 
 ensemble = OrderedDict()
 E = round((count_parameters(convnet)/count_parameters(r_convnet)))
-for idx in range(1,1+E):
-    ensemble['net_{}'.format(idx)] = Conv_Recusive_Net('net_{}'.format(idx), layers=L, filters=M)
-    
+for n in range(1,1+E):
+    ensemble['net_{}'.format(n)] = Conv_Recusive_Net('net_{}'.format(n), layers=L, filters=M)
+
+#if args.resume:
+#    
+#    print('==> Resuming from checkpoint..')
+#    print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
+#    assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
+#    checkpoint = torch.load('./checkpoint/ckpt.t7')
+#    
+#    for n,net in enumerate(ensemble):
+#        net.load_state_dict(checkpoint['net_{}'.format(n)])
+#    
+#    best_acc = checkpoint['acc']
+#    start_epoch = checkpoint['epoch']
+
+optimizers = []
+criterion = nn.CrossEntropyLoss()
+for n in range(1,1+E):
+    optimizers.append(optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9))
+
+
+# Training
 
 
 
