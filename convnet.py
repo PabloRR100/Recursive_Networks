@@ -100,7 +100,7 @@ if args.resume:
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
-optimizers = []
+
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(convnet.parameters(), lr=args.lr, momentum=0.9)
 
@@ -122,6 +122,7 @@ def train(epoch):
     correct = 0
     train_loss = 0
     global results
+    global optimizer
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
@@ -202,6 +203,7 @@ def results_backup(epoch):
 
 @timeit
 def run_epoch(epoch):
+    
     lr_schedule(epoch)
     train(epoch)
     test(epoch)
