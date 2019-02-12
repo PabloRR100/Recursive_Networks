@@ -1,8 +1,10 @@
 # Recursive Networks
 
-**Note**:
+**Note**:  
 Previous work on analysis of saturation of layers using recursivity has moved [this other repository][saturation]
 Also, there is a similar analysis covering weight initizalization sensitivity [here][initialization]
+
+---
 
 Empirical analysis on ["Understanding Deep Architectures using a Recursive Convolutional Network"][paper]   
 
