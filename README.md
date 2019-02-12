@@ -12,11 +12,15 @@ Empirical analysis on ["Understanding Deep Architectures using a Recursive Convo
 
 Get insights of how recursive networks works, under which circusntances outperform original models and how they could serve as a simulation on a increase of the network budget (number of parameters).   
 
-Example of 3 Networks on a Binary Classification.
- - Original Network: Number Hidden Layers = 2, Hidden Layers Width = 4
- - Recursive Networks: Extend last layer by 2 and 5 recursions
+## Original Networks
 
-![analysis][recursiveanalysis]
+#### Fully Connected Network
+
+#### Convolutional Network
+
+- 16 conv layers with 32 filters
+- ReLU activation function
+- 
 
 [saturation]: https://github.com/PabloRR100/Distilling-Deep-Networks.git
 [initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
