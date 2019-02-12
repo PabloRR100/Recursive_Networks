@@ -24,9 +24,13 @@ torch.multiprocessing.set_sharing_strategy('file_system')
 from beautifultable import BeautifulTable as BT
 
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
+parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters')
+parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
+parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
+
 args = parser.parse_args()
 
 
@@ -34,9 +38,9 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 350  ## TODO: set to 350 
+num_epochs = 4  ## TODO: set to 200
 batch_size = 128  ## TODO: set to 128
-ensemble_size = 7 ## TODO: set to 7 
+ 
 
 n_workers =torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -120,26 +124,125 @@ E = round((count_parameters(convnet)/count_parameters(r_convnet)))
 for n in range(1,1+E):
     ensemble['net_{}'.format(n)] = Conv_Recusive_Net('net_{}'.format(n), layers=L, filters=M)
 
-#if args.resume:
-#    
-#    print('==> Resuming from checkpoint..')
-#    print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
-#    assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-#    checkpoint = torch.load('./checkpoint/ckpt.t7')
-#    
-#    for n,net in enumerate(ensemble):
-#        net.load_state_dict(checkpoint['net_{}'.format(n)])
-#    
-#    best_acc = checkpoint['acc']
-#    start_epoch = checkpoint['epoch']
+if args.resume:
+    
+    print('==> Resuming from checkpoint..')
+    print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
+    assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
+    checkpoint = torch.load('./checkpoint/ckpt.t7')
+    
+    for n,net in enumerate(ensemble):
+        net.load_state_dict(checkpoint['net_{}'.format(n)])
+    
+    best_acc = checkpoint['acc']
+    start_epoch = checkpoint['epoch']
 
 optimizers = []
 criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(convnet.parameters(), lr=args.lr, momentum=0.9)
+
 for n in range(1,1+E):
     optimizers.append(optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9))
 
 
 # Training
+# --------
+    
+from utils import timeit
+## Note: the paper doesn't mention about trainining iterations
+
+@timeit
+def run_epoch(epoch):
+    train(epoch)
+    test(epoch)
+
+def train(epoch):
+    
+    print('\nEpoch: %d' % epoch)
+    net.train()
+
+    total = 0
+    correct = 0
+    train_loss = 0
+    global results
+    
+    for batch_idx, (inputs, targets) in enumerate(trainloader):
+        inputs, targets = inputs.to(device), targets.to(device)
+        optimizer.zero_grad()
+        outputs = net(inputs)
+        loss = criterion(outputs, targets)
+        loss.backward()
+        optimizer.step()
+        train_loss += loss.item()
+    
+        _, predicted = outputs.max(1)
+        total += targets.size(0)
+        correct += predicted.eq(targets).sum().item()
+    
+    accuracy = 100.*correct/total        
+    print('Train :: Epoch {} - Loss: {} | Accy: {}'.format(epoch, train_loss, accuracy))
+
+        
+def test(epoch):
+    
+    net.eval()
+
+    total = 0
+    correct = 0
+    test_loss = 0
+    global results
+    global best_acc
+
+    with torch.no_grad():
+        for batch_idx, (inputs, targets) in enumerate(testloader):
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = net(inputs)
+            loss = criterion(outputs, targets)
+
+            test_loss += loss.item()
+            _, predicted = outputs.max(1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+        
+        accuracy = 100.*correct/total
+        print('Valid :: Epoch {} - Loss: {} | Accy: {}'.format(epoch, test_loss, accuracy))
+            
+    # Save checkpoint.
+    acc = 100.*correct/total
+    if acc > best_acc:
+        print('Saving..')
+        state = {
+            'net': net.state_dict(),
+            'acc': acc,
+            'epoch': epoch,
+        }
+        if not os.path.isdir('checkpoint'):
+            os.mkdir('checkpoint')
+        torch.save(state, './checkpoint/ckpt.t7')
+        best_acc = acc
+
+for epoch in range(start_epoch, num_epochs):
+    
+    results = Results(net)
+    
+    # LR Scheduler    
+    if epoch == 150 or epoch == 250:
+        for p in optimizer.param_groups: 
+            p['lr'] = p['lr'] / 10
+        print('\n** Changing LR to {} \n'.format(p['lr']))    
+    
+    # Iter    
+    train(epoch)
+    test(epoch)
+    
+    # Save every X epochs in case training breaks we don't loose results    
+    if epoch % 20 == 0:
+        with open('Results_Singe.pkl', 'wb') as object_result:
+                pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+
+results.show()
+
+exit()
 
 
-
+## TODO: train_ensemble, test_ensemble
