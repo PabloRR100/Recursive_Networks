@@ -26,7 +26,7 @@ import torch.optim as optim
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
 BS = 16
 LR = 0.01
-EPOCHS = 100
+EPOCHS = 5
 MOMEMTUM = 0
 WEIGHT_DECAY = 0
 NESTEROV = False
@@ -69,22 +69,54 @@ n_class = len(np.unique(y_train))                           # Output dimension
 
 from utils import timeit
 from train_valid_test import train_epoch, valid_epoch
-@timeit
+
+#@timeit
 def train(model, criterion, optimizer, results, EPOCHS, LR):
     for epoch in range(EPOCHS):    
         
         # Training
         model.train()
-        lss, acc = train_epoch(model, tr_loader, criterion, optimizer, LR, results)
+        lss, acc, preds = train_epoch(model, tr_loader, criterion, optimizer, LR, results)
         print('Epoch {} -- Training: Loss: {}, Accy: {}'.format(epoch, lss, acc))
+        if epoch % 10 == 0: print('Preds: ', preds)
         
         # Validation
         model.eval()
         
         lss, acc = valid_epoch(model, ts_loader, criterion, results)    
-        print('Epoch {} -- Validation: Loss: {}, Accy: {}'.format(epoch, lss, acc))
+        if epoch % 10 == 0: print('Epoch {} -- Validation: Loss: {}, Accy: {}'.format(epoch, lss, acc))
     
 
+''' Test model '''
+class TestNet(nn.Module):
+    
+    def __init__(self):
+        super(TestNet, self).__init__()
+        self.name = "TestNet"
+        self.fc1 = nn.Linear(2,10)
+        self.fc2 = nn.Linear(10,10)
+        self.fc3 = nn.Linear(10,2)
+        self.relu = nn.ReLU(inplace=True)
+        
+    def forward(self, x):
+        x = self.fc1(x)
+        x = self.relu(x)
+        x = self.fc2(x)
+        x = self.relu(x)
+        x = self.fc3(x)
+        return x
+    
+    def collect_stats(self,x):
+        pass
+        
+    
+from utils import Results
+results = [Results()]
+testNet = TestNet()
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(testNet.parameters(), LR)
+train(testNet, criterion, optimizer, results[0], EPOCHS, LR)
+models = [testNet]
 # torch.save(model, model.name + 'model.pkl')
 
 
@@ -110,7 +142,7 @@ modelT = TorchNet('TanH', inp_dim, n_class, lay_size, n_layers, actf='tanh', tra
 modelR = TorchNet('ReLU', inp_dim, n_class, lay_size, n_layers, actf='relu', track_stats=True, recursive=0)
 
 # Select models to train
-models += [modelN, modelS, modelT, modelR]
+#models += [modelN, modelS, modelT, modelR]
 models = [modelR]
 for model in models:
     
@@ -138,16 +170,16 @@ from plots import true_vs_pred
 confusion_matrices = true_vs_pred(models, X_train, X_test, y_test)
 colors = ['red', 'blue', 'green', 'grey', 'black', 'yellow', 'purple']
 
-import numpy as np
-import torch
-from torch.autograd import Variable
-X_fake = np.random.randn(X_test.shape[0], X_test.shape[1])
-X_fake = torch.tensor(X_fake, dtype=torch.long)
-X_fake.type()
-
-model = models[0]
-
-y_fake = model(Variable(X_fake))
+#import numpy as np
+#import torch
+#from torch.autograd import Variable
+#X_fake = np.random.randn(X_test.shape[0], X_test.shape[1])
+#X_fake = torch.tensor(X_fake, dtype=torch.long)
+#X_fake.type()
+#
+#model = models[0]
+#
+#y_fake = model(Variable(X_fake))
 
 
 # Train Validation Loss Accuracy
@@ -248,7 +280,7 @@ plt.plot()
 
 
 # Histogram of gradients
-from utils import distribution_of_graphs
+from plots import distribution_of_graphs
 distribution_of_graphs(net)
 
 

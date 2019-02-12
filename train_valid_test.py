@@ -18,7 +18,7 @@ def train_epoch(model, tr_loader, criterion, optimizer, lr, results):
         # Forward pass
         model.zero_grad()
         y_pred = model(X)
-        s, preds = torch.max(y_pred.data, 1)
+        s, preds = torch.max(y_pred.data, 1) 
         
         # Compute loss 
         loss = criterion(y_pred, labels)            
@@ -40,7 +40,7 @@ def train_epoch(model, tr_loader, criterion, optimizer, lr, results):
     acc = round((correct / total) * 100, 2)
     results.train_accy.append(acc)    
     results.train_loss.append(lss)
-    return lss, acc
+    return lss, acc, preds
 
 
 def valid_epoch(model, ts_loader, criterion, results):

@@ -51,17 +51,17 @@ def true_vs_pred(models, X_train, X_test, y_test):
             if len(models) > 1:
                 sns.scatterplot(x='X1', y='X2', hue='y', data=df_test, 
                                 legend=False, palette=sns.color_palette("Set1", n_colors=2),
-                                ax=axs[m][0]).set_title('Real Distribution ' + model.name)
+                                ax=axs[m][0]).set_title('Real Distribution {}'.format(model.name))
                 sns.scatterplot(x='X1', y='X2', hue='y', data=df_pred, 
                                 legend=False, palette=sns.color_palette("Set2", n_colors=s),
-                                ax=axs[m][1]).set_title('Predicted Distribution' + model.name)
+                                ax=axs[m][1]).set_title('Predicted Distribution {}'.format(model.name))
             else:
                 sns.scatterplot(x='X1', y='X2', hue='y', data=df_test, 
                                 legend=False, palette=sns.color_palette("Set1", n_colors=2),
-                                ax=axs[0]).set_title('Real Distribution ' + model.name)
+                                ax=axs[0]).set_title('Real Distribution {}'.format(model.name))
                 sns.scatterplot(x='X1', y='X2', hue='y', data=df_pred, 
                                 legend=False, palette=sns.color_palette("Set2", n_colors=s),
-                                ax=axs[1]).set_title('Predicted Distribution' + model.name)
+                                ax=axs[1]).set_title('Predicted Distribution {}'.format(model.name))
             plt.suptitle('Prediction results')
             plt.plot()
     return confusion_matrices
