@@ -37,7 +37,7 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 4  ## TODO: set to args.epochs
+num_epochs = 40  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
 milestones = [100, 150]
 
@@ -115,8 +115,8 @@ from results import TrainResults as Results
 
 def train(epoch):
     
-    print('\nEpoch: %d' % epoch)
     convnet.train()
+    print('\nEpoch: %d' % epoch)
 
     total = 0
     correct = 0
@@ -124,10 +124,12 @@ def train(epoch):
     global results
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
+        
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
         outputs = convnet(inputs)
         loss = criterion(outputs, targets)
+        
         loss.backward()
         optimizer.step()
         train_loss += loss.item()
@@ -137,7 +139,7 @@ def train(epoch):
         correct += predicted.eq(targets).sum().item()
     
     accuracy = 100.*correct/total        
-    print('Train :: Epoch {} - Loss: {} | Accy: {}'.format(epoch, train_loss, accuracy))
+    print('Train :: Loss: {} | Accy: {}'.format(train_loss, accuracy))
 
         
 def test(epoch):
@@ -153,6 +155,7 @@ def test(epoch):
     with torch.no_grad():
         
         for batch_idx, (inputs, targets) in enumerate(testloader):
+            
             inputs, targets = inputs.to(device), targets.to(device)
             outputs = convnet(inputs)
             loss = criterion(outputs, targets)
@@ -163,7 +166,7 @@ def test(epoch):
             correct += predicted.eq(targets).sum().item()
         
         accuracy = 100.*correct/total
-        print('Valid :: Epoch {} - Loss: {} | Accy: {}'.format(epoch, test_loss, accuracy))
+        print('Valid :: Loss: {} | Accy: {}'.format(test_loss, accuracy))
             
     # Save checkpoint.
     acc = 100.*correct/total
