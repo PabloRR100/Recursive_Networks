@@ -45,6 +45,7 @@ L = args.layers
 M = args.filters
 E = args.ensemble
  
+comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 gpus = True if torch.cuda.device_count() > 1 else False
@@ -78,15 +79,15 @@ trainloader, testloader, classes = dataloaders(dataset, batch_size)
 # ------
     
 # For now, NO SHARING of any layers withing the ensemble
-    
-comments = False
+
+#comments = False
 from models import Conv_Net
 from utils import count_parameters
-convnet = Conv_Net('ConvNet', layers=L, filters=M)
+net = Conv_Net('net', layers=L, filters=M)
 
-print('Regular ConvNet')
-if comments: print(convnet)
-print('\n\n\t\tParameters: {}M'.format(count_parameters(convnet)/1e6))
+print('Regular net')
+if comments: print(net)
+print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
 
 if args.resume:
     
@@ -95,14 +96,13 @@ if args.resume:
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
     checkpoint = torch.load('./checkpoint/ckpt.t7')
     
-    convnet.load_state_dict(checkpoint['net'])
+    net.load_state_dict(checkpoint['net'])
     
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
-
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(convnet.parameters(), lr=args.lr, momentum=0.9)
+optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-4)
 
 
 # Training
@@ -115,20 +115,19 @@ from results import TrainResults as Results
 
 def train(epoch):
     
-    convnet.train()
+    net.train()
     print('\nEpoch: %d' % epoch)
 
     total = 0
     correct = 0
     train_loss = 0
     global results
-    global optimizer
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
         inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
-        outputs = convnet(inputs)
+        outputs = net(inputs)
         loss = criterion(outputs, targets)
         
         loss.backward()
@@ -138,6 +137,9 @@ def train(epoch):
         _, predicted = outputs.max(1)
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
+        
+#        if batch_idx == 4:
+#            break
     
     accuracy = 100.*correct/total        
     print('Train :: Loss: {} | Accy: {}'.format(train_loss, accuracy))
@@ -145,7 +147,7 @@ def train(epoch):
         
 def test(epoch):
     
-    convnet.eval()
+    net.eval()
 
     total = 0
     correct = 0
@@ -158,13 +160,16 @@ def test(epoch):
         for batch_idx, (inputs, targets) in enumerate(testloader):
             
             inputs, targets = inputs.to(device), targets.to(device)
-            outputs = convnet(inputs)
+            outputs = net(inputs)
             loss = criterion(outputs, targets)
 
             test_loss += loss.item()
             _, predicted = outputs.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
+            
+#            if batch_idx == 4:
+#                break
         
         accuracy = 100.*correct/total
         print('Valid :: Loss: {} | Accy: {}'.format(test_loss, accuracy))
@@ -174,7 +179,7 @@ def test(epoch):
     if acc > best_acc:
         print('Saving..')
         state = {
-            'net': convnet.state_dict(),
+            'net': net.state_dict(),
             'acc': acc,
             'epoch': epoch,
         }
@@ -186,7 +191,6 @@ def test(epoch):
 
 def lr_schedule(epoch):
 
-    global optimizer
     global milestones
     if epoch == milestones[0] or epoch == milestones[1]:
         for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
@@ -210,10 +214,10 @@ def run_epoch(epoch):
     results_backup(epoch)
     
     
-results = Results([convnet])
-convnet.to(device)
+results = Results([net])
+net.to(device)
 if device == 'cuda':
-    convnet = torch.nn.DataParallel(convnet)
+    net = torch.nn.DataParallel(net)
     cudnn.benchmark = True
 
 print('[OK]: Starting Training of Single Model')
