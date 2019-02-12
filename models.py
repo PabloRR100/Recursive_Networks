@@ -58,5 +58,11 @@ class Conv_Net(nn.Module):
         self.name = name
         self.act = nn.ReLU()
     
-        self.V = nn.Conv2d(3,32,8, stride = 1, padding=0)  # Out: 32x32xM
-        self.P = nn.MaxPool2d()
+        self.V = nn.Conv2d(3,32,8, stride = 1, padding=0)   # Out: 32x32xM
+        self.P = nn.MaxPool2d(kernel_size=4, stride=4)      # Out: 8x8xM
+        self.Ws = nn.ModuleList
+
+
+
+
+
