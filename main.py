@@ -149,12 +149,9 @@ for n in range(1,1+E):
 # --------
     
 from utils import timeit
+from results import TrainResults as Results
 ## Note: the paper doesn't mention about trainining iterations
 
-@timeit
-def run_epoch(epoch):
-    train(epoch)
-    test(epoch)
 
 def train(epoch):
     
@@ -194,6 +191,7 @@ def test(epoch):
     global best_acc
 
     with torch.no_grad():
+        
         for batch_idx, (inputs, targets) in enumerate(testloader):
             inputs, targets = inputs.to(device), targets.to(device)
             outputs = net(inputs)
@@ -221,27 +219,43 @@ def test(epoch):
         torch.save(state, './checkpoint/ckpt.t7')
         best_acc = acc
 
-for epoch in range(start_epoch, num_epochs):
-    
-    results = Results(net)
-    
-    # LR Scheduler    
-    if epoch == 150 or epoch == 250:
-        for p in optimizer.param_groups: 
-            p['lr'] = p['lr'] / 10
+
+def lr_schedule(epoch):
+
+    global optimizer
+    global milestones
+    if epoch == milestones[0] or epoch == milestones[1]:
+        for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
         print('\n** Changing LR to {} \n'.format(p['lr']))    
+    return
     
-    # Iter    
-    train(epoch)
-    test(epoch)
-    
+def results_backup(epoch):
     # Save every X epochs in case training breaks we don't loose results    
+    global results
     if epoch % 20 == 0:
         with open('Results_Singe.pkl', 'wb') as object_result:
                 pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
-results.show()
 
+@timeit
+def run_epoch(epoch):
+    lr_schedule(epoch)
+    train(epoch)
+    test(epoch)
+    results_backup(epoch)
+    
+    
+results = Results(net)
+net.to(device)
+if device == 'cuda':
+    net = torch.nn.DataParallel(net)
+    cudnn.benchmark = True
+
+for epoch in range(start_epoch, num_epochs):
+    run_epoch(epoch)
+
+    
+results.show()
 exit()
 
 
