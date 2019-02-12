@@ -1,7 +1,7 @@
 # Recursive Networks
 
 **Note**:  
-Previous work on analysis of saturation of layers using recursivity has moved [this other repository][saturation]
+Previous work on analysis of saturation of layers using recursivity has moved [this other repository][saturation].  
 Also, there is a similar analysis covering weight initizalization sensitivity [here][initialization]
 
 ---
