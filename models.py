@@ -64,7 +64,7 @@ class Conv_Net(nn.Module):
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
         
         self.Ws = nn.ModuleList(                                # Out: 8x8xM  -- Check also padding here)]
-            [nn.Conv2d(32,32,padding=1) for _ in range(self.L)])   
+            [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)])   
         
         self.fc = nn.Linear(32*32*self.M, 10)
         
@@ -91,7 +91,7 @@ class Conv_Recusive_Net(nn.Module):
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
         
-        self.Ws = nn.Conv2d(32,32,padding=1)                    # Out: 8x8xM  -- Check also padding here)]
+        self.Ws = nn.Conv2d(32,32,3, padding=1)                 # Out: 8x8xM  -- Check also padding here)]
         
         self.fc = nn.Linear(32*32*self.M, 10)
         
@@ -105,5 +105,16 @@ class Conv_Recusive_Net(nn.Module):
         return self.fc(x)
 
 
-
-
+if '__name__' == '__main__':
+    
+    import torch
+    from torch.autograd import Variable
+    def test(net):
+        y = net(Variable(torch.randn(1,3,32,32)))
+        print(y.size())
+    
+    convnet = Conv_Net()
+    r_convnet = Conv_Recusive_Net()
+    
+    test(convnet)
+    test(r_convnet)
