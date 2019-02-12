@@ -88,8 +88,10 @@ if dataset == 'CIFAR':
     classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
 
 
-# Models
+# Models 
 # ------
+    
+# For now, NO SHARING of any layers withing the ensemble
     
 comments = False
 from utils import count_parameters
@@ -110,5 +112,14 @@ if comments: print(r_convnet)
 
 #P1 = (8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
 #P2 = 16 * ((8*8*3*M + 3*3*M**2 + M*2 + 64*M*10+10) * 1e-6)
+
+from collections import OrderedDict
+
+ensemble = OrderedDict()
+E = round((count_parameters(convnet)/count_parameters(r_convnet)))
+for idx in range(1,1+E):
+    ensemble['net_{}'.format(idx)] = Conv_Recusive_Net('net_{}'.format(idx), layers=L, filters=M)
+    
+
 
 
