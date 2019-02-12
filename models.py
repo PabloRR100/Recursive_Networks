@@ -52,17 +52,57 @@ class FC_Recursive_Net(nn.Module):
         
 class Conv_Net(nn.Module):
     
-    def __init__(self, name:str):
+    def __init__(self, name:str, layers:int, filters:int=32):
         super(Conv_Net, self).__init__()
         
         self.name = name
+        self.L = layers
+        self.M = filters
         self.act = nn.ReLU()
     
-        self.V = nn.Conv2d(3,32,8, stride = 1, padding=0)   # Out: 32x32xM
-        self.P = nn.MaxPool2d(kernel_size=4, stride=4)      # Out: 8x8xM
+        self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
+        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
         
-        self.Ws = nn.ModuleList([nn.Conv1d])
+        self.Ws = nn.ModuleList(                                # Out: 8x8xM  -- Check also padding here)]
+            [nn.Conv2d(32,32,padding=1) for _ in range(self.L)])   
+        
+        self.fc = nn.Linear(32*32*self.M, 10)
+        
+    def forward(self, x):
+        
+        x = self.act(self.V(x))
+        x = self.P(x)
+        for w in self.Ws:
+            x = self.act(w(x))
+        x = x.view(x.size(0), -1)
+        return self.fc(x)
 
+
+class Conv_Recusive_Net(nn.Module):
+    
+    def __init__(self, name:str, layers:int, filters:int=32):
+        super(Conv_Recusive_Net, self).__init__()
+        
+        self.name = name
+        self.L = layers
+        self.M = filters
+        self.act = nn.ReLU()
+    
+        self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
+        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
+        
+        self.Ws = nn.Conv2d(32,32,padding=1)                    # Out: 8x8xM  -- Check also padding here)]
+        
+        self.fc = nn.Linear(32*32*self.M, 10)
+        
+    def forward(self, x):
+        
+        x = self.act(self.V(x))
+        x = self.P(x)
+        for w in range(self.L):
+            x = self.act(self.Ws(x))
+        x = x.view(x.size(0), -1)
+        return self.fc(x)
 
 
 
