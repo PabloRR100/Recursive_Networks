@@ -1,47 +1,34 @@
 # -*- coding: utf-8 -*-
 
 import torch
-import torch.utils.data as data_utils
-from plots import to_df, scatterplot
-from sklearn.datasets import make_moons, make_classification, load_iris, load_digits
+import torchvision
+import torchvision.transforms as transforms
 
-
-def load_dataset(name:str, visualize=False, *args):
+def dataloaders(dataset, batch_size):
     
-    options = ['moons', 'irirs', 'digits']
-    assert name in options, 'Please, choose a valid dataset from {}'.format(options)
-    
-    if name == 'moons':
-        ## Make moon dataset
-        X, y = make_moons(n_samples=10000, random_state=42, noise=0.1)
-        if visualize:
-            df = to_df(X, y)
-            scatterplot([df])
-
+    if dataset == 'CIFAR':
         
-    if name == 'iris':
-        # Iris datasetr[]
-        iris = load_iris()
-        X = iris.data[:, :]
-        y = iris.target
-    
-    if name == 'digits':
-    ## NIST Dataset -- 8x8 digits 1000 images
-        nist = load_digits()
-        X = nist.data
-        y = nist.target
+        print('==> Preparing data..')
+        transform_train = transforms.Compose([
+            transforms.RandomCrop(32, padding=4),
+            transforms.RandomHorizontalFlip(),
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
         
-    return X,y
+        transform_test = transforms.Compose([
+            transforms.ToTensor(),
+            transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+        ])
+        
+        trainset = torchvision.datasets.CIFAR10(root='../datasets', train=True, download=True, transform=transform_train)
+        trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size, shuffle=True, num_workers=2)
+        
+        testset = torchvision.datasets.CIFAR10(root='../datasets', train=False, download=True, transform=transform_test)
+        testloader = torch.utils.data.DataLoader(testset, batch_size=100, shuffle=False, num_workers=2)
+        
+        classes = ('plane', 'car', 'bird', 'cat', 'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+        
+    return trainloader, testloader, classes
 
-
-
-
-def create_torch_dataset(inputs, labels, BS, shuffle):
-    t = data_utils.TensorDataset(
-            torch.tensor(inputs, dtype=torch.float32),     ## Inputs are float
-            torch.tensor(labels, dtype=torch.torch.int64)) ## Labels are int
-    loader = data_utils.DataLoader(t, batch_size=BS, shuffle=shuffle)
-    return loader
-
-    
 
