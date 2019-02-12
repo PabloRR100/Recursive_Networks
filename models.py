@@ -66,7 +66,7 @@ class Conv_Net(nn.Module):
         self.Ws = nn.ModuleList(                                # Out: 8x8xM  -- Check also padding here)]
             [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)])   
         
-        self.fc = nn.Linear(32*32*self.M, 10)
+        self.fc = nn.Linear(8*8*self.M, 10)
         
     def forward(self, x):
         
@@ -93,7 +93,7 @@ class Conv_Recusive_Net(nn.Module):
         
         self.Ws = nn.Conv2d(32,32,3, padding=1)                 # Out: 8x8xM  -- Check also padding here)]
         
-        self.fc = nn.Linear(32*32*self.M, 10)
+        self.fc = nn.Linear(8*8*self.M, 10)
         
     def forward(self, x):
         
@@ -113,8 +113,11 @@ if '__name__' == '__main__':
         y = net(Variable(torch.randn(1,3,32,32)))
         print(y.size())
     
-    convnet = Conv_Net()
-    r_convnet = Conv_Recusive_Net()
+    L = 16
+    M = 32
+    
+    convnet = Conv_Net('ConvNet', layers=L, filters=M)
+    r_convnet = Conv_Recusive_Net('RecursiveConvNet', layers=L, filters=M)
     
     test(convnet)
     test(r_convnet)

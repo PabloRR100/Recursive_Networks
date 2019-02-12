@@ -108,4 +108,7 @@ print('Recursive ConvNet')
 print('Parameters: {}M'.format(count_parameters(r_convnet)/1e6))
 if comments: print(r_convnet)
 
-(8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
+#P1 = (8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
+#P2 = 16 * ((8*8*3*M + 3*3*M**2 + M*2 + 64*M*10+10) * 1e-6)
+
+
