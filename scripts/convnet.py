@@ -143,11 +143,11 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-#        if batch_idx == 4:
-#            break
+        if batch_idx == 4:
+            break
     
     accuracy = 100.*correct/total        
-    print('Train :: Loss: {} | Accy: {}'.format(train_loss, accuracy))
+    print('Train :: Loss: {} | Accy: {}'.format(round(train_loss,2), round(accuracy,2)))
 
         
 def test(epoch):
@@ -173,11 +173,11 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-#            if batch_idx == 4:
-#                break
+            if batch_idx == 4:
+                break
         
         accuracy = 100.*correct/total
-        print('Valid :: Loss: {} | Accy: {}'.format(test_loss, accuracy))
+        print('Valid :: Loss: {} | Accy: {}'.format(round(test_loss,2), round(accuracy,2)))
             
     # Save checkpoint.
     acc = 100.*correct/total
