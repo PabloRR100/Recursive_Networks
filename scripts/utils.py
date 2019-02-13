@@ -6,6 +6,13 @@ import torch
 import torch.nn as nn
 import torch.nn.init as init
 
+def avoidWarnings():
+    import warnings
+    warnings.filterwarnings('always')
+    warnings.filterwarnings('ignore')
+    warnings.filterwarnings('ignore', 'ImportWarning')
+    warnings.filterwarnings('ignore', 'DeprecationWarning')   
+
 
 def timeit(method):
     def timed(*args, **kw):
