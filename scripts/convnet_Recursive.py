@@ -18,9 +18,11 @@ import torch.backends.cudnn as cudnn
 import torch.multiprocessing
 torch.multiprocessing.set_sharing_strategy('file_system')
 
+from utils import avoidWarnings
 from beautifultable import BeautifulTable as BT
 
 
+avoidWarnings()
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
 parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
@@ -68,6 +70,7 @@ print(table)
 # Data
 # ----
 
+avoidWarnings()
 dataset = 'MNIST'
 dataset = 'CIFAR'
 from data import dataloaders
@@ -220,6 +223,7 @@ def results_backup(epoch):
 
 @timeit
 def run_epoch(epoch):
+    
     lr_schedule(epoch)
     train(epoch)
     test(epoch)
