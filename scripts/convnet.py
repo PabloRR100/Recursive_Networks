@@ -23,7 +23,7 @@ from beautifultable import BeautifulTable as BT
 
 avoidWarnings()
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
+parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
@@ -38,7 +38,7 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 40  ## TODO: set to args.epochs
+num_epochs = 100  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
 milestones = [100, 150]
 
@@ -107,7 +107,7 @@ if args.resume:
     start_epoch = checkpoint['epoch']
 
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-4)
+optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
 
 
 # Training

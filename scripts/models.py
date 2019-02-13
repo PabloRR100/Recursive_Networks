@@ -1,4 +1,5 @@
 
+import math
 from torch import nn
 
 # Fully Connected Networks
@@ -68,6 +69,18 @@ class Conv_Net(nn.Module):
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
+        # Initialization
+        for name, param in self.named_parameters():
+            if 'conv' in name and 'weight' in name:
+                n = param.size(0) * param.size(2) * param.size(3)
+                param.data.normal_().mul_(math.sqrt(2. / n))
+            elif 'norm' in name and 'weight' in name:
+                param.data.fill_(1)
+            elif 'norm' in name and 'bias' in name:
+                param.data.fill_(0)
+            elif 'classifier' in name and 'bias' in name:
+                param.data.fill_(0)
+        
     def forward(self, x):
         
         x = self.act(self.V(x))
@@ -76,6 +89,7 @@ class Conv_Net(nn.Module):
             x = self.act(w(x))
         x = x.view(x.size(0), -1)
         return self.fc(x)
+
 
 
 class Conv_Recusive_Net(nn.Module):
