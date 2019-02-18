@@ -18,6 +18,13 @@ Get insights of how recursive networks works, under which circusntances outperfo
 - TBI  
 
 #### Convolutional Network
+
+- Dataset: CIFAR10
+- Batch Size: 128
+- Optimizer = SGD
+- Learning Rate: 0.001
+
+
 ![untied][untied_model]
 
 Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2 · L) + (M · (L + 1)) + (64 · M · 10 + 10)
