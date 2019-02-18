@@ -69,17 +69,26 @@ class Conv_Net(nn.Module):
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
-        # Initialization
+        # Custom Initialization
         for name, param in self.named_parameters():
-            if ('V' in name or 'Ws' in name) and 'weight' in name:
+            
+        net = Conv_Net('a', 16, 32)
+        aaa = net.named_parameters()
+        name, param = next(iter(aaa))
+            
+            # Vm has zero mean and 0.1 std (0.01 var)
+            if 'V' in name and 'weight' in name:
                 n = param.size(0) * param.size(2) * param.size(3)
-                param.data.normal_().mul_(math.sqrt(2. / n))
-            elif 'norm' in name and 'weight' in name:
-                param.data.fill_(1)
-            elif 'norm' in name and 'bias' in name:
+                param.data.normal_().mul_(0.01)
+            
+            # W are initialized with the identity matrix
+            elif 'Ws' in name and 'weight' in name:
+                param.data.copy_(torch.eye(3))
+                
+            ## TODO: C is not specified in the paper
+            elif 'classifier' in name and 'bias' in name:
                 param.data.fill_(0)
-            elif 'fc' in name and 'bias' in name:
-                param.data.fill_(0)
+        
         
     def forward(self, x):
         
