@@ -1,5 +1,5 @@
 
-import math
+import torch
 from torch import nn
 
 # Fully Connected Networks
@@ -64,29 +64,26 @@ class Conv_Net(nn.Module):
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
         
-        self.Ws = nn.ModuleList(                                # Out: 8x8xM  -- Check also padding here)]
+        self.W = nn.ModuleList(                                # Out: 8x8xM  -- Check also padding here)]
             [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)])   
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
+        self.softmax = nn.Softmax()
+        
         # Custom Initialization
         for name, param in self.named_parameters():
             
-        net = Conv_Net('a', 16, 32)
-        aaa = net.named_parameters()
-        name, param = next(iter(aaa))
-            
             # Vm has zero mean and 0.1 std (0.01 var)
             if 'V' in name and 'weight' in name:
-                n = param.size(0) * param.size(2) * param.size(3)
                 param.data.normal_().mul_(0.01)
             
             # W are initialized with the identity matrix
-            elif 'Ws' in name and 'weight' in name:
+            elif 'W' in name and 'weight' in name:
                 param.data.copy_(torch.eye(3))
                 
             ## TODO: C is not specified in the paper
-            elif 'classifier' in name and 'bias' in name:
+            elif 'fc' in name and 'bias' in name:
                 param.data.fill_(0)
         
         
@@ -94,10 +91,10 @@ class Conv_Net(nn.Module):
         
         x = self.act(self.V(x))
         x = self.P(x)
-        for w in self.Ws:
+        for w in self.W:
             x = self.act(w(x))
         x = x.view(x.size(0), -1)
-        return self.fc(x)
+        return self.softmax(self.fc(x))
 
 
 
@@ -114,7 +111,7 @@ class Conv_Recusive_Net(nn.Module):
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
         
-        self.Ws = nn.Conv2d(32,32,3, padding=1)                 # Out: 8x8xM  -- Check also padding here)]
+        self.W = nn.Conv2d(32,32,3, padding=1)                 # Out: 8x8xM  -- Check also padding here)]
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
@@ -123,14 +120,13 @@ class Conv_Recusive_Net(nn.Module):
         x = self.act(self.V(x))
         x = self.P(x)
         for w in range(self.L):
-            x = self.act(self.Ws(x))
+            x = self.act(self.W(x))
         x = x.view(x.size(0), -1)
         return self.fc(x)
 
 
 if '__name__' == '__main__':
     
-    import torch
     from torch.autograd import Variable
     def test(net):
         y = net(Variable(torch.randn(1,3,32,32)))
