@@ -15,16 +15,18 @@ Get insights of how recursive networks works, under which circusntances outperfo
 ## Original Networks
 
 #### Fully Connected Network
+- TBI  
 
 #### Convolutional Network
+![][untied_model]
 
 - 16 conv layers with 32 filters
 - ReLU activation function
-- 
 
 [saturation]: https://github.com/PabloRR100/Distilling-Deep-Networks.git
 [initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
 
-[recursive_img]: https://github.com/PabloRR100/Recursive_Networks/blob/master/figures/recursive.png?raw=true
-[recursiveanalysis]: https://github.com/PabloRR100/Recursive_Networks/blob/master/figures/recursive_h2_w4.png?raw=true  
+[recursive_img]: ./images/recursive.png
+[recursiveanalysis]: ./images/recursive_h2_w4.png
+[untied]: ./images/untied_model.png
 [paper]: https://arxiv.org/abs/1312.1847
