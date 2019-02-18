@@ -38,7 +38,7 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 100  ## TODO: set to args.epochs
+num_epochs = 10  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
 milestones = [100, 150]
 
@@ -85,7 +85,7 @@ trainloader, testloader, classes = dataloaders(dataset, batch_size)
 # For now, NO SHARING of any layers withing the ensemble
 
 avoidWarnings()
-comments = False
+comments = True
 from models import Conv_Net
 from utils import count_parameters
 net = Conv_Net('net', layers=L, filters=M)
@@ -130,8 +130,9 @@ def train(epoch):
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
-        inputs, targets = inputs.to(device), targets.to(device)
         optimizer.zero_grad()
+
+        inputs, targets = inputs.to(device), targets.to(device)
         outputs = net(inputs)
         loss = criterion(outputs, targets)
         
@@ -143,11 +144,13 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-        if batch_idx == 4:
+        if batch_idx == 10:
             break
     
-    accuracy = 100.*correct/total        
-    print('Train :: Loss: {} | Accy: {}'.format(round(train_loss,2), round(accuracy,2)))
+    accuracy = 100.*correct/total    
+    results.append_loss(loss.item(), 'train')
+    results.append_accy(accuracy, 'train')    
+    print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
         
 def test(epoch):
@@ -173,11 +176,13 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-            if batch_idx == 4:
+            if batch_idx == 10:
                 break
         
         accuracy = 100.*correct/total
-        print('Valid :: Loss: {} | Accy: {}'.format(round(test_loss,2), round(accuracy,2)))
+        results.append_loss(loss.item(), 'valid')
+        results.append_accy(accuracy, 'valid')
+        print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
             
     # Save checkpoint.
     acc = 100.*correct/total
@@ -234,3 +239,21 @@ results.show()
 exit()
 
 
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_loss, label='Train')
+plt.plot(range(num_epochs), results.valid_loss, label='Valid')
+plt.title('Loss')
+plt.show()
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_accy, label='Train')
+plt.plot(range(num_epochs), results.valid_accy, label='Valid')
+
+plt.title('Accuracy')
+plt.show()
+
+
+with open('Results_Singe.pkl', 'rb') as input:
+    res = pickle.load(input)
