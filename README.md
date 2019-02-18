@@ -18,7 +18,7 @@ Get insights of how recursive networks works, under which circusntances outperfo
 - TBI  
 
 #### Convolutional Network
-![][untied_model]
+![untied][untied_model]
 
 - 16 conv layers with 32 filters
 - ReLU activation function
@@ -26,7 +26,7 @@ Get insights of how recursive networks works, under which circusntances outperfo
 [saturation]: https://github.com/PabloRR100/Distilling-Deep-Networks.git
 [initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
 
-[recursive_img]: images/recursive.png
-[recursiveanalysis]: images/recursive_h2_w4.png
-[untied]: images/untied_model.png
+[recursive_img]: ./images/recursive.png
+[recursiveanalysis]: ./images/recursive_h2_w4.png
+[untied_model]: images/untied_model.png
 [paper]: https://arxiv.org/abs/1312.1847
