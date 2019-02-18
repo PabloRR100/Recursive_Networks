@@ -78,7 +78,7 @@ class Conv_Net(nn.Module):
             if 'V' in name and 'weight' in name:
                 param.data.normal_().mul_(0.01)
             
-            # W are initialized with the identity matrix
+            # W are initialized with the identity matrix - Kronecker delta
             elif 'W' in name and 'weight' in name:
                 param.data.copy_(torch.eye(3))
                 
