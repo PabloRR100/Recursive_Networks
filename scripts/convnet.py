@@ -141,8 +141,8 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-#        if batch_idx == 20:
-#            break
+        if batch_idx == 20:
+            break
     
     accuracy = 100.*correct/total    
     results.append_loss(loss.item(), 'train')
@@ -171,8 +171,8 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-#            if batch_idx == 20:
-#                break
+            if batch_idx == 20:
+                break
             
     # Save checkpoint.
     acc = 100.*correct/total

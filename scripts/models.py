@@ -59,7 +59,7 @@ class Conv_Net(nn.Module):
         self.name = name
         self.L = layers
         self.M = filters
-        self.act = nn.ReLU()
+        self.act = nn.ReLU(inplace=True)
     
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
