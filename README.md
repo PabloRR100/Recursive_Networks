@@ -22,8 +22,7 @@ Get insights of how recursive networks works, under which circusntances outperfo
 
 Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2 · L) + (M · (L + 1)) + (64 · M · 10 + 10)
 
-- 16 conv layers with 32 filters
-Parameters = 174,634
+- **CASE I:** 16 conv layers with 32 filters --> Parameters = 174,634
 
 [saturation]: https://github.com/PabloRR100/Distilling-Deep-Networks.git
 [initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
