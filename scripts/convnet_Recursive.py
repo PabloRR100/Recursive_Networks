@@ -52,7 +52,7 @@ device = 'cuda' if torch.cuda.is_available() else 'cpu'
 gpus = True if torch.cuda.device_count() > 1 else False
 device_name = torch.cuda.get_device_name(0) if device == 'cuda' else 'CPUs'
     
-table = BT()
+table = []
 table.append_row(['Python Version', sys.version[:5]])
 table.append_row(['PyTorch Version', torch.__version__])
 table.append_row(['Device', str(device_name)])
@@ -80,7 +80,7 @@ trainloader, testloader, classes = dataloaders(dataset, batch_size)
 # Models 
 # ------
     
-# For now, NO SHARING of any layers withing the ensemble
+# For now, NO SHARING of any layers within the ensemble
     
 comments = False
 from models import Conv_Recusive_Net

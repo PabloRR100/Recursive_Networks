@@ -107,10 +107,11 @@ class Conv_Recusive_Net(nn.Module):
         self.L = layers
         self.M = filters
         self.act = nn.ReLU()
-    
+
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
         
+        # WASAY: Shouldn't the kernel number here be M of size 3x3. Am I missing something here? 
         self.W = nn.Conv2d(32,32,3, padding=1)                 # Out: 8x8xM  -- Check also padding here)]
         
         self.fc = nn.Linear(8*8*self.M, 10)
@@ -121,8 +122,10 @@ class Conv_Recusive_Net(nn.Module):
         x = self.P(x)
         for w in range(self.L):
             x = self.act(self.W(x))
+        # WASAY: "The final hidden layer is subject to pixel-wise L2 normalization", do we account for that?
         x = x.view(x.size(0), -1)
-        return self.fc(x)
+        return self.fc(x)       # WASAY: I was wondering why we don't apply softmax here before we retun the activations.
+                                # This is clearly different from the simple convnet, where we do apply softmax.
 
 
 if '__name__' == '__main__':
