@@ -31,6 +31,7 @@ parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters'
 parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble size')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
+parser.add_argument('--test', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
 
 
@@ -38,14 +39,15 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 10  ## TODO: set to args.epochs
+num_epochs = 200  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
 milestones = [100, 150]
 
 L = args.layers
 M = args.filters
 E = args.ensemble
- 
+
+test = args.test 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -142,7 +144,7 @@ def train(epoch):
         correct += predicted.eq(targets).sum().item()
         
         ## TODO: UNCOMMENT WHEN RUNNING ON SERVER
-        if batch_idx == 20:
+        if test and batch_idx == 20:
             break
     
     accuracy = 100.*correct/total    
@@ -172,8 +174,8 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-            # TODO: UNCOMMENT WHEN RUNNING ON SERVER
-            if batch_idx == 20:
+            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+            if test and batch_idx == 20:
                 break
             
     # Save checkpoint.

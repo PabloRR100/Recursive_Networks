@@ -69,25 +69,22 @@ class Conv_Net(nn.Module):
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
-#        # Custom Initialization
-##        named_parameters = net.named_parameters()
-##        net = Conv_Net('test', layers=16, filters=32)
-#
-#        for name, param in self.named_parameters():
-#            
-#            # Vm has zero mean and 0.1 std (0.01 var)
-#            if 'V' in name and 'weight' in name:
-#                param.data.normal_(0, 0.1)
-#            
-#            # W are initialized with the identity matrix - Kronecker delta
-#            elif 'W' in name and 'weight' in name:
-#                param.data.fill_(0)
-#                for i in range(32):
-#                    param.data[i][0][0][0].fill_(1)
-#                
-#            ## TODO: C is not specified in the paper
-#            elif 'fc' in name and 'bias' in name:
-#                param.data.fill_(0)
+        # Custom Initialization
+        for name, param in self.named_parameters():
+            
+            # Vm has zero mean and 0.1 std (0.01 var)
+            if 'V' in name and 'weight' in name:
+                param.data.normal_(0, 0.1)
+            
+            # W are initialized with the identity matrix - Kronecker delta
+            elif 'W' in name and 'weight' in name:
+                param.data.fill_(0)
+                for i in range(32):
+                    param.data[i][0][0][0].fill_(1)
+                
+            ## TODO: C is not specified in the paper
+            elif 'fc' in name and 'bias' in name:
+                param.data.fill_(0)
         
     def forward(self, x):
         
