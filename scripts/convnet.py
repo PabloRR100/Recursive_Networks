@@ -141,6 +141,7 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
+        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER
         if batch_idx == 20:
             break
     
@@ -171,6 +172,7 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
+            # TODO: UNCOMMENT WHEN RUNNING ON SERVER
             if batch_idx == 20:
                 break
             
@@ -230,6 +232,8 @@ if device == 'cuda':
 
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):
+    
+    # run_epoch()
     
     # LR Scheduler
     if epoch == milestones[0] or epoch == milestones[1]:

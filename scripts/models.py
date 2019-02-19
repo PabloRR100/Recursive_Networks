@@ -61,40 +61,42 @@ class Conv_Net(nn.Module):
         self.M = filters
         self.act = nn.ReLU(inplace=True)
     
-        self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM  -- Maybe padding = 4?
-        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
+        self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     
+        self.P = nn.MaxPool2d(4, stride=4, padding=2)           
         
-        self.W = nn.ModuleList(                                # Out: 8x8xM  -- Check also padding here)]
+        self.W = nn.ModuleList(                                 
             [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)])   
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
-        self.softmax = nn.Softmax()
-        
-        # Custom Initialization
-        for name, param in self.named_parameters():
-            
-            # Vm has zero mean and 0.1 std (0.01 var)
-            if 'V' in name and 'weight' in name:
-                param.data.normal_().mul_(0.01)
-            
-            # W are initialized with the identity matrix - Kronecker delta
-            elif 'W' in name and 'weight' in name:
-                param.data.copy_(torch.eye(3))
-                
-            ## TODO: C is not specified in the paper
-            elif 'fc' in name and 'bias' in name:
-                param.data.fill_(0)
-        
+#        # Custom Initialization
+##        named_parameters = net.named_parameters()
+##        net = Conv_Net('test', layers=16, filters=32)
+#
+#        for name, param in self.named_parameters():
+#            
+#            # Vm has zero mean and 0.1 std (0.01 var)
+#            if 'V' in name and 'weight' in name:
+#                param.data.normal_(0, 0.1)
+#            
+#            # W are initialized with the identity matrix - Kronecker delta
+#            elif 'W' in name and 'weight' in name:
+#                param.data.fill_(0)
+#                for i in range(32):
+#                    param.data[i][0][0][0].fill_(1)
+#                
+#            ## TODO: C is not specified in the paper
+#            elif 'fc' in name and 'bias' in name:
+#                param.data.fill_(0)
         
     def forward(self, x):
         
-        x = self.act(self.V(x))
-        x = self.P(x)
-        for w in self.W:
-            x = self.act(w(x))
-        x = x.view(x.size(0), -1)
-        return self.softmax(self.fc(x))
+        x = self.act(self.V(x))         # Out: 32x32xM  -- Maybe padding = 4?
+        x = self.P(x)                   # Out: 8x8xM  -- Check also padding here
+        for w in self.W:                
+            x = self.act(w(x))          # Out: 8x8xM  -- Check also padding here)]
+        x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
+        return self.fc(x)
 
 
 
@@ -121,7 +123,7 @@ class Conv_Recusive_Net(nn.Module):
         x = self.act(self.V(x))
         x = self.P(x)
         for w in range(self.L):
-            x = self.act(self.W(x))
+            x = self.act(self.w(x))
         # WASAY: "The final hidden layer is subject to pixel-wise L2 normalization", do we account for that?
         x = x.view(x.size(0), -1)
         return self.fc(x)       # WASAY: I was wondering why we don't apply softmax here before we retun the activations.

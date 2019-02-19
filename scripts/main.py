@@ -45,8 +45,9 @@ if comments: print(r_convnet)
 E = round((count_parameters(convnet)/count_parameters(r_convnet)))
 print('Ensemble size = ', E)
 
-#P1 = (8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
-#P2 = 16 * ((8*8*3*M + 3*3*M**2 + M*2 + 64*M*10+10) * 1e-6)
+P1 = (8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
+P2 = 16 * ((8*8*3*M + 3*3*M**2 + M*2 + 64*M*10+10) * 1e-6)
+
 
 '''
 Future Work
@@ -58,5 +59,6 @@ Think of 'more intelligent' set ups in terms of:
     - Apply recursivity from futher than the first layer 
 
 '''
+
 
 exit()
