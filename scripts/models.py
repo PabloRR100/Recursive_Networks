@@ -83,8 +83,8 @@ class Conv_Net(nn.Module):
                     param.data[i][0][0][0].fill_(1)
                 
             ## TODO: C is not specified in the paper
-            elif 'fc' in name and 'bias' in name:
-                param.data.fill_(0)
+#            elif 'fc' in name and 'bias' in name:
+#                param.data.fill_(0)
         
     def forward(self, x):
         
