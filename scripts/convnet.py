@@ -235,7 +235,7 @@ if device == 'cuda':
     
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):
-    run_epoch()
+    run_epoch(epoch)
 
     
 results.show()
