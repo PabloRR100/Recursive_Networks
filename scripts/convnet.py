@@ -197,34 +197,29 @@ def test(epoch):
         best_acc = acc
 
 
-#def lr_schedule(epoch):
-#
-#    global milestones
-#    if epoch == milestones[0] or epoch == milestones[1]:
-#        for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
-#        print('\n** Changing LR to {} \n'.format(p['lr']))    
-#    return
-#    
-#def results_backup(epoch):
-#    # Save every X epochs in case training breaks we don't loose results    
-#    global results
-#    if epoch % 20 == 0:
-#        with open('Results_Singe.pkl', 'wb') as object_result:
-#                pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
-#
-#
+def lr_schedule(epoch):
+
+    global milestones
+    if epoch == milestones[0] or epoch == milestones[1]:
+        for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
+        print('\n** Changing LR to {} \n'.format(p['lr']))    
+    return
+    
+def results_backup(epoch):
+    # Save every X epochs in case training breaks we don't loose results    
+    global results
+    if epoch % 20 == 0:
+        with open('Results_Singe.pkl', 'wb') as object_result:
+                pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+
 #@timeit
-#def run_epoch(epoch):
-#    
-#    lr_schedule(epoch)
-#    train(epoch)
-#    test(epoch)
-#    results_backup(epoch)
+def run_epoch(epoch):
     
+    lr_schedule(epoch)
+    train(epoch)
+    test(epoch)
+    results_backup(epoch)
     
-    
-import time
-start = time.time()
 
 results = Results([net])
 net.to(device)
@@ -234,26 +229,8 @@ if device == 'cuda':
 
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):
-    
-    # run_epoch()
-    
-    # LR Scheduler
-    if epoch == milestones[0] or epoch == milestones[1]:
-        for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
-        print('\n** Changing LR to {} \n'.format(p['lr'])) 
-        
-    # Run epoch
-    train(epoch)
-    test(epoch)
-    
-    # Timer
-    print('Time: {}'.format(round((time.time() - start),2)))
-    start = time.time()
-    
-    # Results backup
-    if epoch % 20 == 0:
-        with open('Results_Singe.pkl', 'wb') as object_result:
-                pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL) 
+
+    run_epoch()
 
     
 results.show()
