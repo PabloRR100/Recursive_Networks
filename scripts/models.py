@@ -70,7 +70,7 @@ class Conv_Net(nn.Module):
         self.fc = nn.Linear(8*8*self.M, 10)
         
         # Custom Initialization
-        for name, param in self.named_parameters():
+        """for name, param in self.named_parameters():
             
             # Vm has zero mean and 0.1 std (0.01 var)
             if 'V' in name and 'weight' in name:
@@ -80,7 +80,19 @@ class Conv_Net(nn.Module):
             elif 'W' in name and 'weight' in name:
                 param.data.fill_(0)
                 for i in range(32):
-                    param.data[i][0][0][0].fill_(1)
+                    param.data[i][0][0][0].fill_(1)"""
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                if m.bias is not None:
+                    m.bias.data.zero_()
+            elif isinstance(m, nn.BatchNorm2d):
+                m.weight.data.fill_(1)
+                m.bias.data.zero_()
+            elif isinstance(m, nn.Linear):
+                m.weight.data.normal_(0, 0.01)
+                m.bias.data.zero_()
                 
             ## TODO: C is not specified in the paper
 #            elif 'fc' in name and 'bias' in name:
