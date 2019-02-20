@@ -18,10 +18,11 @@ import torch.backends.cudnn as cudnn
 import torch.multiprocessing
 torch.multiprocessing.set_sharing_strategy('file_system')
 
-from utils import avoidWarnings
+from utils import timeit, avoidWarnings
 from beautifultable import BeautifulTable as BT
 
 avoidWarnings()
+## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
 parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
@@ -70,7 +71,6 @@ print(table)
 
 
 
-
 # Data
 # ----
 
@@ -81,20 +81,21 @@ from data import dataloaders
 trainloader, testloader, classes = dataloaders(dataset, batch_size)
 
 
+
 # Models 
 # ------
     
-# For now, NO SHARING of any layers withing the ensemble
-
 avoidWarnings()
 comments = True
 from models import Conv_Net
 from utils import count_parameters
 net = Conv_Net('net', layers=L, filters=M)
 
+
 print('Regular net')
 if comments: print(net)
 print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
+
 
 if args.resume:
     
@@ -115,9 +116,9 @@ optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1
 # Training
 # --------
     
-#from utils import timeit
+# Helpers
 from results import TrainResults as Results
-## Note: the paper doesn't mention about trainining iterations
+
 
 def train(epoch):
     
@@ -143,7 +144,7 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER
+        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
         if test and batch_idx == 20:
             break
     
@@ -221,21 +222,27 @@ def run_epoch(epoch):
     results_backup(epoch)
     
 
+# Send model to GPU(s)
+    
 results = Results([net])
 net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
     cudnn.benchmark = True
 
+
+# Start training
+    
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):
-
     run_epoch()
 
     
 results.show()
 exit()
 
+
+## TEST LOSS AND ACCY EVOLUTIONp
 
 import matplotlib.pyplot as plt
 
