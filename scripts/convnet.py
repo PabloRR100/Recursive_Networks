@@ -40,9 +40,9 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 200  ## TODO: set to args.epochs
+num_epochs = 500  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
-milestones = [100, 150]
+milestones = [150, 300, 400]
 
 L = args.layers
 M = args.filters
@@ -150,8 +150,8 @@ def train(epoch):
 #            break
     
     accuracy = 100.*correct/total    
-    results.append_loss(loss.item(), 'train')
-    results.append_accy(accuracy, 'train')    
+    results.append_loss(round(loss.item(),2), 'train')
+    results.append_accy(round(accuracy,2), 'train')    
     print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
         
@@ -182,8 +182,8 @@ def test(epoch):
             
     # Save checkpoint.
     acc = 100.*correct/total
-    results.append_loss(loss.item(), 'valid')
-    results.append_accy(acc, 'valid')
+    results.append_loss(round(loss.item(),2), 'valid')
+    results.append_accy(round(acc,2), 'valid')
     print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
     
     if acc > best_acc:
@@ -207,12 +207,10 @@ def lr_schedule(epoch):
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
     
-def results_backup(epoch):
-    # Save every X epochs in case training breaks we don't loose results    
+def results_backup():
     global results
-    if epoch % 20 == 0:
-        with open('Results_Singe.pkl', 'wb') as object_result:
-                pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+    with open('Results_Singe.pkl', 'wb') as object_result:
+        pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
 @timeit
 def run_epoch(epoch):
@@ -220,7 +218,7 @@ def run_epoch(epoch):
     lr_schedule(epoch)
     train(epoch)
     test(epoch)
-    results_backup(epoch)
+    results_backup()
     
 
 # Send model to GPU(s)
@@ -245,6 +243,9 @@ exit()
 
 ## TEST LOSS AND ACCY EVOLUTIONp
 
+with open('Results_Singe.pkl', 'rb') as input:
+    results = pickle.load(input)
+
 import matplotlib.pyplot as plt
 
 plt.figure()
@@ -261,5 +262,3 @@ plt.title('Accuracy')
 plt.show()
 
 
-with open('Results_Singe.pkl', 'rb') as input:
-    res = pickle.load(input)
