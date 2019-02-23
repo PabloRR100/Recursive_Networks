@@ -66,6 +66,7 @@ table.append_row(['Architecture', 'DenseNet x7'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
+table.append_row(['Testing', str(test)])
 
 print(table)
 
@@ -144,9 +145,9 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
-        if test and batch_idx == 20:
-            break
+#        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
+#        if test and batch_idx == 20:
+#            break
     
     accuracy = 100.*correct/total    
     results.append_loss(loss.item(), 'train')
@@ -175,9 +176,9 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-            if test and batch_idx == 20:
-                break
+#            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+#            if test and batch_idx == 20:
+#                break
             
     # Save checkpoint.
     acc = 100.*correct/total
