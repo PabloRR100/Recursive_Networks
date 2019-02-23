@@ -202,7 +202,7 @@ def test(epoch):
 def lr_schedule(epoch):
 
     global milestones
-    if epoch == milestones[0] or epoch == milestones[1]:
+    if epoch in milestones:
         for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
@@ -252,13 +252,14 @@ plt.figure()
 plt.plot(range(num_epochs), results.train_loss, label='Train')
 plt.plot(range(num_epochs), results.valid_loss, label='Valid')
 plt.title('Loss')
+plt.legend()
 plt.show()
 
 plt.figure()
 plt.plot(range(num_epochs), results.train_accy, label='Train')
 plt.plot(range(num_epochs), results.valid_accy, label='Valid')
-
 plt.title('Accuracy')
+plt.legend()
 plt.show()
 
 
