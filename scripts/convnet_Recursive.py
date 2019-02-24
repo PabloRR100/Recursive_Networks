@@ -18,13 +18,13 @@ import torch.backends.cudnn as cudnn
 import torch.multiprocessing
 torch.multiprocessing.set_sharing_strategy('file_system')
 
-from utils import avoidWarnings
+from utils import timeit, avoidWarnings
 from beautifultable import BeautifulTable as BT
 
-
 avoidWarnings()
+## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.1, type=float, help='learning rate')
+parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
@@ -32,6 +32,7 @@ parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters'
 parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble size')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
+parser.add_argument('--test', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
 
 
@@ -39,20 +40,22 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 4  ## TODO: set to args.epochs
+num_epochs = 500  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
-milestones = [100, 150]
+milestones = [150, 300, 400]
 
 L = args.layers
 M = args.filters
 E = args.ensemble
- 
+
+test = args.test 
+comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 gpus = True if torch.cuda.device_count() > 1 else False
 device_name = torch.cuda.get_device_name(0) if device == 'cuda' else 'CPUs'
     
-table = []
+table = BT()
 table.append_row(['Python Version', sys.version[:5]])
 table.append_row(['PyTorch Version', torch.__version__])
 table.append_row(['Device', str(device_name)])
@@ -63,8 +66,10 @@ table.append_row(['Architecture', 'DenseNet x7'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
+table.append_row(['Testing', str(test)])
 
 print(table)
+
 
 
 # Data
@@ -77,34 +82,27 @@ from data import dataloaders
 trainloader, testloader, classes = dataloaders(dataset, batch_size)
 
 
+
 # Models 
 # ------
     
-# For now, NO SHARING of any layers within the ensemble
-    
-comments = False
+avoidWarnings()
+comments = True
 from models import Conv_Recusive_Net
+from utils import count_parameters
+net = Conv_Recusive_Net('recursive_net', layers=L, filters=M)
 
-L = 16
-M = 32
-
-convnet = Conv_Net('ConvNet', layers=L, filters=M)
-r_convnet = Conv_Recusive_Net('RecursiveConvNet', layers=L, filters=M)
-print('Regular ConvNet')
-print('Parameters: {}M'.format(count_parameters(convnet)/1e6))
-if comments: print(convnet)
 
 print('Recursive ConvNet')
-print('Parameters: {}M'.format(count_parameters(r_convnet)/1e6))
-if comments: print(r_convnet)
+if comments: print(net)
+print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
+if comments: print(net)
 
-#P1 = (8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
-#P2 = 16 * ((8*8*3*M + 3*3*M**2 + M*2 + 64*M*10+10) * 1e-6)
+
 
 from collections import OrderedDict
 
 ensemble = OrderedDict()
-E = round((count_parameters(convnet)/count_parameters(r_convnet)))
 for n in range(1,1+E):
     ensemble['net_{}'.format(n)] = Conv_Recusive_Net('net_{}'.format(n), layers=L, filters=M)
 
@@ -116,6 +114,9 @@ if args.resume:
     checkpoint = torch.load('./checkpoint/ckpt.t7')
     
     for n,net in enumerate(ensemble):
+        net.to(device)
+        if device == 'cuda':
+            net = torch.nn.DataParallel(net)
         net.load_state_dict(checkpoint['net_{}'.format(n)])
     
     best_acc = checkpoint['acc']
@@ -123,78 +124,92 @@ if args.resume:
 
 optimizers = []
 criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(convnet.parameters(), lr=args.lr, momentum=0.9)
 
 for n in range(1,1+E):
-    optimizers.append(optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9))
+    optimizers.append(
+        optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
+    )
 
 
 # Training
 # --------
     
-from utils import timeit
+# Helpers
 from results import TrainResults as Results
-## Note: the paper doesn't mention about trainining iterations
 
 
 def train(epoch):
     
     print('\nEpoch: %d' % epoch)
-    convnet.train()
+    for net in ensemble: net.train()
 
     total = 0
     correct = 0
-    train_loss = 0
     global results
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
-        inputs, targets = inputs.to(device), targets.to(device)
-        optimizer.zero_grad()
-        outputs = convnet(inputs)
-        loss = criterion(outputs, targets)
-        loss.backward()
-        optimizer.step()
-        train_loss += loss.item()
+        
+        
+        for n, net in enumerate(ensemble):
+        
+            optimizer[n].zero_grad()
     
-        _, predicted = outputs.max(1)
-        total += targets.size(0)
-        correct += predicted.eq(targets).sum().item()
+            inputs, targets = inputs.to(device), targets.to(device)
+            outputs = net(inputs)
+            loss = criterion(outputs, targets)
+            
+            loss.backward()
+            optimizer.step()
+        
+            _, predicted = outputs.max(1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+        
+        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
+        if test and batch_idx == 20:
+            break
     
-    accuracy = 100.*correct/total        
-    print('Train :: Epoch {} - Loss: {} | Accy: {}'.format(epoch, train_loss, accuracy))
+    accuracy = 100.*correct/total    
+    results.append_loss(round(loss.item(),2), 'train')
+    results.append_accy(round(accuracy,2), 'train')    
+    print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
         
 def test(epoch):
     
-    convnet.eval()
+    net.eval()
 
     total = 0
     correct = 0
-    test_loss = 0
     global results
     global best_acc
 
     with torch.no_grad():
         
         for batch_idx, (inputs, targets) in enumerate(testloader):
+            
             inputs, targets = inputs.to(device), targets.to(device)
-            outputs = convnet(inputs)
+            outputs = net(inputs)
             loss = criterion(outputs, targets)
 
-            test_loss += loss.item()
             _, predicted = outputs.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
-        
-        accuracy = 100.*correct/total
-        print('Valid :: Epoch {} - Loss: {} | Accy: {}'.format(epoch, test_loss, accuracy))
+            
+            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+            if test and batch_idx == 20:
+                break
             
     # Save checkpoint.
     acc = 100.*correct/total
+    results.append_loss(round(loss.item(),2), 'valid')
+    results.append_accy(round(acc,2), 'valid')
+    print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
+    
     if acc > best_acc:
         print('Saving..')
         state = {
-            'net': convnet.state_dict(),
+            'net': net.state_dict(),
             'acc': acc,
             'epoch': epoch,
         }
@@ -206,20 +221,16 @@ def test(epoch):
 
 def lr_schedule(epoch):
 
-    global optimizer
     global milestones
-    if epoch == milestones[0] or epoch == milestones[1]:
+    if epoch in milestones:
         for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
     
-def results_backup(epoch):
-    # Save every X epochs in case training breaks we don't loose results    
+def results_backup():
     global results
-    if epoch % 20 == 0:
-        with open('Results_Singe.pkl', 'wb') as object_result:
-                pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
-
+    with open('Results_Singe.pkl', 'wb') as object_result:
+        pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
 @timeit
 def run_epoch(epoch):
@@ -227,8 +238,8 @@ def run_epoch(epoch):
     lr_schedule(epoch)
     train(epoch)
     test(epoch)
-    results_backup(epoch)
-    
+    results_backup()
+        
     
 results = Results([convnet])
 convnet.to(device)
