@@ -47,7 +47,8 @@ milestones = [150, 300, 400]
 L = args.layers
 M = args.filters
 
-testing = args.testing 
+testing = args.testing ##
+testing = True 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -150,7 +151,7 @@ def train(epoch):
         correct += predicted.eq(targets).sum().item()
         
         ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
-        if testing and batch_idx == 20:
+        if testing and batch_idx == 5:
             break
     
     accuracy = 100.*correct/total    
@@ -181,7 +182,7 @@ def test(epoch):
             correct += predicted.eq(targets).sum().item()
             
             # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-            if testing and batch_idx == 20:
+            if testing and batch_idx == 5:
                 break
             
     # Save checkpoint.
@@ -211,10 +212,12 @@ def lr_schedule(epoch):
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
     
+
 def results_backup():
     global results
     with open('Results_Singe_Recursive.pkl', 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+
 
 #@timeit
 def run_epoch(epoch):
@@ -234,6 +237,8 @@ if device == 'cuda':
 
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):
+    if epoch % 10 == 0:
+        pass
     run_epoch(epoch)
 
     

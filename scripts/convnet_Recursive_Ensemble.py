@@ -32,7 +32,7 @@ parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters'
 parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble size')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
-parser.add_argument('--test', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
+parser.add_argument('--testing', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
 
 
@@ -48,7 +48,7 @@ L = args.layers
 M = args.filters
 E = args.ensemble
 
-test = args.test 
+testing = args.testing 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -66,7 +66,7 @@ table.append_row(['Architecture', 'DenseNet x7'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
-table.append_row(['Testing', str(test)])
+table.append_row(['Testing', str(testing)])
 
 print(table)
 
@@ -141,7 +141,11 @@ from results import TrainResults as Results
 def train(epoch):
     
     print('\nEpoch: %d' % epoch)
-    for net in ensemble: net.train()
+    for net in ensemble: 
+        net.train()
+        if device == 'cuda':
+            net.to(device)
+            net = torch.nn.DataParallel(net)
 
     total = 0
     correct = 0
@@ -152,21 +156,21 @@ def train(epoch):
         
         for n, net in enumerate(ensemble):
         
-            optimizer[n].zero_grad()
+            optimizers[n].zero_grad()
     
             inputs, targets = inputs.to(device), targets.to(device)
             outputs = net(inputs)
             loss = criterion(outputs, targets)
             
             loss.backward()
-            optimizer.step()
+            optimizers[n].step()
         
             _, predicted = outputs.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
         
         ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
-        if test and batch_idx == 20:
+        if testing and batch_idx == 5:
             break
     
     accuracy = 100.*correct/total    
@@ -197,7 +201,7 @@ def test(epoch):
             correct += predicted.eq(targets).sum().item()
             
             # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-            if test and batch_idx == 20:
+            if testing and batch_idx == 5:
                 break
             
     # Save checkpoint.
@@ -223,14 +227,17 @@ def lr_schedule(epoch):
 
     global milestones
     if epoch in milestones:
-        for p in optimizer.param_groups:  p['lr'] = p['lr'] / 10
-        print('\n** Changing LR to {} \n'.format(p['lr']))    
+        for n in range(E):
+            for p in optimizers[n].param_groups:  p['lr'] = p['lr'] / 10
+            print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
     
+
 def results_backup():
     global results
     with open('Results_Singe.pkl', 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+
 
 @timeit
 def run_epoch(epoch):
@@ -241,10 +248,14 @@ def run_epoch(epoch):
     results_backup()
         
     
-results = Results([convnet])
-convnet.to(device)
+results = Results([net])
+results.append_time(0)
+names = [n.name for n in ensemble]
+results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
+
+net.to(net)
 if device == 'cuda':
-    convnet = torch.nn.DataParallel(convnet)
+    net = torch.nn.DataParallel(net)
     cudnn.benchmark = True
 
 print('[OK]: Starting Training of Single Model')
