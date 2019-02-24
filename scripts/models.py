@@ -103,6 +103,48 @@ class Conv_Recusive_Net(nn.Module):
         return self.fc(x)    
     
 
+class Conv_K_Recusive_Net(nn.Module):
+    '''
+    Recursive block of K layers
+    '''
+    def __init__(self, name:str, layers:int, filters:int=32, k:int=2):
+        super(Conv_Recusive_Net, self).__init__()
+        
+        self.name = name
+        self.K = k
+        self.L = layers
+        self.M = filters
+        self.act = nn.ReLU(inplace=True)
+
+        self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM
+        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
+        
+        self.W = nn.Conv2d(self.M,self.M,3, padding=1)          # Out: 8x8xM  -- Check also padding here)]
+        
+        self.fc = nn.Linear(8*8*self.M, 10)
+        
+        # Custom Initialization
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                if m.bias is not None:
+                    m.bias.data.zero_()
+            elif isinstance(m, nn.Linear):
+                m.weight.data.normal_(0, 0.01)
+                m.bias.data.zero_()
+                        
+        
+    def forward(self, x):
+        
+        x = self.act(self.V(x))
+        x = self.P(x)
+        for w in range(self.L):
+            x = self.act(self.w(x))
+        x = x.view(x.size(0), -1)
+        return self.fc(x) 
+
+
 
 if '__name__' == '__main__':
     
