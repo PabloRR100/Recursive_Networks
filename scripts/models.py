@@ -55,10 +55,10 @@ class Conv_Net(nn.Module):
                         
     def forward(self, x):
         
-        x = self.act(self.V(x))         # Out: 32x32xM  -- Maybe padding = 4?
-        x = self.P(x)                   # Out: 8x8xM  -- Check also padding here
+        x = self.act(self.V(x))         # Out: 32x32xM  
+        x = self.P(x)                   # Out: 8x8xM  
         for w in self.W:                
-            x = self.act(w(x))          # Out: 8x8xM  -- Check also padding here)]
+            x = self.act(w(x))          # Out: 8x8xM  
         x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
         return self.fc(x)
 
@@ -75,9 +75,9 @@ class Conv_Recusive_Net(nn.Module):
         self.act = nn.ReLU(inplace=True)
 
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM
-        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
+        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  
         
-        self.W = nn.Conv2d(self.M,self.M,3, padding=1)          # Out: 8x8xM  -- Check also padding here)]
+        self.W = nn.Conv2d(self.M,self.M,3, padding=1)          # Out: 8x8xM 
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
@@ -98,7 +98,7 @@ class Conv_Recusive_Net(nn.Module):
         x = self.act(self.V(x))
         x = self.P(x)
         for w in range(self.L):
-            x = self.act(self.w(x))
+            x = self.act(self.W(x))
         x = x.view(x.size(0), -1)
         return self.fc(x)    
     
@@ -117,9 +117,9 @@ class Conv_K_Recusive_Net(nn.Module):
         self.act = nn.ReLU(inplace=True)
 
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM
-        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  -- Check also padding here
+        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM 
         
-        self.W = nn.Conv2d(self.M,self.M,3, padding=1)          # Out: 8x8xM  -- Check also padding here)]
+        self.W = nn.Conv2d(self.M,self.M,3, padding=1)          # Out: 8x8xM  
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
@@ -139,8 +139,9 @@ class Conv_K_Recusive_Net(nn.Module):
         
         x = self.act(self.V(x))
         x = self.P(x)
-        for w in range(self.L):
-            x = self.act(self.w(x))
+        for block in range(self.L/self.K):      # num_blocks = num_layers / layers_per_block
+            for w in range(self.k):             # for each layer in the block
+                x = self.act(self.W(x))
         x = x.view(x.size(0), -1)
         return self.fc(x) 
 
