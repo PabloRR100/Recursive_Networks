@@ -95,7 +95,6 @@ net = Conv_Recusive_Net('recursive_net', layers=L, filters=M)
 print('Recursive ConvNet')
 if comments: print(net)
 print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
-if comments: print(net)
 
 
 if args.resume:
