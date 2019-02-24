@@ -65,7 +65,7 @@ table.append_row(['Architecture', 'DenseNet x7'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
-table.append_row(['Testing', str(test)])
+table.append_row(['Testing', str(testing)])
 
 print(table)
 
@@ -232,7 +232,7 @@ if device == 'cuda':
     net = torch.nn.DataParallel(net)
     cudnn.benchmark = True
 
-testing = True
+
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):
     run_epoch(epoch)
