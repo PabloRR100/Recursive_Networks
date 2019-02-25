@@ -57,6 +57,9 @@ class Conv_Net(nn.Module):
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
                 m.bias.data.zero_()
+        
+        self.bn1.weight.data.fill_(1)
+        self.bn2.weight.data.fill_(1)
                         
     def forward(self, x):
         
