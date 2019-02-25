@@ -24,7 +24,7 @@ from beautifultable import BeautifulTable as BT
 avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
+parser.add_argument('--lr', default=0.001, type=float, help='learning rate') #changed the learning rate to 0.001 as the paper uses. 
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
@@ -62,11 +62,12 @@ table.append_row(['Device', str(device_name)])
 table.append_row(['Cores', str(n_workers)])
 table.append_row(['GPUs', str(torch.cuda.device_count())])
 table.append_row(['CUDNN Enabled', str(torch.backends.cudnn.enabled)])
-table.append_row(['Architecture', 'DenseNet x7'])
+table.append_row(['Architecture', 'Recursive NN'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
 table.append_row(['Testing', str(test)])
+table.append_row(['Learning Rate', str(args.lr)])
 
 print(table)
 
