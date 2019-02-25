@@ -8,19 +8,22 @@ from torch import nn
         
 class Conv_Net(nn.Module):
     
-    def __init__(self, name:str, layers:int, filters:int=32):
+    def __init__(self, name:str, layers:int, filters:int=32, normalize:bool=False):
         super(Conv_Net, self).__init__()
         
         self.name = name
         self.L = layers
         self.M = filters
         self.act = nn.ReLU(inplace=True)
+        self.normalize = normalize # Wasay: Added batch normalization flag
     
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           
         
         self.W = nn.ModuleList(                                 
             [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)])   
+        
+        self.bn = nn.BatchNorm2d(32)
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
@@ -57,8 +60,11 @@ class Conv_Net(nn.Module):
         
         x = self.act(self.V(x))         # Out: 32x32xM  
         x = self.P(x)                   # Out: 8x8xM  
-        for w in self.W:                
-            x = self.act(w(x))          # Out: 8x8xM  
+        for w in self.W:
+            if self.normalize:
+                x = self.act(self.bn(w(x)))
+            else:
+                x = self.act(w(x))          # Out: 8x8xM  
         x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
         return self.fc(x)
 
