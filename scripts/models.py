@@ -23,37 +23,29 @@ class Conv_Net(nn.Module):
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           
         
         self.W = nn.ModuleList(                                 
-            [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)]) # WASAY: Should use self.M also instead of 32.
+            [nn.Conv2d(self.M,self.M,3, padding=1) for _ in range(self.L)])
         
-        self.bn2 = nn.BatchNorm2d(32)
+        self.bn2 = nn.BatchNorm2d(self.M)
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
-        # Custom Initialization
-        """for name, param in self.named_parameters():
-            
-            # Vm has zero mean and 0.1 std (0.01 var)
-            if 'V' in name and 'weight' in name:
-                param.data.normal_(0, 0.1)
-            
-            # W are initialized with the identity matrix - Kronecker delta
-            elif 'W' in name and 'weight' in name:
-                param.data.fill_(0)
-                for i in range(32):
-                    param.data[i][0][0][0].fill_(1)
-                    
-                        ## TODO: C is not specified in the paper
-            elif 'fc' in name and 'bias' in name:
-                param.data.fill_(0)"""
+        # NOT FOLLOWING PAPER Custom Initialization
+        '''
+        NOTES:
+            [0] - This has been changed from : for param, name in ... -> Review if doesn't work
+            [1] - Read on DL book that with RELU is preferable to start biases with 0.01
+        '''
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
                 m.weight.data.normal_(0, math.sqrt(2. / n))
                 if m.bias is not None:
-                    m.bias.data.zero_()
+                    m.bias.data.zero_() ## Notes (1)
+                    
             elif isinstance(m, nn.BatchNorm2d):
                 m.weight.data.fill_(1)
-                m.bias.data.zero_()
+                m.bias.data.zero_() 
+                
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
                 m.bias.data.zero_()
@@ -72,7 +64,7 @@ class Conv_Net(nn.Module):
             if self.normalize:
                 x = self.act(self.bn2((w(x))))
             else:
-                x = self.act(w(x))          # Out: 8x8xM  
+                x = self.act(w(x))      # Out: 8x8xM  
         x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
         return self.fc(x)
 
