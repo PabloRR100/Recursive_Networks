@@ -111,7 +111,7 @@ if args.resume:
     print('==> Resuming from checkpoint..')
     print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-    checkpoint = torch.load('./checkpoint/ckpt.t7')
+    checkpoint = torch.load('./checkpoint/ckpt_Ens_Rec.t7')
     
     for n,net in enumerate(ensemble):
         net.to(device)
@@ -193,12 +193,17 @@ def test(epoch):
         for batch_idx, (inputs, targets) in enumerate(testloader):
             
             inputs, targets = inputs.to(device), targets.to(device)
-            outputs = net(inputs)
-            loss = criterion(outputs, targets)
-
-            _, predicted = outputs.max(1)
-            total += targets.size(0)
-            correct += predicted.eq(targets).sum().item()
+            
+            outs = []
+            for n, m in enumerate(models):
+                
+                outputs = net(inputs)
+                out.append(outputs)
+                loss = criterion(outputs, targets)
+    
+                _, predicted = outputs.max(1)
+                total += targets.size(0)
+                correct += predicted.eq(targets).sum().item()
             
             # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
             if testing and batch_idx == 5:
@@ -219,7 +224,7 @@ def test(epoch):
         }
         if not os.path.isdir('checkpoint'):
             os.mkdir('checkpoint')
-        torch.save(state, './checkpoint/ckpt.t7')
+        torch.save(state, './checkpoint/ckpt_Ens_Rec.t7')
         best_acc = acc
 
 
@@ -235,7 +240,7 @@ def lr_schedule(epoch):
 
 def results_backup():
     global results
-    with open('Results_Singe.pkl', 'wb') as object_result:
+    with open('Results_Esemble_Recursive.pkl', 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
 
@@ -253,10 +258,6 @@ results.append_time(0)
 names = [n.name for n in ensemble]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
-net.to(net)
-if device == 'cuda':
-    net = torch.nn.DataParallel(net)
-    cudnn.benchmark = True
 
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):

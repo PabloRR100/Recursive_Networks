@@ -8,19 +8,24 @@ from torch import nn
         
 class Conv_Net(nn.Module):
     
-    def __init__(self, name:str, layers:int, filters:int=32):
+    def __init__(self, name:str, layers:int, filters:int=32, normalize:bool=False):
         super(Conv_Net, self).__init__()
         
         self.name = name
         self.L = layers
         self.M = filters
         self.act = nn.ReLU(inplace=True)
+        self.normalize = normalize # Wasay: Added batch normalization flag
     
-        self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     
+        
+        self.V = nn.Conv2d(3, self.M, 8, stride=1, padding=3)
+        self.bn1 = nn.BatchNorm2d(self.M)     
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           
         
         self.W = nn.ModuleList(                                 
-            [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)])   
+            [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)]) # WASAY: Should use self.M also instead of 32.
+        
+        self.bn2 = nn.BatchNorm2d(32)
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
@@ -52,13 +57,22 @@ class Conv_Net(nn.Module):
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
                 m.bias.data.zero_()
+        
+        self.bn1.weight.data.fill_(1)
+        self.bn2.weight.data.fill_(1)
                         
     def forward(self, x):
         
-        x = self.act(self.V(x))         # Out: 32x32xM  
+        if self.normalize:
+            x = self.act(self.bn1(self.V(x)))
+        else:
+            x = self.act(self.V(x))     # Out: 32x32xM  
         x = self.P(x)                   # Out: 8x8xM  
-        for w in self.W:                
-            x = self.act(w(x))          # Out: 8x8xM  
+        for w in self.W:
+            if self.normalize:
+                x = self.act(self.bn2((w(x))))
+            else:
+                x = self.act(w(x))          # Out: 8x8xM  
         x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
         return self.fc(x)
 
