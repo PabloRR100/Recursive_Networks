@@ -91,7 +91,7 @@ avoidWarnings()
 comments = True
 from models import Conv_Net
 from utils import count_parameters
-net = Conv_Net('net', layers=L, filters=M, normalize=False)
+net = Conv_Net('net', layers=L, filters=M, normalize=True)
 
 
 print('Regular net')

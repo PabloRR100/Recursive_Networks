@@ -4,7 +4,7 @@ import torch
 from torch import nn
 
     
-# Convolutional Networks
+# Recursive Convolutional Networks
         
 class Conv_Net(nn.Module):
     
@@ -12,20 +12,28 @@ class Conv_Net(nn.Module):
         super(Conv_Net, self).__init__()
         
         self.name = name
+        self.normalize = normalize
         self.L = layers
         self.M = filters
+        
+        # create layers
         self.act = nn.ReLU(inplace=True)
-        self.normalize = normalize # Wasay: Added batch normalization flag
-    
         
         self.V = nn.Conv2d(3, self.M, 8, stride=1, padding=3)
-        self.bn1 = nn.BatchNorm2d(self.M)     
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           
         
         self.W = nn.ModuleList(                                 
             [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)]) # WASAY: Should use self.M also instead of 32.
         
-        self.bn2 = nn.BatchNorm2d(32)
+        if normalize:
+            print("Using batch normalization")
+            self.bn_W = nn.ModuleList(                                 
+                [nn.BatchNorm2d(32) for _ in range(self.L)])
+            self.bn_V = nn.BatchNorm2d(self.M) 
+            
+            self.bn_V.weight.data.fill_(1)
+            for l in self.bn_W:
+                l.weight.data.fill_(1)
         
         self.fc = nn.Linear(8*8*self.M, 10)
         
@@ -57,24 +65,26 @@ class Conv_Net(nn.Module):
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
                 m.bias.data.zero_()
-        
-        self.bn1.weight.data.fill_(1)
-        self.bn2.weight.data.fill_(1)
                         
     def forward(self, x):
-        
         if self.normalize:
-            x = self.act(self.bn1(self.V(x)))
+            x = self.act(self.bn_V(self.V(x)))           # Out: 32x32xM  
+            x = self.P(x)                               # Out: 8x8xM  
+
+            for w, bn in zip(self.W, self.bn_W):
+                x = self.act(bn(w(x)))                      # Out: 8x8xM  
+            x = x.view(x.size(0), -1)                   # Out: 64*M  (M = 32 -> 2048)
+            
+            return self.fc(x)
         else:
-            x = self.act(self.V(x))     # Out: 32x32xM  
-        x = self.P(x)                   # Out: 8x8xM  
-        for w in self.W:
-            if self.normalize:
-                x = self.act(self.bn2((w(x))))
-            else:
-                x = self.act(w(x))          # Out: 8x8xM  
-        x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
-        return self.fc(x)
+            x = self.act(self.V(x))                     # Out: 32x32xM  
+            x = self.P(x)                               # Out: 8x8xM  
+            
+            for w in self.W:
+                x = self.act(w(x))                      # Out: 8x8xM  
+            x = x.view(x.size(0), -1)                   # Out: 64*M  (M = 32 -> 2048)
+            
+            return self.fc(x)
 
 
 
