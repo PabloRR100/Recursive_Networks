@@ -24,7 +24,7 @@ from beautifultable import BeautifulTable as BT
 avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.001, type=float, help='learning rate') #changed the learning rate to 0.001 as the paper uses. 
+parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
@@ -62,12 +62,11 @@ table.append_row(['Device', str(device_name)])
 table.append_row(['Cores', str(n_workers)])
 table.append_row(['GPUs', str(torch.cuda.device_count())])
 table.append_row(['CUDNN Enabled', str(torch.backends.cudnn.enabled)])
-table.append_row(['Architecture', 'Recursive NN'])
+table.append_row(['Architecture', 'DenseNet x7'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
 table.append_row(['Testing', str(test)])
-table.append_row(['Learning Rate', str(args.lr)])
 
 print(table)
 
@@ -91,7 +90,7 @@ avoidWarnings()
 comments = True
 from models import Conv_Net
 from utils import count_parameters
-net = Conv_Net('net', layers=L, filters=M, normalize=False)
+net = Conv_Net('net', layers=L, filters=M)
 
 
 print('Regular net')
@@ -157,7 +156,7 @@ def train(epoch):
     accuracy = 100.*correct/total    
     results.append_loss(round(loss.item(),2), 'train')
     results.append_accy(round(accuracy,2), 'train')    
-    print('Train :: Loss: {} | Accu: {}'.format(round(loss.item(),2), round(accuracy,2)))
+    print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
         
 def test(epoch):
@@ -189,7 +188,7 @@ def test(epoch):
     acc = 100.*correct/total
     results.append_loss(round(loss.item(),2), 'valid')
     results.append_accy(round(acc,2), 'valid')
-    print('Valid :: Loss: {} | Accu: {}'.format(round(loss.item(),2), round(acc,2)))
+    print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
     
     if acc > best_acc:
         print('Saving..')
