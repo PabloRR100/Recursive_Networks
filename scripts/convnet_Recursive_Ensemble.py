@@ -224,7 +224,7 @@ def test(epoch):
             inputs, targets = inputs.to(device), targets.to(device)
             
             outs = []
-            for n, net in enumerate(ensemble):
+            for n, net in enumerate(ensemble.values()):
                 
                 net.eval()  
                 net.to(device)
