@@ -33,6 +33,7 @@ parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble siz
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
 parser.add_argument('--test', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
+parser.add_argument('--run', '-n', default="run", type=str, help='set the run name')
 args = parser.parse_args()
 
 
@@ -47,6 +48,9 @@ milestones = [150, 300, 400]
 L = args.layers
 M = args.filters
 E = args.ensemble
+
+global run
+run = args.run
 
 test = args.test 
 comments = args.comments
@@ -68,6 +72,7 @@ table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
 table.append_row(['Testing', str(test)])
 table.append_row(['Learning Rate', str(args.lr)])
+table.append_row(['Run', str(args.run)])
 
 print(table)
 
@@ -202,6 +207,7 @@ def test(epoch):
             os.mkdir('checkpoint')
         torch.save(state, './checkpoint/ckpt.t7')
         best_acc = acc
+    
 
 
 def lr_schedule(epoch):
@@ -214,7 +220,8 @@ def lr_schedule(epoch):
     
 def results_backup():
     global results
-    with open('Results_Singe.pkl', 'wb') as object_result:
+    global run
+    with open('./logs/'+str(run)+'.pkl', 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
 @timeit
@@ -246,9 +253,10 @@ results.show()
 exit()
 
 
-## TEST LOSS AND ACCY EVOLUTIONp
+## TEST LOSS AND ACCY EVOLUTION
 
-with open('Results_Singe.pkl', 'rb') as input:
+global run
+with open('./logs/' + str(run) + '.pkl', 'rb') as input:
     results = pickle.load(input)
 
 import matplotlib.pyplot as plt
@@ -258,13 +266,13 @@ plt.plot(range(num_epochs), results.train_loss, label='Train')
 plt.plot(range(num_epochs), results.valid_loss, label='Valid')
 plt.title('Loss')
 plt.legend()
-plt.show()
+plt.savefig('../results/runs/'+str(run)+'_loss.jpg')
 
 plt.figure()
 plt.plot(range(num_epochs), results.train_accy, label='Train')
 plt.plot(range(num_epochs), results.valid_accy, label='Valid')
 plt.title('Accuracy')
 plt.legend()
-plt.show()
+plt.savefig('../results/runs/'+str(run)+'_acc.jpg')
 
 
