@@ -235,7 +235,7 @@ if device == 'cuda':
     cudnn.benchmark = True
 
 
-print('[OK]: Starting Training of Single Model')
+print('[OK]: Starting Training of Single Recursive Model')
 for epoch in range(start_epoch, num_epochs):
     if epoch % 10 == 0:
         pass

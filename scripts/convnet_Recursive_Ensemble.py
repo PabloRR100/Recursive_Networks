@@ -181,7 +181,8 @@ def train(epoch):
         
 def test(epoch):
     
-    net.eval()
+    for net in ensemble:
+        net.eval()  
 
     total = 0
     correct = 0
@@ -195,10 +196,10 @@ def test(epoch):
             inputs, targets = inputs.to(device), targets.to(device)
             
             outs = []
-            for n, m in enumerate(models):
+            for n, net in enumerate(ensemble):
                 
                 outputs = net(inputs)
-                out.append(outputs)
+                outs.append(outputs)
                 loss = criterion(outputs, targets)
     
                 _, predicted = outputs.max(1)
@@ -222,10 +223,11 @@ def test(epoch):
             'acc': acc,
             'epoch': epoch,
         }
-        if not os.path.isdir('checkpoint'):
+        if not os.path.isdir('checkpoint/'):
             os.mkdir('checkpoint')
-        torch.save(state, './checkpoint/ckpt_Ens_Rec.t7')
+        torch.save(state, './checkpoint/ens_rec_ckpt.t7')
         best_acc = acc
+    return
 
 
 def lr_schedule(epoch):
@@ -236,12 +238,12 @@ def lr_schedule(epoch):
             for p in optimizers[n].param_groups:  p['lr'] = p['lr'] / 10
             print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
-    
 
 def results_backup():
     global results
-    with open('Results_Esemble_Recursive.pkl', 'wb') as object_result:
-        pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+    with open('Results_Ensemble_Recursive.pkl', 'wb') as object_result:
+        pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)   
+    return
 
 
 @timeit
@@ -259,7 +261,7 @@ names = [n.name for n in ensemble]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
 
-print('[OK]: Starting Training of Single Model')
+print('[OK]: Starting Training of Recursive Ensemble Model')
 for epoch in range(start_epoch, num_epochs):
     run_epoch(epoch)
 
