@@ -41,8 +41,8 @@ args = parser.parse_args()
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 500  ## TODO: set to args.epochs
-batch_size = 128  ## TODO: set to args.barch
+num_epochs = args.epochs  
+batch_size = args.batch
 milestones = [150, 300, 400]
 
 L = args.layers
