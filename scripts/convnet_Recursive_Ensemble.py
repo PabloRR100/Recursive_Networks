@@ -96,8 +96,6 @@ net = Conv_Recusive_Net('recursive_net', layers=L, filters=M)
 print('Recursive ConvNet')
 if comments: print(net)
 print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
-if comments: print(net)
-
 
 
 from collections import OrderedDict
@@ -153,7 +151,7 @@ def train(epoch):
         
         individual_outputs = list()
         
-        for n, net in enumerate(ensemble):
+        for n, net in enumerate(ensemble.values()):
             
             if device == 'cuda':
                 net.to(device)
@@ -312,7 +310,8 @@ def run_epoch(epoch):
     
 results = Results([net])
 results.append_time(0)
-names = [n.name for n in ensemble]
+
+names = [n.name for n in ensemble.values()]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
 
