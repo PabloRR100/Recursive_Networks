@@ -259,6 +259,8 @@ with open('./logs/' + str(run) + '.pkl', 'rb') as input:
 
 import matplotlib.pyplot as plt
 
+print("Plotting accuracy and loss")
+
 plt.figure()
 plt.plot(range(num_epochs), results.train_loss, label='Train')
 plt.plot(range(num_epochs), results.valid_loss, label='Valid')
