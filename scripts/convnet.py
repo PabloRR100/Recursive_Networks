@@ -220,7 +220,7 @@ def results_backup():
 @timeit
 def run_epoch(epoch):
     
-    lr_schedule(epoch)
+    # lr_schedule(epoch)
     train(epoch)
     test(epoch)
     results_backup()
