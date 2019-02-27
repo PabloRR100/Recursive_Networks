@@ -140,49 +140,79 @@ from results import TrainResults as Results
 
 def train(epoch):
     
+    global device
+    global results
+    global optimizers    
     print('\nEpoch: %d' % epoch)
-    for net in ensemble: 
-        net.train()
-        if device == 'cuda':
-            net.to(device)
-            net = torch.nn.DataParallel(net)
 
     total = 0
     correct = 0
-    global results
+    len_ = len(trainloader)
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
+        individual_outputs = list()
         
         for n, net in enumerate(ensemble):
+            
+            if device == 'cuda':
+                net.to(device)
+                net = torch.nn.DataParallel(net)
         
+            net.train()
             optimizers[n].zero_grad()
+            
+            ## Individuals forward pass
+            
+            n_total = 0
+            n_correct = 0
     
             inputs, targets = inputs.to(device), targets.to(device)
-            outputs = net(inputs)
-            loss = criterion(outputs, targets)
+            output = net(inputs)
+            loss = criterion(output, targets)
             
             loss.backward()
             optimizers[n].step()
         
-            _, predicted = outputs.max(1)
-            total += targets.size(0)
-            correct += predicted.eq(targets).sum().item()
+            # Individual network performance            
+            _, predicted = output.max(1)
+            n_total += targets.size(0)
+            n_correct += predicted.eq(targets).sum().item()
+            n_accuracy = 100. * n_correct / n_total
+            
+            # Store iteration results for this individual
+            results.append_iter_loss(round(loss.item(), 3), 'train', n+1)
+            results.append_iter_accy(round(n_accuracy, 2), 'train', n+1)
+            
+            if batch_idx == len_-1:
+                # Store epoch results for this individual (as last iter)
+                results.append_loss(round(loss.item(), 3), 'train', n+1)
+                results.append_accy(round(n_accuracy, 2), 'train', n+1)
+            
+            individual_outputs.append(output)
         
-        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
+        ## TODO: Just set testing = True when debuggin on local
         if testing and batch_idx == 5:
             break
     
-    accuracy = 100.*correct/total    
-    results.append_loss(round(loss.item(),2), 'train')
-    results.append_accy(round(accuracy,2), 'train')    
+     ## Ensemble forward pass
+        
+    output = torch.mean(torch.stack(individual_outputs), dim=0)
+    loss = criterion(output, targets) 
+    
+    _, predicted = output.max(1)
+    total += targets.size(0)
+    correct += predicted.eq(targets).sum().item()
+    accuracy = 100 * correct / total
+    
+    # Store iteration results for Ensemble
+    results.append_iter_loss(round(loss.item(), 3), 'train', None)
+    results.append_iter_accy(round(accuracy, 2), 'train', None)
+
     print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
         
 def test(epoch):
-    
-    for net in ensemble:
-        net.eval()  
 
     total = 0
     correct = 0
@@ -198,23 +228,46 @@ def test(epoch):
             outs = []
             for n, net in enumerate(ensemble):
                 
-                outputs = net(inputs)
-                outs.append(outputs)
-                loss = criterion(outputs, targets)
+                net.eval()  
+                net.to(device)
+
+                ## Individual forward pass
+                
+                n_total = 0
+                n_correct = 0
+                
+                output = net(inputs)
+                outs.append(output)
+                loss = criterion(output, targets)
     
-                _, predicted = outputs.max(1)
-                total += targets.size(0)
-                correct += predicted.eq(targets).sum().item()
+                # Store epoch (as first iteration of the epoch) results for each net
+                if batch_idx == 0:
+    
+                    _, predicted = output.max(1)
+                    n_total += targets.size(0)
+                    n_correct += predicted.eq(targets).sum().item()
+                    n_accuracy = n_correct / n_total
+                    
+                    results.append_loss(round(loss.item(), 3), 'valid', n+1)
+                    results.append_accy(round(n_accuracy * 100, 2), 'valid', n+1)
+    
             
             # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
             if testing and batch_idx == 5:
                 break
             
+            _, predicted = output.max(1)
+            total += targets.size(0)
+            correct += predicted.eq(targets).sum().item()
+        
+        # Store epoch results for ensemble
+        acc = 100.*correct/total
+        results.append_loss(round(loss.item(), 3), 'valid', None)
+        results.append_accy(round(acc,2), 'valid', None)
+        print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
+    
+            
     # Save checkpoint.
-    acc = 100.*correct/total
-    results.append_loss(round(loss.item(),2), 'valid')
-    results.append_accy(round(acc,2), 'valid')
-    print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
     
     if acc > best_acc:
         print('Saving..')
@@ -232,6 +285,7 @@ def test(epoch):
 
 def lr_schedule(epoch):
 
+    global E
     global milestones
     if epoch in milestones:
         for n in range(E):
@@ -239,9 +293,10 @@ def lr_schedule(epoch):
             print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
 
+path = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
 def results_backup():
     global results
-    with open('Results_Ensemble_Recursive.pkl', 'wb') as object_result:
+    with open(path, 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)   
     return
 
@@ -270,3 +325,23 @@ results.show()
 exit()
 
 
+## TEST LOSS AND ACCY EVOLUTION
+
+with open(path, 'rb') as input:
+    results = pickle.load(input)
+
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_loss, label='Train')
+plt.plot(range(num_epochs), results.valid_loss, label='Valid')
+plt.title('Loss')
+plt.legend()
+plt.show()
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_accy, label='Train')
+plt.plot(range(num_epochs), results.valid_accy, label='Valid')
+plt.title('Accuracy')
+plt.legend()
+plt.show()

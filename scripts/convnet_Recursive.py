@@ -213,13 +213,14 @@ def lr_schedule(epoch):
     return
     
 
+path = '../results/single_recursive_model/Results_Single_Recursive.pkl'
 def results_backup():
     global results
-    with open('Results_Singe_Recursive.pkl', 'wb') as object_result:
+    with open(path, 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
 
-#@timeit
+@timeit
 def run_epoch(epoch):
     
     lr_schedule(epoch)
@@ -246,3 +247,23 @@ results.show()
 exit()
 
 
+## TEST LOSS AND ACCY EVOLUTIONp
+
+with open(path, 'rb') as input:
+    results = pickle.load(input)
+
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_loss, label='Train')
+plt.plot(range(num_epochs), results.valid_loss, label='Valid')
+plt.title('Loss')
+plt.legend()
+plt.show()
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_accy, label='Train')
+plt.plot(range(num_epochs), results.valid_accy, label='Valid')
+plt.title('Accuracy')
+plt.legend()
+plt.show()

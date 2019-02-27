@@ -212,9 +212,10 @@ def lr_schedule(epoch):
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
     
+path = '../results/single_model/Results_Single.pkl'
 def results_backup():
     global results
-    with open('Results_Singe.pkl', 'wb') as object_result:
+    with open(path, 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
 @timeit
@@ -248,7 +249,7 @@ exit()
 
 ## TEST LOSS AND ACCY EVOLUTIONp
 
-with open('Results_Singe.pkl', 'rb') as input:
+with open(path, 'rb') as input:
     results = pickle.load(input)
 
 import matplotlib.pyplot as plt
