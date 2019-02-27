@@ -250,7 +250,7 @@ for epoch in range(start_epoch, num_epochs):
 
     
 results.show()
-exit()
+# exit()
 
 
 ## TEST LOSS AND ACCY EVOLUTION
