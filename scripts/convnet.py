@@ -254,8 +254,6 @@ exit()
 
 
 ## TEST LOSS AND ACCY EVOLUTION
-
-global run
 with open('./logs/' + str(run) + '.pkl', 'rb') as input:
     results = pickle.load(input)
 
