@@ -5,6 +5,7 @@ Created on Thu Nov  1 09:47:02 2018
 @author: pabloruizruiz
 """
 
+# Imports
 import os
 import sys
 import pickle
@@ -22,23 +23,22 @@ from utils import timeit, avoidWarnings
 from beautifultable import BeautifulTable as BT
 
 avoidWarnings()
-## Note: the paper doesn't mention about trainining epochs/iterations
+
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.001, type=float, help='learning rate') #changed the learning rate to 0.001 as the paper uses. 
+parser.add_argument('--lr', default=0.001, type=float, help='learning rate') 
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
+parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
-parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters')
 parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble size')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
 parser.add_argument('--test', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 parser.add_argument('--run', '-n', default="run", type=str, help='set the run name')
+parser.add_argument('--lrs', '-s', default=False, type=bool, help='set the learning rate schedule')
 args = parser.parse_args()
 
-
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
-
 best_acc = 0  
 start_epoch = 0  
 num_epochs = args.epochs  
@@ -49,16 +49,21 @@ L = args.layers
 M = args.filters
 E = args.ensemble
 
+global lr_schedule
+lr_schedule = args.lr
 global run
 run = args.run
 
-test = args.test 
+test_ = args.test 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 gpus = True if torch.cuda.device_count() > 1 else False
 device_name = torch.cuda.get_device_name(0) if device == 'cuda' else 'CPUs'
-    
+
+"""
+Print table with configurations
+"""
 table = BT()
 table.append_row(['Python Version', sys.version[:5]])
 table.append_row(['PyTorch Version', torch.__version__])
@@ -70,13 +75,12 @@ table.append_row(['Architecture', 'Recursive NN'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
-table.append_row(['Testing', str(test)])
+table.append_row(['Testing', str(test_)])
 table.append_row(['Learning Rate', str(args.lr)])
 table.append_row(['Run', str(args.run)])
+table.append_row(['Learning Rate Schedule', str(args.lrs)])
 
 print(table)
-
-
 
 # Data
 # ----
@@ -87,8 +91,6 @@ dataset = 'CIFAR'
 from data import dataloaders
 trainloader, testloader, classes = dataloaders(dataset, batch_size)
 
-
-
 # Models 
 # ------
     
@@ -96,13 +98,11 @@ avoidWarnings()
 comments = True
 from models import Conv_Net
 from utils import count_parameters
+
 net = Conv_Net('net', layers=L, filters=M, normalize=True)
 
-
-print('Regular net')
 if comments: print(net)
 print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
-
 
 if args.resume:
     
@@ -123,11 +123,11 @@ if args.resume:
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
 
-
 # Training
 # --------
     
 # Helpers
+#### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
 from results import TrainResults as Results
 
 
@@ -208,8 +208,6 @@ def test(epoch):
         torch.save(state, './checkpoint/ckpt.t7')
         best_acc = acc
     
-
-
 def lr_schedule(epoch):
 
     global milestones
@@ -226,11 +224,13 @@ def results_backup():
 
 @timeit
 def run_epoch(epoch):
-    
-    # lr_schedule(epoch)
+    if lr_schedule:
+        lr_schedule(epoch)
     train(epoch)
     test(epoch)
     results_backup()
+
+#### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### #### 
     
 
 # Send model to GPU(s)
@@ -242,8 +242,7 @@ if device == 'cuda':
     cudnn.benchmark = True
 
 
-# Start training
-    
+# Start training 
 print('[OK]: Starting Training of Single Model')
 for epoch in range(start_epoch, num_epochs):
     run_epoch(epoch)
@@ -274,5 +273,3 @@ plt.plot(range(num_epochs), results.valid_accy, label='Valid')
 plt.title('Accuracy')
 plt.legend()
 plt.savefig('../results/runs/'+str(run)+'_acc.jpg')
-
-
