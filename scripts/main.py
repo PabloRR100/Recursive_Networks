@@ -29,7 +29,7 @@ from models import Conv_Net, Conv_Recusive_Net, Conv_Custom_Recusive_Net
 
 L = 16
 M = 32
-F = 32
+F = 2
 
 convnet = Conv_Net('ConvNet', layers=L, filters=M)
 r_convnet = Conv_Recusive_Net('Recursive_ConvNet', L, M)
@@ -58,8 +58,11 @@ print('\n\nCustom Ensemble size = ', E)
 
 
 P1 = (8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
-P2 = 16 * ((8*8*3*M + 3*3*M**2 + M*2 + 64*M*10+10) * 1e-6)
+P2 = (8*8*3*M + 3*3*M**2   +   2*M   + 64*M*10+10) * 1e-6
+P3 = (8*8*3*M + 3*3*M**2   + 2*M + 9*F**2 + 2*F + 64*F*10+10) * 1e-6
 
+P = [P1, P2, P3]
+[print('P{}: {}'.format(i,p)) for i,p in enumerate(P)]
 
 '''
 Future Work
@@ -80,13 +83,12 @@ exit()
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = np.arange(0,128,1)
-y1 = 640*x
-y2 = 9*x**2 + 642*x
+x = np.arange(0,128,32)
+y = 9*x**2 + 642*x
 
 plt.figure()
-plt.plot(x,y1)
-plt.plot(x,y2)
+plt.plot(x,y)
+plt.axhline(640*M)
 plt.show()
 
 
