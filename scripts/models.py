@@ -95,9 +95,52 @@ class Conv_Recusive_Net(nn.Module):
         for w in range(self.L):
             x = self.act(self.W(x))
         x = x.view(x.size(0), -1)
-        return self.fc(x)    
+        return self.fc(x)  
+   
     
     
+class Conv_Custom_Recusive_Net(nn.Module):
+    
+    def __init__(self, name:str, L:int, M:int=32, F:int=32):
+        super(Conv_Custom_Recusive_Net, self).__init__()
+        
+        self.name = name
+        self.L = L
+        self.M = M
+        self.F = F
+        self.act = nn.ReLU(inplace=True)
+
+        self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM
+        self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  
+        
+        self.W = nn.Conv2d(self.M,self.M,3, padding=1)          # Out: 8x8xM 
+        self.WL = nn.Conv2d(self.F,self.F,3,padding=1)          # Out: 8x8xF
+        
+        self.fc = nn.Linear(8*8*self.F, 10)
+        
+        # Custom Initialization
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                m.weight.data.normal_(0, math.sqrt(2. / n))
+                if m.bias is not None:
+#                    m.bias.data.zero_()
+                    m.bias.data.fill_(0.01)
+            elif isinstance(m, nn.Linear):
+                m.weight.data.normal_(0, 0.01)
+                m.bias.data.zero_()
+                        
+    def forward(self, x):
+        
+        x = self.act(self.V(x))
+        x = self.P(x)
+        for w in range(self.L - 1):     # Up to layer L not included
+            x = self.act(self.W(x))
+        x = self.act(self.WL(x))        # Last convolution use WL with F filters
+        x = x.view(x.size(0), -1)
+        return self.fc(x)  
+    
+
 
 class Conv_K_Recusive_Net(nn.Module):
     '''
@@ -162,7 +205,6 @@ if '__name__' == '__main__':
     
     exit()
     
-exit()
 # Fully Connected Networks
 
 class FC_Net(nn.Module):
