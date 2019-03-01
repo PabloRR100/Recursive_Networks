@@ -19,7 +19,7 @@ Get insights of how recursive networks works, under which circusntances outperfo
 - Optimizer = SGD
 - Learning Rate: 0.001
 
-![single][single_img]
+![single_img][single_img]
 
 Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2 · L) + (M · (L + 1)) + (64 · M · 10 + 10)
 - **CASE:** L = 16, M = 32 --> Parameters = 174,634
@@ -27,14 +27,23 @@ Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2 · L) + (M · (L + 1)
 ### Recursive Implementation:
 For the recursive network, the term L for the number of layers dissapear, since just 1 is contributing to the total number of parameteres, and its being reused to add non_linearities and increase the depth of the network.
 
-![recursive][recursive_img]
+![recursive_img][recursive_img]
 
 Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2) + (2 · M) + (64 · M · 10 + 10)
 - **CASE:** L = 16, M = 32 --> Parameters = 35.914  --> ***Ensemble size allowed = 5***
 
+## Ensemble of Networks   
+One advantage of building an equivalent network with less parameters, is that under the constraint of a fixed number of parameters, we can build an ensemble of the recursive networks to reach the same number of parameters.  
+
+However, it is possible to come up with different strategies on how to implement the ensemble. In the next figure, we show some of the possibilities we consider.  
+
+![ensemble_options][ensemble_options]
+
+The most *"naïve"* implementation would correspond to letter B. It consist on an ensemble of E independent recursive networks, where the number of parameters will be E*(parameters of 1 network).
+
 ### Custom Recursive Implementation:
 One bottleneck we find in the recursive implementation, is that 10% of the total number of the parameters lay on the classification matrix.  
-Theefore, we propose an alternative to include one more convolutional layer before the flattening with less output channels *(F, where F<M)*.  
+Theefore, we propose an alternative, (which is represented in option *C*), to include one more convolutional layer before the flattening with less output channels *(F, where F<M)*.  
 This extra layers is a new source of parameters, but reduces the size of the classification matrix, since now depends on *F*. The only constraint to ensure a reduction in the total number of parameters is that: *640M > 9F^2 + 642F*.
 
 ![recursive_custom][custom_recursive_img]
@@ -48,10 +57,11 @@ Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2) + (2 · M) + (64 · 
 [saturation]: https://github.com/PabloRR100/Distilling-Deep-Networks.git
 [initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
 
-[paper_img]: ./images/recursive.png
-[single_img]: ./images/01_single_model.png
-[recursive_img]: ./images/02_recursive_model.png
-[custom_recursive_img]: ./images/03_custom_recursive_model.png
+[ensemble_options]: images/00_ensembling_options.png
+[paper_img]: images/recursive.png
+[single_img]: images/01_single_model.png
+[recursive_img]: images/02_recursive_model.png
+[custom_recursive_img]: images/03_custom_recursive_model.png
 
 
 [recursiveanalysis]: ./images/recursive_h2_w4.png
