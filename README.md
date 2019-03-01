@@ -19,7 +19,7 @@ Get insights of how recursive networks works, under which circusntances outperfo
 - Optimizer = SGD
 - Learning Rate: 0.001
 
-![single][single_img]
+![single_img][single_img]
 
 Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2 · L) + (M · (L + 1)) + (64 · M · 10 + 10)
 - **CASE:** L = 16, M = 32 --> Parameters = 174,634
@@ -27,7 +27,7 @@ Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2 · L) + (M · (L + 1)
 ### Recursive Implementation:
 For the recursive network, the term L for the number of layers dissapear, since just 1 is contributing to the total number of parameteres, and its being reused to add non_linearities and increase the depth of the network.
 
-![recursive][recursive_img]
+![recursive_img][recursive_img]
 
 Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2) + (2 · M) + (64 · M · 10 + 10)
 - **CASE:** L = 16, M = 32 --> Parameters = 35.914  --> ***Ensemble size allowed = 5***
