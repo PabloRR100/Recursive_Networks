@@ -29,7 +29,7 @@ from models import Conv_Net, Conv_Recusive_Net, Conv_Custom_Recusive_Net
 
 L = 16
 M = 32
-F = 2
+F = 16
 
 convnet = Conv_Net('ConvNet', layers=L, filters=M)
 r_convnet = Conv_Recusive_Net('Recursive_ConvNet', L, M)
@@ -87,8 +87,10 @@ x = np.arange(0,128,32)
 y = 9*x**2 + 642*x
 
 plt.figure()
-plt.plot(x,y)
-plt.axhline(640*M)
+plt.plot(x,y, c='red', label='#Parameters(F)')
+plt.axhline(640*M, c='blue', label='Normal recursive with M=32')
+plt.axhline(640*64, c='black', label='Normal recursive with M=64')
+plt.legend()
 plt.show()
 
 
