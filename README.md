@@ -49,7 +49,7 @@ Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2) + (2 · M) + (64 · 
 [initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
 
 [paper_img]: ./images/recursive.png
-[simple_img]: ./images/01_single_model.png
+[single_img]: ./images/01_single_model.png
 [recursive_img]: ./images/02_recursive_model.png
 [custom_recursive_img]: ./images/03_custom_recursive_model.png
 
