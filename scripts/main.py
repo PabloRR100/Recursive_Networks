@@ -76,10 +76,6 @@ Think of 'more intelligent' set ups in terms of:
 '''
 
 
-exit()
-
-
-
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -87,9 +83,11 @@ x = np.arange(0,128,32)
 y = 9*x**2 + 642*x
 
 plt.figure()
-plt.plot(x,y, c='red', label='#Parameters(F)')
+plt.plot(x,y, c='red', label='n_params(F)')
 plt.axhline(640*M, c='blue', label='Normal recursive with M=32')
 plt.axhline(640*64, c='black', label='Normal recursive with M=64')
+plt.xlabel('F')
+plt.ylabel('# of Parameters')
 plt.legend()
 plt.show()
 
