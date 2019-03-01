@@ -8,7 +8,7 @@ Also, there is a similar analysis covering weight initizalization sensitivity [h
 
 Empirical analysis on ["Understanding Deep Architectures using a Recursive Convolutional Network"][paper]   
 
-![recursive][recursive_img]
+![paper_img][paper_img]
 
 Get insights of how recursive networks works, under which circusntances outperform original models and how they could serve as a simulation on a increase of the network budget (number of parameters).   
 
@@ -48,8 +48,12 @@ Number of Parameters = (8 · 8 · 3 · M) + (3 · 3 · M^2) + (2 · M) + (64 · 
 [saturation]: https://github.com/PabloRR100/Distilling-Deep-Networks.git
 [initialization]: https://github.com/PabloRR100/NN_Initialization_Sensitivity.git
 
+[paper_img]: ./images/recursive.png
 [simple_img]: ./images/01_single_model.png
 [recursive_img]: ./images/02_recursive_model.png
 [custom_recursive_img]: ./images/03_custom_recursive_model.png
+
+
 [recursiveanalysis]: ./images/recursive_h2_w4.png
+
 [paper]: https://arxiv.org/abs/1312.1847
