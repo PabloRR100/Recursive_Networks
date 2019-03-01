@@ -48,8 +48,14 @@ print('Parameters: {}M'.format(count_parameters(r_convnet_c)/1e6))
 if comments: print(r_convnet_c)
 
 
+# Calculate ensemble
+
 E = round((count_parameters(convnet)/count_parameters(r_convnet)))
 print('\n\nEnsemble size = ', E)
+
+E = round((count_parameters(convnet)/count_parameters(r_convnet_c)))
+print('\n\nCustom Ensemble size = ', E)
+
 
 P1 = (8*8*3*M + 3*3*M**2*L + M*(L+1) + 64*M*10+10) * 1e-6
 P2 = 16 * ((8*8*3*M + 3*3*M**2 + M*2 + 64*M*10+10) * 1e-6)
@@ -68,3 +74,20 @@ Think of 'more intelligent' set ups in terms of:
 
 
 exit()
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.arange(0,128,1)
+y1 = 640*x
+y2 = 9*x**2 + 642*x
+
+plt.figure()
+plt.plot(x,y1)
+plt.plot(x,y2)
+plt.show()
+
+
+
