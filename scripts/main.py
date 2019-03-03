@@ -25,23 +25,32 @@ parser.add_argument('--comments', '-c', default=True, type=bool, help='print all
     
 comments = True
 from utils import count_parameters
-from models import Conv_Net, Conv_Recusive_Net, Conv_Custom_Recusive_Net
+from models import Conv_Net, Conv_Recusive_Net, Conv_Custom_Recusive_Net, Conv_K_Recusive_Net
 
 L = 16
 M = 32
 F = 16
+K = 2
 
-convnet = Conv_Net('ConvNet', layers=L, filters=M)
+convnet = Conv_Net('ConvNet', L, M)
 r_convnet = Conv_Recusive_Net('Recursive_ConvNet', L, M)
+r_convnet_k = Conv_K_Recusive_Net('Custom_Recursive_ConvNet', L, M, K)
 r_convnet_c = Conv_Custom_Recusive_Net('Custom_Recursive_ConvNet', L, M, F)
 
 print('\n\nRegular ConvNet')
 print('Parameters: {}M'.format(count_parameters(convnet)/1e6))
 if comments: print(convnet)
 
+
 print('\n\nRecursive ConvNet')
 print('Parameters: {}M'.format(count_parameters(r_convnet)/1e6))
 if comments: print(r_convnet)
+
+
+print('\n\nRecursive Custom K_ConvNet')
+print('Parameters: {}M'.format(count_parameters(r_convnet_k)/1e6))
+if comments: print(r_convnet_k)
+
 
 print('\n\nRecursive Custom ConvNet')
 print('Parameters: {}M'.format(count_parameters(r_convnet_c)/1e6))
