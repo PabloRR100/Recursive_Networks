@@ -149,9 +149,9 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
-        if testing and batch_idx == 5:
-            break
+#        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
+#        if testing and batch_idx == 5:
+#            break
     
     accuracy = 100.*correct/total    
     results.append_loss(round(loss.item(),2), 'train')
@@ -180,9 +180,9 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-            if testing and batch_idx == 5:
-                break
+#            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+#            if testing and batch_idx == 5:
+#                break
             
     # Save checkpoint.
     acc = 100.*correct/total
@@ -237,8 +237,6 @@ if device == 'cuda':
 
 print('[OK]: Starting Training of Single Recursive Model')
 for epoch in range(start_epoch, num_epochs):
-    if epoch % 10 == 0:
-        pass
     run_epoch(epoch)
 
     
