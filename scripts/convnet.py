@@ -189,7 +189,7 @@ def test(epoch):
     acc = 100.*correct/total
     results.append_loss(round(loss.item(),2), 'valid')
     results.append_accy(round(acc,2), 'valid')
-    print('Valid :: Loss: {} | Accu: {}'.format(round(loss.item(),2), round(acc,2)))
+    print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
     
     if acc > best_acc:
         print('Saving..')

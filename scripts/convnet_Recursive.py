@@ -179,6 +179,8 @@ def test(epoch):
             _, predicted = outputs.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
+            print(total)
+            print(correct)
             
 #            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
 #            if testing and batch_idx == 5:
