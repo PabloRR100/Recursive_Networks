@@ -85,20 +85,51 @@ Think of 'more intelligent' set ups in terms of:
 '''
 
 
+import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 
-x = np.arange(0,128,32)
-y = 9*x**2 + 642*x
+#x = np.arange(0,128,32)
+#y = 9*x**2 + 642*x
+#
+#plt.figure()
+#plt.plot(x,y, c='red', label='n_params(F)')
+#plt.axhline(640*M, c='blue', label='Normal recursive with M=32')
+#plt.axhline(640*64, c='black', label='Normal recursive with M=64')
+#plt.xlabel('F')
+#plt.ylabel('# of Parameters')
+#plt.legend()
+#plt.show()
+
+
+path1 = '../results/single_model/definitives/Results_Single.pkl'
+path2 = '../results/single_recursive_model/Results_Single_Recursive.pkl'
+
+with open(path1, 'rb') as input:
+    results1 = pickle.load(input)
+with open(path, 'rb') as input:
+    results2 = pickle.load(input)
+
 
 plt.figure()
-plt.plot(x,y, c='red', label='n_params(F)')
-plt.axhline(640*M, c='blue', label='Normal recursive with M=32')
-plt.axhline(640*64, c='black', label='Normal recursive with M=64')
-plt.xlabel('F')
-plt.ylabel('# of Parameters')
+plt.plot(range(len(results.train_loss)), results1.train_loss, label='Train Untied')
+plt.plot(range(len(results.valid_loss)), results1.valid_loss, label='Valid Untied')
+plt.plot(range(len(results.train_loss)), results2.train_loss, label='Train Recursive')
+plt.plot(range(len(results.valid_loss)), results2.valid_loss, label='Valid Recursive')
+plt.title('Loss')
 plt.legend()
 plt.show()
+
+plt.figure()
+plt.plot(range(len(results.train_accy)), results1.train_accy, label='Train Untied')
+plt.plot(range(len(results.valid_accy)), results1.valid_accy, label='Valid Untied')
+plt.plot(range(len(results.train_accy)), results2.train_accy, label='Train Recursive')
+plt.plot(range(len(results.valid_accy)), results2.valid_accy, label='Valid Recursive')
+
+plt.title('Accuracy')
+plt.legend()
+plt.show()
+
 
 
 

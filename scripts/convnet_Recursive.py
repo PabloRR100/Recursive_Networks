@@ -246,6 +246,7 @@ exit()
 
 ## TEST LOSS AND ACCY EVOLUTIONp
 
+path = '../results/single_recursive_model/Results_Single_Recursive.pkl'
 with open(path, 'rb') as input:
     results = pickle.load(input)
 
