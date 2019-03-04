@@ -102,7 +102,7 @@ from collections import OrderedDict
 
 ensemble = OrderedDict()
 for n in range(1,1+E):
-    ensemble['net_{}'.format(n)] = Conv_Recusive_Net('net_{}'.format(n), layers=L, filters=M)
+    ensemble['net_{}'.format(n)] = Conv_Recusive_Net('net_{}'.format(n), L, M)
 
 if args.resume:
     
