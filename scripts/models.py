@@ -170,7 +170,8 @@ class Conv_K_Recusive_Net(nn.Module):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
                 m.weight.data.normal_(0, math.sqrt(2. / n))
                 if m.bias is not None:
-                    m.bias.data.zero_()
+#                    m.bias.data.zero_()
+                    m.bias.data.fill_(0.01)
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
                 m.bias.data.zero_()
