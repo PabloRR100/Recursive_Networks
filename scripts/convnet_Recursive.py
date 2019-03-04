@@ -89,7 +89,7 @@ avoidWarnings()
 comments = True
 from utils import count_parameters
 from models import Conv_Recusive_Net
-net = Conv_Recusive_Net('recursive_net', layers=L, filters=M)
+net = Conv_Recusive_Net('recursive_net', L, M)
 
 
 print('Recursive ConvNet')
