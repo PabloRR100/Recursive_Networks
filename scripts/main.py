@@ -102,33 +102,41 @@ import matplotlib.pyplot as plt
 #plt.show()
 
 
+
 path1 = '../results/single_model/definitives/Results_Single.pkl'
 path2 = '../results/single_recursive_model/Results_Single_Recursive.pkl'
 
 with open(path1, 'rb') as input:
     results1 = pickle.load(input)
-with open(path, 'rb') as input:
+with open(path2, 'rb') as input:
     results2 = pickle.load(input)
 
 
 plt.figure()
-plt.plot(range(len(results.train_loss)), results1.train_loss, label='Train Untied')
-plt.plot(range(len(results.valid_loss)), results1.valid_loss, label='Valid Untied')
-plt.plot(range(len(results.train_loss)), results2.train_loss, label='Train Recursive')
-plt.plot(range(len(results.valid_loss)), results2.valid_loss, label='Valid Recursive')
+plt.plot(range(len(results1.train_loss)), results1.train_loss, label='Train Untied')
+plt.plot(range(len(results1.valid_loss)), results1.valid_loss, label='Valid Untied')
+plt.plot(range(len(results2.train_loss)), results2.train_loss, label='Train Recursive')
+plt.plot(range(len(results2.valid_loss)), results2.valid_loss, label='Valid Recursive')
 plt.title('Loss')
 plt.legend()
 plt.show()
 
 plt.figure()
-plt.plot(range(len(results.train_accy)), results1.train_accy, label='Train Untied')
-plt.plot(range(len(results.valid_accy)), results1.valid_accy, label='Valid Untied')
-plt.plot(range(len(results.train_accy)), results2.train_accy, label='Train Recursive')
-plt.plot(range(len(results.valid_accy)), results2.valid_accy, label='Valid Recursive')
-
+plt.plot(range(len(results1.train_accy)), results1.train_accy, label='Train Untied')
+plt.plot(range(len(results1.valid_accy)), results1.valid_accy, label='Valid Untied')
+plt.plot(range(len(results2.train_accy)), results2.train_accy, label='Train Recursive')
+plt.plot(range(len(results2.valid_accy)), results2.valid_accy, label='Valid Recursive')
 plt.title('Accuracy')
 plt.legend()
 plt.show()
+
+
+
+
+
+
+
+
 
 
 
