@@ -257,8 +257,6 @@ def test(epoch):
             _, predicted = output.max(1)
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
-            print(total)
-            print(correct)
         
         # Store epoch results for ensemble
         acc = 100.*correct/total
