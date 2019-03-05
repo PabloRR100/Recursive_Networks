@@ -295,8 +295,6 @@ path = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
 def results_backup():
     global results
     with open(path, 'wb') as object_result:
-        print('right before saving')
-        exit()
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)   
     return
 
@@ -334,4 +332,68 @@ else:
     
 results.show()
 exit()
+
+
+import matplotlib.pyplot as plt
+# Non definitive paths
+path = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
+# Non definitive paths
+path = '../results/ensemble_recursive_model/definitives/Results_Ensemble_Recursive.pkl'
+with open(path, 'rb') as input: results = pickle.load(input)
+
+
+c = [0, 'red', 'blue', 'green', 'yellow', 'purple']
+fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
+for m in range(1,1+E):
+    ax1.plot(range(num_epochs), results.train_loss['m{}'.format(m)], label='Train m{}'.format(m), color=c[m], alpha=0.4)
+ax1.plot(range(num_epochs), results.train_loss['ensemble'], label='Train Ensemble', color='black', alpha=1)
+ax1.set_title('Trianing Loss')
+ax1.grid(True)
+
+for m in range(1,1+E):
+    ax2.plot(range(num_epochs), results.valid_loss['m{}'.format(m)], label='Valid ,{}'.format(m), color=c[m], alpha=0.4)
+ax2.plot(range(num_epochs), results.valid_loss['ensemble'], label='Valid Ensemble', color='black', alpha=1)
+ax2.set_title('Validation Loss')
+ax2.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+ax2.grid(True)
+
+for m in range(1,1+E):
+    ax3.plot(range(num_epochs), results.train_accy['m{}'.format(m)], label='Train m{}'.format(m), color=c[m], alpha=0.4)
+ax3.plot(range(num_epochs), results.train_accy['ensemble'], label='Train Ensemble', color='black', alpha=1)
+ax3.set_title('Training Accuracy')
+ax3.grid(True)
+
+for m in range(1,1+E):
+    ax4.plot(range(num_epochs), results.valid_accy['m{}'.format(m)], label='Valid m{}'.format(m), color=c[m], alpha=0.4)
+ax4.plot(range(num_epochs), results.valid_accy['ensemble'], label='Valid Ensemble', color='black', alpha=1)
+ax4.set_title('Validation Accuracy')
+ax4.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+ax4.grid(True)
+plt.show()
+
+
+## Training and validation together
+#fig, (ax1, ax2) = plt.subplots(2, 1)
+#for m in range(1,1+E):
+#    ax1.plot(range(num_epochs), results.train_loss['m{}'.format(m)], label='Train m{}'.format(m), color=c[m], alpha=0.4)
+#    ax1.plot(range(num_epochs), results.valid_loss['m{}'.format(m)], label='Valid ,{}'.format(m), color=c[m], alpha=0.4)
+#ax1.plot(range(num_epochs), results.train_loss['ensemble'], label='Train Ensemble', color='black', alpha=1)
+#ax1.plot(range(num_epochs), results.valid_loss['ensemble'], label='Valid Ensemble', color='black', alpha=1)
+#ax1.set_title('Loss')
+#ax1.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+#ax1.grid(True)
+#
+#for m in range(1,1+E):
+#    ax2.plot(range(num_epochs), results.train_accy['m{}'.format(m)], label='Train m{}'.format(m), color=c[m], alpha=0.4)
+#    ax2.plot(range(num_epochs), results.valid_accy['m{}'.format(m)], label='Valid m{}'.format(m), color=c[m], alpha=0.4)
+#ax2.plot(range(num_epochs), results.train_accy['ensemble'], label='Train Ensemble', color='black', alpha=1)
+#ax2.plot(range(num_epochs), results.valid_accy['ensemble'], label='Valid Ensemble', color='black', alpha=1)
+#ax2.set_title('Accuracy')
+#ax2.legend(loc='center left', bbox_to_anchor=(1, 0.5))
+#ax2.grid(True)
+#
+#fig.tight_layout()
+#plt.show()
+#
+
 
