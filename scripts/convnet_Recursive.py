@@ -235,12 +235,24 @@ if device == 'cuda':
     cudnn.benchmark = True
 
 
-print('[OK]: Starting Training of Single Recursive Model')
-for epoch in range(start_epoch, num_epochs):
-    run_epoch(epoch)
+# Start Training
+import click
+print('Current set up')
+print('Testing ', testing)
+print('[ALERT]: Path to results (this may overwrite', path)
+if click.confirm('Do you want to continue?', default=True):
 
+    print('[OK]: Starting Training of Single Recursive Model')
+    for epoch in range(start_epoch, num_epochs):
+        run_epoch(epoch)
+
+else:
+    print('Exiting...')
+    exit()
     
 results.show()
+
+
 exit()
 
 

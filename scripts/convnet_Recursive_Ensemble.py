@@ -316,10 +316,11 @@ results.append_time(0)
 names = [n.name for n in ensemble.values()]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
+# Start Training
 import click
 print('Current set up')
 print('Testing ', testing)
-print('Path to results (this nay overwrite', path)
+print('[ALERT]: Path to results (this may overwrite', path)
 if click.confirm('Do you want to continue?', default=True):
 
     print('[OK]: Starting Training of Recursive Ensemble Model')
@@ -331,6 +332,8 @@ else:
     exit()
     
 results.show()
+
+
 exit()
 
 

@@ -32,7 +32,7 @@ parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters'
 parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble size')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
-parser.add_argument('--test', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
+parser.add_argument('--testing', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
 
 
@@ -48,7 +48,7 @@ L = args.layers
 M = args.filters
 E = args.ensemble
 
-test = args.test 
+testing = args.test 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -66,7 +66,7 @@ table.append_row(['Architecture', 'Recursive NN'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
-table.append_row(['Testing', str(test)])
+table.append_row(['Testing', str(testing)])
 table.append_row(['Learning Rate', str(args.lr)])
 
 print(table)
@@ -237,13 +237,23 @@ if device == 'cuda':
 
 
 # Start training
-    
-print('[OK]: Starting Training of Single Model')
-for epoch in range(start_epoch, num_epochs):
-    run_epoch(epoch)
+import click
+print('Current set up')
+print('Testing ', testing)
+print('[ALERT]: Path to results (this may overwrite', path)
+if click.confirm('Do you want to continue?', default=True):
 
+    print('[OK]: Starting Training of Single Model')
+    for epoch in range(start_epoch, num_epochs):
+        run_epoch(epoch)
+
+else:
+    print('Exiting...')
+    exit()
     
 results.show()
+
+
 exit()
 
 
