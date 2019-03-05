@@ -24,7 +24,7 @@ from beautifultable import BeautifulTable as BT
 avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.01, type=float, help='learning rate')
+parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
@@ -48,7 +48,6 @@ L = args.layers
 M = args.filters
 
 testing = args.testing ##
-testing = True 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -90,7 +89,7 @@ avoidWarnings()
 comments = True
 from utils import count_parameters
 from models import Conv_Recusive_Net
-net = Conv_Recusive_Net('recursive_net', layers=L, filters=M)
+net = Conv_Recusive_Net('recursive_net', L, M)
 
 
 print('Recursive ConvNet')
@@ -150,9 +149,9 @@ def train(epoch):
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
         
-        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
-        if testing and batch_idx == 5:
-            break
+#        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
+#        if testing and batch_idx == 5:
+#            break
     
     accuracy = 100.*correct/total    
     results.append_loss(round(loss.item(),2), 'train')
@@ -181,9 +180,9 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-            if testing and batch_idx == 5:
-                break
+#            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+#            if testing and batch_idx == 5:
+#                break
             
     # Save checkpoint.
     acc = 100.*correct/total
@@ -213,13 +212,14 @@ def lr_schedule(epoch):
     return
     
 
+path = '../results/single_recursive_model/Results_Single_Recursive.pkl'
 def results_backup():
     global results
-    with open('Results_Singe_Recursive.pkl', 'wb') as object_result:
+    with open(path, 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
 
 
-#@timeit
+@timeit
 def run_epoch(epoch):
     
     lr_schedule(epoch)
@@ -235,10 +235,8 @@ if device == 'cuda':
     cudnn.benchmark = True
 
 
-print('[OK]: Starting Training of Single Model')
+print('[OK]: Starting Training of Single Recursive Model')
 for epoch in range(start_epoch, num_epochs):
-    if epoch % 10 == 0:
-        pass
     run_epoch(epoch)
 
     
@@ -246,3 +244,24 @@ results.show()
 exit()
 
 
+## TEST LOSS AND ACCY EVOLUTIONp
+
+path = '../results/single_recursive_model/Results_Single_Recursive.pkl'
+with open(path, 'rb') as input:
+    results = pickle.load(input)
+
+import matplotlib.pyplot as plt
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_loss, label='Train')
+plt.plot(range(num_epochs), results.valid_loss, label='Valid')
+plt.title('Loss')
+plt.legend()
+plt.show()
+
+plt.figure()
+plt.plot(range(num_epochs), results.train_accy, label='Train')
+plt.plot(range(num_epochs), results.valid_accy, label='Valid')
+plt.title('Accuracy')
+plt.legend()
+plt.show()
