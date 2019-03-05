@@ -42,7 +42,7 @@ best_acc = 0
 start_epoch = 0  
 num_epochs = 500  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
-milestones = [2, 300, 400]
+milestones = [150, 300, 400]
 
 L = args.layers
 M = args.filters
@@ -189,9 +189,9 @@ def train(epoch):
             
             individual_outputs.append(output)
         
-        ## TODO: Just set testing = True when debuggin on local
-        if testing and batch_idx == 5:
-            break
+#        ## TODO: Just set testing = True when debuggin on local
+#        if testing and batch_idx == 5:
+#            break
     
      ## Ensemble forward pass
         
@@ -250,9 +250,9 @@ def test(epoch):
                     results.append_accy(round(n_accuracy * 100, 2), 'valid', n+1)
     
             
-            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-            if testing and batch_idx == 5:
-                break
+#            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+#            if testing and batch_idx == 5:
+#                break
             
             _, predicted = output.max(1)
             total += targets.size(0)
@@ -312,7 +312,7 @@ results = Results(list(ensemble))
 results.append_time(0)
 
 
-testing = True
+#testing = True
 names = [n.name for n in ensemble.values()]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
@@ -325,24 +325,3 @@ for epoch in range(start_epoch, num_epochs):
 results.show()
 exit()
 
-
-## TEST LOSS AND ACCY EVOLUTION
-
-with open(path, 'rb') as input:
-    results = pickle.load(input)
-
-import matplotlib.pyplot as plt
-
-plt.figure()
-plt.plot(range(num_epochs), results.train_loss, label='Train')
-plt.plot(range(num_epochs), results.valid_loss, label='Valid')
-plt.title('Loss')
-plt.legend()
-plt.show()
-
-plt.figure()
-plt.plot(range(num_epochs), results.train_accy, label='Train')
-plt.plot(range(num_epochs), results.valid_accy, label='Valid')
-plt.title('Accuracy')
-plt.legend()
-plt.show()
