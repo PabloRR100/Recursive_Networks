@@ -7,7 +7,7 @@ import pickle
 
 
 ## Introduce the correct path ##
-path = os.path.abspath('../results/ensemble_recursive_model/definitives/ensemble.txt')  
+path = os.path.abspath('../results/ensemble_recursive_model/ensemble_2.txt')  
 
 f = open(path, 'r')
 x = f.readlines()
@@ -45,6 +45,7 @@ va_loss, va_accy = get_loss_accy(va_x)
 # Save to Result Class
 # --------------------
 
+# Create new results to populate
 from results import TrainResults
 
 def remove_empty_keys(d):
@@ -53,18 +54,20 @@ def remove_empty_keys(d):
 
 MODELS = 5
 models = ['m'+str(i) for i in range(1, MODELS+1)]
-eres = TrainResults(models)
-eres.name = 'Recursive (x5)'
+res = TrainResults(models)
+res.name = 'Recursive (x5)'
 
-eres.train_loss['ensemble'] = tr_loss
-eres.train_accy['ensemble'] = tr_accy
-eres.valid_loss['ensemble'] = va_loss
-eres.valid_accy['ensemble'] = va_accy
-eres.train_loss = remove_empty_keys(eres.train_loss)
-eres.train_accy = remove_empty_keys(eres.train_accy)
-eres.valid_loss = remove_empty_keys(eres.valid_loss)
-eres.valid_accy = remove_empty_keys(eres.valid_accy)
+# Use a created results
+# with ...
 
+res.train_loss['ensemble'] = tr_loss
+res.train_accy['ensemble'] = tr_accy
+res.valid_loss['ensemble'] = va_loss
+res.valid_accy['ensemble'] = va_accy
+res.train_loss = remove_empty_keys(res.train_loss)
+res.train_accy = remove_empty_keys(res.train_accy)
+res.valid_loss = remove_empty_keys(res.valid_loss)
+res.valid_accy = remove_empty_keys(res.valid_accy)
 
 with open('Results_Ensemble_Recursive.pkl', 'wb') as object_result:
-    pickle.dump(eres, object_result, pickle.HIGHEST_PROTOCOL)
+    pickle.dump(res, object_result, pickle.HIGHEST_PROTOCOL)

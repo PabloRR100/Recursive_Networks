@@ -189,9 +189,9 @@ def train(epoch):
             
             individual_outputs.append(output)
         
-#        ## TODO: Just set testing = True when debuggin on local
-#        if testing and batch_idx == 5:
-#            break
+        ## TODO: Just set testing = True when debuggin on local
+        if testing and batch_idx == 5:
+            break
     
      ## Ensemble forward pass
         
@@ -250,9 +250,9 @@ def test(epoch):
                     results.append_accy(round(n_accuracy * 100, 2), 'valid', n+1)
     
             
-#            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-#            if testing and batch_idx == 5:
-#                break
+            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+            if testing and batch_idx == 5:
+                break
             
             _, predicted = output.max(1)
             total += targets.size(0)
@@ -295,6 +295,8 @@ path = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
 def results_backup():
     global results
     with open(path, 'wb') as object_result:
+        print('right before saving')
+        exit()
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)   
     return
 
@@ -316,11 +318,19 @@ results.append_time(0)
 names = [n.name for n in ensemble.values()]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
+import click
+print('Current set up')
+print('Testing ', testing)
+print('Path to results (this nay overwrite', path)
+if click.confirm('Do you want to continue?', default=True):
 
-print('[OK]: Starting Training of Recursive Ensemble Model')
-for epoch in range(start_epoch, num_epochs):
-    run_epoch(epoch)
+    print('[OK]: Starting Training of Recursive Ensemble Model')
+    for epoch in range(start_epoch, num_epochs):
+        run_epoch(epoch)
 
+else:
+    print('Exiting...')
+    exit()
     
 results.show()
 exit()
