@@ -86,9 +86,9 @@ Think of 'more intelligent' set ups in terms of:
 
 
 import pickle
-import numpy as np
 import matplotlib.pyplot as plt
 
+#import numpy as np
 #x = np.arange(0,128,32)
 #y = 9*x**2 + 642*x
 #
@@ -117,8 +117,8 @@ plt.plot(range(len(results1.train_loss)), results1.train_loss, label='Train Unti
 plt.plot(range(len(results1.valid_loss)), results1.valid_loss, label='Valid Untied')
 plt.plot(range(len(results2.train_loss)), results2.train_loss, label='Train Recursive')
 plt.plot(range(len(results2.valid_loss)), results2.valid_loss, label='Valid Recursive')
-plt.plot(range(len(results3.train_loss)), results3.train_loss, label='Train Recursive')
-plt.plot(range(len(results3.valid_loss)), results3.valid_loss, label='Valid Recursive')
+plt.plot(range(len(results3.train_loss['ensemble'])), results3.train_loss['ensemble'], label='Train Ensemble')
+plt.plot(range(len(results3.valid_loss['ensemble'])), results3.valid_loss['ensemble'], label='Valid Ensemble')
 plt.title('Loss')
 plt.legend()
 plt.show()
@@ -128,8 +128,8 @@ plt.plot(range(len(results1.train_accy)), results1.train_accy, label='Train Unti
 plt.plot(range(len(results1.valid_accy)), results1.valid_accy, label='Valid Untied')
 plt.plot(range(len(results2.train_accy)), results2.train_accy, label='Train Recursive')
 plt.plot(range(len(results2.valid_accy)), results2.valid_accy, label='Valid Recursive')
-plt.plot(range(len(results3.train_accy)), results3.train_accy, label='Train Recursive')
-plt.plot(range(len(results3.valid_accy)), results3.valid_accy, label='Valid Recursive')
+plt.plot(range(len(results3.train_accy['ensemble'])), results3.train_accy['ensemble'], label='Train Ensemble')
+plt.plot(range(len(results3.valid_accy['ensemble'])), results3.valid_accy['ensemble'], label='Valid Ensemble')
 plt.title('Accuracy')
 plt.legend()
 plt.show()

@@ -308,7 +308,7 @@ def run_epoch(epoch):
     results_backup()
         
     
-results = Results([ensemble])
+results = Results(list(ensemble))
 results.append_time(0)
 
 
