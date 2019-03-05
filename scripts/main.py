@@ -104,8 +104,8 @@ import matplotlib.pyplot as plt
 
 
 path1 = '../results/single_model/definitives/Results_Single.pkl'
-path2 = '../results/single_recursive_model/Results_Single_Recursive.pkl'
-path3 = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
+path2 = '../results/single_recursive_model/definitives/Results_Single_Recursive.pkl'
+path3 = '../results/ensemble_recursive_model/definitives/Results_Ensemble_Recursive.pkl'
 
 with open(path1, 'rb') as input: results1 = pickle.load(input)
 with open(path2, 'rb') as input: results2 = pickle.load(input)

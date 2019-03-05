@@ -42,7 +42,7 @@ best_acc = 0
 start_epoch = 0  
 num_epochs = 500  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
-milestones = [150, 300, 400]
+milestones = [2, 300, 400]
 
 L = args.layers
 M = args.filters
@@ -288,7 +288,7 @@ def lr_schedule(epoch):
     if epoch in milestones:
         for n in range(E):
             for p in optimizers[n].param_groups:  p['lr'] = p['lr'] / 10
-            print('\n** Changing LR to {} \n'.format(p['lr']))    
+        print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
 
 path = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
