@@ -350,6 +350,8 @@ path = '../results/ensemble_non_recursives/Results_Ensemble_Recursive.pkl'
 path = '../results/ensemble_non_recursives/definitives/Results_Ensemble_Recursive.pkl'
 with open(path, 'rb') as input: results = pickle.load(input)
 
+E = 5
+num_epochs = 500
 
 c = [0, 'red', 'blue', 'green', 'yellow', 'purple']
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)

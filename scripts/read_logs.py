@@ -6,15 +6,15 @@ import os
 import pickle
 
 
-## Introduce the correct path ##
-path = os.path.abspath('../results/ensemble_recursive_model/ensemble_2.txt')  
+## TODO: Introduce the correct path ##
+path = os.path.abspath('../results/ensemble_non_recursives/ensemble_non_recursive.txt')  
 
 f = open(path, 'r')
 x = f.readlines()
 x = [t for t in x if (t != '\n')]
 f.close()
 
-MODELS = 1
+MODELS = 5
 
 def get_loss_accy(tr):
     loss = list(map(float, [t.split('Loss: ')[1].split(' |')[0] for t in tr if 'Loss' in t]))
@@ -58,7 +58,8 @@ res = TrainResults(models)
 res.name = 'Recursive (x5)'
 
 # Use a created results
-# with ...
+path = os.path.abspath('../results/ensemble_non_recursives/Results_Ensemble_Recursive.pkl')  
+with open(path, 'rb') as input: res = pickle.load(input)
 
 res.train_loss['ensemble'] = tr_loss
 res.train_accy['ensemble'] = tr_accy
@@ -69,5 +70,16 @@ res.train_accy = remove_empty_keys(res.train_accy)
 res.valid_loss = remove_empty_keys(res.valid_loss)
 res.valid_accy = remove_empty_keys(res.valid_accy)
 
-with open('Results_Ensemble_Recursive.pkl', 'wb') as object_result:
+
+# Save results object from the log
+## TODO: set the path and name of the results - avoid overwrite!
+name = 'Results_Ensemble_Recursive.pkl'
+with open(name, 'wb') as object_result:
     pickle.dump(res, object_result, pickle.HIGHEST_PROTOCOL)
+
+
+
+
+
+
+
