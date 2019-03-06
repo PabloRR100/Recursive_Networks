@@ -195,9 +195,9 @@ def train(epoch):
             
             individual_outputs.append(output)
         
-        ## TODO: Just set testing = True when debuggin on local
-        if testing and batch_idx == 5:
-            break
+#        ## TODO: Just set testing = True when debuggin on local
+#        if testing and batch_idx == 5:
+#            break
     
      ## Ensemble forward pass
         
@@ -256,9 +256,9 @@ def test(epoch):
                     results.append_accy(round(n_accuracy * 100, 2), 'valid', n+1)
     
             
-            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-            if testing and batch_idx == 5:
-                break
+#            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
+#            if testing and batch_idx == 5:
+#                break
             
             _, predicted = output.max(1)
             total += targets.size(0)
@@ -317,7 +317,6 @@ results = Results(list(ensemble))
 results.append_time(0)
 
 
-#testing = True
 names = [n.name for n in ensemble.values()]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
