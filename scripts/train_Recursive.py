@@ -24,7 +24,7 @@ from beautifultable import BeautifulTable as BT
 avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.001, type=float, help='learning rate') #changed the learning rate to 0.001 as the paper uses. 
+parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
@@ -34,6 +34,11 @@ parser.add_argument('--resume', '-r', action='store_true', help='resume from che
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
 parser.add_argument('--testing', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
+
+
+# Paths to Results
+check_path = './checkpoint/ckpt_rec.t7'
+path = '../results/single_recursive_model/Results_Single_Recursive.pkl'
 
 
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
@@ -46,9 +51,8 @@ milestones = [150, 300, 400]
 
 L = args.layers
 M = args.filters
-E = args.ensemble
 
-testing = args.test 
+testing = args.testing ##
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -62,12 +66,11 @@ table.append_row(['Device', str(device_name)])
 table.append_row(['Cores', str(n_workers)])
 table.append_row(['GPUs', str(torch.cuda.device_count())])
 table.append_row(['CUDNN Enabled', str(torch.backends.cudnn.enabled)])
-table.append_row(['Architecture', 'Recursive NN'])
+table.append_row(['Architecture', 'DenseNet x7'])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
 table.append_row(['Testing', str(testing)])
-table.append_row(['Learning Rate', str(args.lr)])
 
 print(table)
 
@@ -89,12 +92,12 @@ trainloader, testloader, classes = dataloaders(dataset, batch_size)
     
 avoidWarnings()
 comments = True
-from models import Conv_Net
 from utils import count_parameters
-net = Conv_Net('net', layers=L, filters=M, normalize=False)
+from models import Conv_Recusive_Net
+net = Conv_Recusive_Net('recursive_net', L, M)
 
 
-print('Regular net')
+print('Recursive ConvNet')
 if comments: print(net)
 print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
 
@@ -104,19 +107,20 @@ if args.resume:
     print('==> Resuming from checkpoint..')
     print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-    checkpoint = torch.load('./checkpoint/ckpt.t7')
+    checkpoint = torch.load(check_path)
     
     net.to(device)
     if device == 'cuda':
         net = torch.nn.DataParallel(net)
-
     net.load_state_dict(checkpoint['net'])
     
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
+optimizers = []
 criterion = nn.CrossEntropyLoss()
 optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
+
 
 
 # Training
@@ -151,13 +155,13 @@ def train(epoch):
         correct += predicted.eq(targets).sum().item()
         
 #        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
-#        if test and batch_idx == 20:
+#        if testing and batch_idx == 5:
 #            break
     
     accuracy = 100.*correct/total    
     results.append_loss(round(loss.item(),2), 'train')
     results.append_accy(round(accuracy,2), 'train')    
-    print('Train :: Loss: {} | Accu: {}'.format(round(loss.item(),2), round(accuracy,2)))
+    print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
         
 def test(epoch):
@@ -182,7 +186,7 @@ def test(epoch):
             correct += predicted.eq(targets).sum().item()
             
 #            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-#            if test and batch_idx == 20:
+#            if testing and batch_idx == 5:
 #                break
             
     # Save checkpoint.
@@ -200,7 +204,7 @@ def test(epoch):
         }
         if not os.path.isdir('checkpoint'):
             os.mkdir('checkpoint')
-        torch.save(state, './checkpoint/ckpt.t7')
+        torch.save(state, check_path)
         best_acc = acc
 
 
@@ -212,11 +216,12 @@ def lr_schedule(epoch):
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
     
-path = '../results/single_model/Results_Single.pkl'
+
 def results_backup():
     global results
     with open(path, 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+
 
 @timeit
 def run_epoch(epoch):
@@ -225,9 +230,7 @@ def run_epoch(epoch):
     train(epoch)
     test(epoch)
     results_backup()
-    
-
-# Send model to GPU(s)
+        
     
 results = Results([net])
 net.to(device)
@@ -236,14 +239,17 @@ if device == 'cuda':
     cudnn.benchmark = True
 
 
-# Start training
+
+
+# Start Training
 import click
 print('Current set up')
 print('Testing ', testing)
 print('[ALERT]: Path to results (this may overwrite', path)
+print('[ALERT]: Path to checkpoint (this may overwrite', check_path)
 if click.confirm('Do you want to continue?', default=True):
 
-    print('[OK]: Starting Training of Single Model')
+    print('[OK]: Starting Training of Single Recursive Model')
     for epoch in range(start_epoch, num_epochs):
         run_epoch(epoch)
 
@@ -259,6 +265,7 @@ exit()
 
 ## TEST LOSS AND ACCY EVOLUTIONp
 
+path = '../results/single_recursive_model/Results_Single_Recursive.pkl'
 with open(path, 'rb') as input:
     results = pickle.load(input)
 
@@ -277,5 +284,3 @@ plt.plot(range(num_epochs), results.valid_accy, label='Valid')
 plt.title('Accuracy')
 plt.legend()
 plt.show()
-
-

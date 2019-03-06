@@ -36,6 +36,12 @@ parser.add_argument('--testing', '-t', default=False, type=bool, help='set True 
 args = parser.parse_args()
 
 
+# Paths to Results
+check_path = './checkpoint/ckpt_rec_ens.t7'
+path = '../results/ensemble_recursives/Results_Ensemble_Non_Recursive.pkl'
+
+
+
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
 
 best_acc = 0  
