@@ -38,7 +38,7 @@ args = parser.parse_args()
 
 # Paths to Results
 check_path = './checkpoint/ckpt_rec_ens.t7'
-path = '../results/ensemble_recursives/Results_Ensemble_Non_Recursive.pkl'
+path = '../results/ensemble_recursives/Results_Ensemble_Recursive.pkl'
 
 
 
@@ -54,7 +54,9 @@ L = args.layers
 M = args.filters
 E = args.ensemble
 
-testing = args.testing 
+num_epochs = 3
+testing = True
+#testing = args.testing 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -188,8 +190,9 @@ def train(epoch):
             results.append_iter_loss(round(loss.item(), 3), 'train', n+1)
             results.append_iter_accy(round(n_accuracy, 2), 'train', n+1)
             
-            if batch_idx == len_-1:
-                # Store epoch results for this individual (as last iter)
+#            if batch_idx == len_-1:
+            if batch_idx == 0:
+                # Store epoch results for this individual (as last iter) (== 0 as first iter of the epoch)
                 results.append_loss(round(loss.item(), 3), 'train', n+1)
                 results.append_accy(round(n_accuracy, 2), 'train', n+1)
             
@@ -210,8 +213,8 @@ def train(epoch):
     accuracy = 100 * correct / total
     
     # Store iteration results for Ensemble
-    results.append_iter_loss(round(loss.item(), 3), 'train', None)
-    results.append_iter_accy(round(accuracy, 2), 'train', None)
+    results.append_loss(round(loss.item(), 3), 'train', None)
+    results.append_accy(round(accuracy, 2), 'train', None)
 
     print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
@@ -297,7 +300,6 @@ def lr_schedule(epoch):
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
 
-path = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
 def results_backup():
     global results
     with open(path, 'wb') as object_result:

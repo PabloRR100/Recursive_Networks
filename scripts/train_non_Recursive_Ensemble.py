@@ -38,7 +38,7 @@ args = parser.parse_args()
 
 # Paths to Results
 check_path = './checkpoint/ckpt_non_rec_ens.t7'
-path = '../results/ensemble_non_recursives/Results_Ensemble_Recursive.pkl'
+path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
 
 
 
@@ -210,8 +210,8 @@ def train(epoch):
     accuracy = 100 * correct / total
     
     # Store iteration results for Ensemble
-    results.append_iter_loss(round(loss.item(), 3), 'train', None)
-    results.append_iter_accy(round(accuracy, 2), 'train', None)
+    results.append_loss(round(loss.item(), 3), 'train', None)
+    results.append_accy(round(accuracy, 2), 'train', None)
 
     print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
@@ -353,8 +353,8 @@ plot_single_model = psm = True
 ## set plot_single_model to True to include the results from train_non_Recursive.py
 
 
-path = '../results/ensemble_non_recursives/Results_Ensemble_Recursive.pkl'
-#path = '../results/ensemble_non_recursives/definitives/Results_Ensemble_Recursive.pkl'
+path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
+#path = '../results/ensemble_non_recursives/definitives/Results_Ensemble_Non_Recursive.pkl'
 path_ = '../results/single_non_recursive/definitives/Results_Single.pkl'
 with open(path, 'rb') as input: results = pickle.load(input)
 with open(path_, 'rb') as input: results_ = pickle.load(input)
