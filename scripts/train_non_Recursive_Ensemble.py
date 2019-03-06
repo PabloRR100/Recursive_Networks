@@ -362,19 +362,19 @@ with open(path_, 'rb') as input: results_ = pickle.load(input)
 E = 5
 num_epochs = 500
 
-c = [0, 'red', 'blue', 'green', 'yellow', 'purple']
+c = [0, 'pink', 'blue', 'green', 'yellow', 'purple']
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
 for m in range(1,1+E):
     ax1.plot(range(num_epochs), results.train_loss['m{}'.format(m)], label='m{}'.format(m), color=c[m], alpha=0.4)
 ax1.plot(range(num_epochs), results.train_loss['ensemble'], label='Ensemble', color='black', alpha=1)
-if psm: ax1.plot(range(num_epochs), results_.train_loss, label='Single Model', color='red', alpha=1)
+if psm: ax1.plot(range(num_epochs), results_.train_loss, label='Single Model', color='red', alpha=1, linewidth=0.5)
 ax1.set_title('Trianing Loss')
 ax1.grid(True)
 
 for m in range(1,1+E):
     ax2.plot(range(num_epochs), results.valid_loss['m{}'.format(m)], label='m{}'.format(m), color=c[m], alpha=0.4)
 ax2.plot(range(num_epochs), results.valid_loss['ensemble'], label='Ensemble', color='black', alpha=1)
-if psm: ax2.plot(range(num_epochs), results_.valid_loss, label='Single Model', color='red', alpha=1)
+if psm: ax2.plot(range(num_epochs), results_.valid_loss, label='Single Model', color='red', alpha=1, linewidth=0.5)
 ax2.set_title('Validation Loss')
 ax2.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 ax2.grid(True)
@@ -382,14 +382,14 @@ ax2.grid(True)
 for m in range(1,1+E):
     ax3.plot(range(num_epochs), results.train_accy['m{}'.format(m)], label='m{}'.format(m), color=c[m], alpha=0.4)
 ax3.plot(range(num_epochs), results.train_accy['ensemble'], label='Ensemble', color='black', alpha=1)
-if psm: ax3.plot(range(num_epochs), results_.train_accy, label='Single Model', color='red', alpha=1)
+if psm: ax3.plot(range(num_epochs), results_.train_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
 ax3.set_title('Training Accuracy')
 ax3.grid(True)
 
 for m in range(1,1+E):
     ax4.plot(range(num_epochs), results.valid_accy['m{}'.format(m)], label='m{}'.format(m), color=c[m], alpha=0.4)
 ax4.plot(range(num_epochs), results.valid_accy['ensemble'], label='Ensemble', color='black', alpha=1)
-if psm: ax4.plot(range(num_epochs), results_.valid_accy, label='Single Model', color='red', alpha=1)
+if psm: ax4.plot(range(num_epochs), results_.valid_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
 ax4.set_title('Validation Accuracy')
 ax4.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 ax4.grid(True)
