@@ -89,14 +89,14 @@ import pickle
 import matplotlib.pyplot as plt
 
 # Non definitive paths
-path1 = '../results/single_model/Results_Single.pkl'
-path2 = '../results/single_recursive_model/Results_Single_Recursive.pkl'
-path3 = '../results/ensemble_recursive_model/Results_Ensemble_Recursive_2.pkl'
+path1 = '../results/single_non_recursive/Results_Single.pkl'
+path2 = '../results/single_recursive/Results_Single_Recursive.pkl'
+path3 = '../results/ensemble_recursives/Results_Ensemble_Recursive_2.pkl'
 
 # Definitive paths
-path1 = '../results/single_model/definitives/Results_Single.pkl'
-path2 = '../results/single_recursive_model/definitives/Results_Single_Recursive.pkl'
-path3 = '../results/ensemble_recursive_model/definitives/Results_Ensemble_Recursive.pkl'
+path1 = '../results/single_non_recursive/definitives/Results_Single.pkl'
+path2 = '../results/single_recursive/definitives/Results_Single_Recursive.pkl'
+path3 = '../results/ensemble_recursives/definitives/Results_Ensemble_Recursive.pkl'
 
 
 with open(path1, 'rb') as input: results1 = pickle.load(input)

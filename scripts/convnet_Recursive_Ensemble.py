@@ -339,9 +339,9 @@ exit()
 
 import matplotlib.pyplot as plt
 # Non definitive paths
-path = '../results/ensemble_recursive_model/Results_Ensemble_Recursive.pkl'
+path = '../results/ensemble_recursives/Results_Ensemble_Recursive.pkl'
 # Non definitive paths
-path = '../results/ensemble_recursive_model/definitives/Results_Ensemble_Recursive.pkl'
+path = '../results/ensemble_recursives/definitives/Results_Ensemble_Recursive.pkl'
 with open(path, 'rb') as input: results = pickle.load(input)
 
 
