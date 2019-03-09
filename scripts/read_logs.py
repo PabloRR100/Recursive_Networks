@@ -8,6 +8,7 @@ import pickle
 
 ## TODO: Introduce the correct path ##
 path = os.path.abspath('../results/ensemble_non_recursives/ensemble_non_recursive.txt')  
+path = os.path.abspath('../results/ensemble_recursives/definitives/ensemble_recursive.txt')  
 
 f = open(path, 'r')
 x = f.readlines()
@@ -28,17 +29,22 @@ def get_loss_accy(tr):
 
 tr_x = [t for t in x if 'Train' in t]
 tr_loss, tr_accy = get_loss_accy(tr_x)
-
+tr_accy_max = max(tr_accy)
 
 # Validation
 # ----------
 
 va_x = [t for t in x if 'Valid' in t]
 va_loss, va_accy = get_loss_accy(va_x)
+va_accy_max = max(va_accy)
 
 
 # Timer
 # -----
+time = list(map(float, [t.split()[1] for t in x if 'run_epoch' in t]))
+time_per_epoch = sum(time)/len(time)
+
+
 
 ## TODO: get mean run_epoch: time and multiply by num_epochs
 
