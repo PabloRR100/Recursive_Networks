@@ -1,3 +1,4 @@
+import math as math
 ## NOTE: We make an assumption here that the ensemble size is the 
 # same size or smaller than the size of the single deep network.
 # 
@@ -19,19 +20,6 @@ class net:
     def total(self):
         return self.V() + self.W() + self.F()
         
-# Get the value of M keeping L the same as the deep network:
-def getM(S,K):
-    ensemble_network = net(M = 1, L = S.L)
-    budget = S.total()/K
-    if K == 1:
-        return S.M
-        
-    # print("Budget: " + str(budget))
-    for M in range(S.M):
-        ensemble_network.M = M
-        if ensemble_network.total() > budget:
-            return M-1
-
 # Get the value of M given an L different from the deep network:
 def getM_L(S,K,L):
     ensemble_network = net(M = 1, L = L)
@@ -46,15 +34,17 @@ def getM_L(S,K,L):
             return M-1
     return -1
 
-# Get the value of L keeping M the same as the deep network:
-def getL(S,K):
-    ensemble_network = net(M = 1, L = S.L)
-    budget = S.total()/K
-    print("Budget: " + str(budget))
-    for L in range(S.L):
-        ensemble_network.L = L
-        if ensemble_network.total() > budget:
-            return L-1
+# Analytical version of getM_L
+def getM_L_analytical(S,K,L):
+    S_ = S.total()
+    #
+    sqrt_terms = math.sqrt((L*((36*S_*1.0)/K*1.0) + L + 1306) + 693889)
+    nominator = sqrt_terms - L - 833
+    denominator = 18*L*1.0
+    M = nominator/denominator
+    if M > S.M:
+        return -1
+    return math.floor(M)
 
 # Get the value of L keeping given an M different from the deep network:
 def getL_M(S,K,M):
@@ -69,10 +59,11 @@ def getL_M(S,K,M):
             return L-1
     return -1
 
-# S = net(M = 32, L = 16)
-# M_e = getM_L(S = S, K = 4, L = 4)
-# e = net(M = M_e,L = S.L)
-
-# print(e.M)
-# print(e.L)
-# print(e.total())
+# Analytical version of getL_M 
+def getL_M_analytical(S,K,M):
+    S_ = S.total()
+    #
+    nominator = S_ - (833 * K * M) - (10 * K)
+    denominator = K * M *( (9 * M) + 1)
+    L = nominator*1.0/denominator*1.0
+    return math.floor(L)
