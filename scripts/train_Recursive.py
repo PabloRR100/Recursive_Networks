@@ -263,7 +263,7 @@ results.show()
 exit()
 
 
-## TEST LOSS AND ACCY EVOLUTIONp
+## TEST LOSS AND ACCY EVOLUTION
 
 path = '../results/single_recursive_model/Results_Single_Recursive.pkl'
 with open(path, 'rb') as input:
