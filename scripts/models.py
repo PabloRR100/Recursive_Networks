@@ -57,6 +57,77 @@ class Conv_Net(nn.Module):
         return self.C(x)
 
 
+#class Conv_Net(nn.Module):
+#    
+#    def __init__(self, name:str, layers:int, filters:int=32, normalize:bool=False):
+#        super(Conv_Net, self).__init__()
+#        
+#        self.name = name
+#        self.L = layers
+#        self.M = filters
+#        self.act = nn.ReLU(inplace=True)
+#        self.normalize = normalize # Wasay: Added batch normalization flag
+#    
+#        
+#        self.V = nn.Conv2d(3, self.M, 8, stride=1, padding=3)
+#        self.bn1 = nn.BatchNorm2d(self.M)     
+#        self.P = nn.MaxPool2d(4, stride=4, padding=2)           
+#        
+#        self.W = nn.ModuleList(                                 
+#            [nn.Conv2d(32,32,3, padding=1) for _ in range(self.L)]) # WASAY: Should use self.M also instead of 32.
+#        
+#        self.bn2 = nn.BatchNorm2d(32)
+#        
+#        self.fc = nn.Linear(8*8*self.M, 10)
+#        
+#        # Custom Initialization
+#        """for name, param in self.named_parameters():
+#            
+#            # Vm has zero mean and 0.1 std (0.01 var)
+#            if 'V' in name and 'weight' in name:
+#                param.data.normal_(0, 0.1)
+#            
+#            # W are initialized with the identity matrix - Kronecker delta
+#            elif 'W' in name and 'weight' in name:
+#                param.data.fill_(0)
+#                for i in range(32):
+#                    param.data[i][0][0][0].fill_(1)
+#                    
+#                        ## TODO: C is not specified in the paper
+#            elif 'fc' in name and 'bias' in name:
+#                param.data.fill_(0)"""
+#        for m in self.modules():
+#            if isinstance(m, nn.Conv2d):
+#                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+#                m.weight.data.normal_(0, math.sqrt(2. / n))
+#                if m.bias is not None:
+#                    m.bias.data.zero_()
+#            elif isinstance(m, nn.BatchNorm2d):
+#                m.weight.data.fill_(1)
+#                m.bias.data.zero_()
+#            elif isinstance(m, nn.Linear):
+#                m.weight.data.normal_(0, 0.01)
+#                m.bias.data.zero_()
+#        
+#        self.bn1.weight.data.fill_(1)
+#        self.bn2.weight.data.fill_(1)
+#                        
+#    def forward(self, x):
+#        
+#        if self.normalize:
+#            x = self.act(self.bn1(self.V(x)))
+#        else:
+#            x = self.act(self.V(x))     # Out: 32x32xM  
+#        x = self.P(x)                   # Out: 8x8xM  
+#        for w in self.W:
+#            if self.normalize:
+#                x = self.act(self.bn2((w(x))))
+#            else:
+#                x = self.act(w(x))          # Out: 8x8xM  
+#        x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
+#        return self.fc(x)
+
+
 
 class Conv_Recusive_Net(nn.Module):
     
