@@ -159,104 +159,103 @@ if __name__ == '__main__':
 
 # SEARCH FOR THE CORRECT ARCHITECTURES
     
-import numpy as np  
-import matplotlib.pyplot as pl
-
+#import numpy as np  
+#import matplotlib.pyplot as plt
+#
+#    
+## Plotting code
+### Heatmap
+#def hm(matrix,xlabel="",ylabel="",title=""):
+#    plt.xlabel(xlabel)
+#    plt.ylabel(ylabel)
+#    plt.title(title)
+#    plt.pcolor(matrix)
+#    plt.colorbar()
+#
+### lineplot multiple yarrays
+#def lp(xarray,yarrays,labels,xlabel="",ylabel="",title=""):
+#    plt.xlabel(xlabel)
+#    plt.ylabel(ylabel)
+#    plt.title(title)
+#    for yarray,label in zip(yarrays,labels):
+#        plt.plot(xarray,yarray,'o-',label=label)
+#    plt.legend()
     
-# Plotting code
-## Heatmap
-def hm(matrix,xlabel="",ylabel="",title=""):
-    pl.xlabel(xlabel)
-    pl.ylabel(ylabel)
-    pl.title(title)
-    pl.pcolor(matrix)
-    pl.colorbar()
-    pl.show()
-
-## lineplot multiple yarrays
-def lp(xarray,yarrays,labels,xlabel="",ylabel="",title=""):
-    pl.xlabel(xlabel)
-    pl.ylabel(ylabel)
-    pl.title(title)
-    for yarray,label in zip(yarrays,labels):
-        pl.plot(xarray,yarray,'o-',label=label)
-    pl.legend()
-    pl.show()
-    
-    
-#############################################################
-## SET UP 
-
-M_S = 64
-L_S = 16
-S = Net(M=M_S, L=L_S) 
-
-L_ = [4, 8, 16, 32, 64]
-M_ = [4, 8, 16, 32, 64]
-K_ = [4, 8, 16, 32, 64]
-
-# Check all those models have in fact the correct parameters
-import pandas as pd
-candidates = pd.DataFrame(columns=['K','Le','Me','Score'])
-
-candidates = list()
-
-def score(S,E,K):
-    return round( (K * Ek.parameters) / S.parameters, 3)
-
-for K in K_:
-    for Le in L_:
-        Me = getM_L(S,K,Le)  
-        Ek = Net(Me, Le)
-        candidates.append({'K':K, 'Le':Le, 'Me':Me, 'Ek': Ek.parameters, 'Score': score(S,Ek,K), 'Net':Ek})
-      
-candidates = pd.DataFrame(candidates, columns=['K','Le','Me','Score','Net'])      
-candidates.sort_values(by='Score', ascending=False, inplace=True)
-candidates = candidates[candidates['Score'] > 0.9]
-
-import seaborn as sns
-ax = sns.heatmap(candidates[['K', 'Le', 'Me', 'Score']], 
-            yticklabels=False, linewidths=.5, annot=True, cbar=False, cmap="YlGnBu")
-ax.xaxis.set_ticks_position('top')
-
-## Experiment 1 -- Given a single deep network, sweep all values of L and K, calculate M
-
-M_range, L_range, K_range = max(M_), max(L_), max(K_)
-KLM = np.zeros((L_range, L_range))
-KLNumParam = np.zeros((L_range, L_range))
-KLNumParamNorm = np.zeros((L_range, L_range))
-
-for K in range(1,K_range):
-    for L in range(1,K_range):
-        
-        # Given K,L, and the deep network, compute M
-        KLM[K,L] = getM_L(S,K,L) 
-        
-        # Compute total number of parameters in the ensemble
-        temp_net = Net(M = KLM[K,L], L = L)
-        KLNumParam[K,L] = K*temp_net.total()
-        
-        # Exception when M cannot be computed
-        if KLM[K,L] == -1:
-            KLNumParam[K,L] = 0
-
-# Normalize KLNumParam
-KLNumParamNorm = KLNumParam/np.max(KLNumParam)
-
-
-# Find potential candidates #####
-pl.figure()
-hm(KLM,xlabel="K",ylabel="L",title="M | L,K")
-[pl.axvline(k, color='red', alpha=0.5) for k in K_]
-[pl.axhline(l, color='red', alpha=0.5) for l in L_]
-pl.scatter(x=candidates['K'], y=candidates['Le'], color='white', zorder=1)
-pl.plot()
-
-pl.figure()
-hm(KLNumParamNorm,xlabel="K",ylabel="L",title="Normalize Total Parameters")
-[pl.axvline(k, color='red') for k in K_]
-[pl.axhline(l, color='red') for l in L_]
-pl.scatter(x=candidates['K'], y=candidates['Le'], color='white', zorder=1)
-pl.plot()
-      
-      
+#    
+##############################################################
+### SET UP 
+#
+#M_S = 64
+#L_S = 16
+#S = Net(M=M_S, L=L_S) 
+#print('Single Deep Parameters: ', S.parameters)
+#
+#L_ = [4, 8, 16, 32, 64]
+#M_ = [4, 8, 16, 32, 64]
+#K_ = [4, 8, 16, 32, 64]
+#
+## Check all those models have in fact the correct parameters
+#import pandas as pd
+#candidates = pd.DataFrame(columns=['K','Le','Me','Score'])
+#
+#candidates = list()
+#
+#def score(S,E,K):
+#    return round( (K * Ek.parameters) / S.parameters, 3)
+#
+#for K in K_:
+#    for Le in L_:
+#        Me = getM_L(S,K,Le)  
+#        Ek = Net(Me, Le)
+#        candidates.append({'K':K, 'Le':Le, 'Me':Me, 'Ek': Ek.parameters, 'Score': score(S,Ek,K), 'Net':Ek})
+#      
+#candidates = pd.DataFrame(candidates, columns=['K','Le','Me','Score','Net'])      
+#candidates.sort_values(by='Score', ascending=False, inplace=True)
+#candidates = candidates[candidates['Score'] > 0.9]
+#
+#import seaborn as sns
+#ax = sns.heatmap(candidates[['K', 'Le', 'Me', 'Score']], 
+#            yticklabels=False, linewidths=.5, annot=True, cbar=False, cmap="YlGnBu")
+#ax.xaxis.set_ticks_position('top')
+#
+### Experiment 1 -- Given a single deep network, sweep all values of L and K, calculate M
+#
+#M_range, L_range, K_range = max(M_), max(L_), max(K_)
+#KLM = np.zeros((L_range, L_range))
+#KLNumParam = np.zeros((L_range, L_range))
+#KLNumParamNorm = np.zeros((L_range, L_range))
+#
+#for K in range(1,K_range):
+#    for L in range(1,K_range):
+#        
+#        # Given K,L, and the deep network, compute M
+#        KLM[K,L] = getM_L(S,K,L) 
+#        
+#        # Compute total number of parameters in the ensemble
+#        temp_net = Net(M = KLM[K,L], L = L)
+#        KLNumParam[K,L] = K*temp_net.total()
+#        
+#        # Exception when M cannot be computed
+#        if KLM[K,L] == -1:
+#            KLNumParam[K,L] = 0
+#
+## Normalize KLNumParam
+#KLNumParamNorm = KLNumParam/np.max(KLNumParam)
+#
+#
+## Find potential candidates #####
+#plt.figure()
+#hm(KLM,xlabel="K",ylabel="L",title="M | L,K")
+#[plt.axvline(k, color='red', alpha=0.5) for k in K_]
+#[plt.axhline(l, color='red', alpha=0.5) for l in L_]
+#plt.scatter(x=candidates['K'], y=candidates['Le'], color='white', zorder=1)
+#plt.plot()
+#
+#plt.figure()
+#hm(KLNumParamNorm,xlabel="K",ylabel="L",title="Normalize Total Parameters")
+#[plt.axvline(k, color='red') for k in K_]
+#[plt.axhline(l, color='red') for l in L_]
+#plt.scatter(x=candidates['K'], y=candidates['Le'], color='white', zorder=1)
+#plt.plot()
+#      
+#      
