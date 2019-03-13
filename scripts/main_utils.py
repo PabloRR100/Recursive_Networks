@@ -247,15 +247,16 @@ KLNumParamNorm = KLNumParam/np.max(KLNumParam)
 # Find potential candidates #####
 pl.figure()
 hm(KLM,xlabel="K",ylabel="L",title="M | L,K")
-[pl.axvline(k, color='red') for k in K_]
-[pl.axhline(l, color='red') for l in L_]
-pl.scatter(x=candidates['K'])
+[pl.axvline(k, color='red', alpha=0.5) for k in K_]
+[pl.axhline(l, color='red', alpha=0.5) for l in L_]
+pl.scatter(x=candidates['K'], y=candidates['Le'], color='white', zorder=1)
 pl.plot()
 
 pl.figure()
 hm(KLNumParamNorm,xlabel="K",ylabel="L",title="Normalize Total Parameters")
 [pl.axvline(k, color='red') for k in K_]
 [pl.axhline(l, color='red') for l in L_]
+pl.scatter(x=candidates['K'], y=candidates['Le'], color='white', zorder=1)
 pl.plot()
       
       
