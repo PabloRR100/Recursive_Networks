@@ -36,9 +36,13 @@ parser.add_argument('--testing', '-t', default=False, type=bool, help='set True 
 args = parser.parse_args()
 
 
+L = args.layers
+M = args.filters
+E = args.ensemble
+
 # Paths to Results
-check_path = './checkpoint/ckpt_non_rec_BN.t7'
-path = '../results/dicts/single_non_recursive/Results_Single_no_BN.pkl'
+check_path = './checkpoint/Single_Non_Recursive_L_{}_M_{}.t7'.format(L,M)
+path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_{}_M_{}.pkl'.format(L,M)
 
 
 
@@ -48,11 +52,7 @@ best_acc = 0
 start_epoch = 0  
 num_epochs = 700  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.batch
-milestones = [450, 600]
-
-L = args.layers
-M = args.filters
-E = args.ensemble
+milestones = [500, 650]
 
 testing = args.testing
 comments = args.comments
@@ -267,14 +267,13 @@ exit()
 ## TEST LOSS AND ACCY EVOLUTION
 
 import pickle
-path = '../results/dicts/single_non_recursive/Results_Single_no_BN.pkl'
+path = '../results/dicts/single_non_recursive/Results_Single_no_BN_I.pkl'
 
 with open(path, 'rb') as input:
     results = pickle.load(input)
 
+num_epochs = 700
 import matplotlib.pyplot as plt
-
-num_epochs = 500
 
 plt.figure()
 plt.plot(range(num_epochs), results.train_loss, label='Train')
@@ -289,5 +288,24 @@ plt.plot(range(num_epochs), results.valid_accy, label='Valid')
 plt.title('Accuracy')
 plt.legend()
 plt.show()
+
+
+# CONCAT 2 RESULTS
+path = '../results/dicts/single_non_recursive/Results_Single_no_BN_I.pkl'
+path2 = '../results/dicts/single_non_recursive/Results_Single_no_BN_II.pkl'
+
+def concat_resumed_training(path1, path2, resume_at):
+    with open(path, 'rb') as input: results = pickle.load(input)
+    with open(path2, 'rb') as input: results2 = pickle.load(input)
+    results.train_loss = results.train_loss[:resume_at] + results2.train_loss
+    results.train_accy = results.train_accy[:resume_at] + results2.train_accy
+    results.valid_loss = results.valid_loss[:resume_at] + results2.valid_loss
+    results.valid_accy = results.valid_accy[:resume_at] + results2.valid_accy
+    return results
+
+
+
+
+
 
 

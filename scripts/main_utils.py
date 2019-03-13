@@ -187,7 +187,7 @@ def lp(xarray,yarrays,labels,xlabel="",ylabel="",title=""):
 #############################################################
 ## SET UP 
 
-M_S = 32
+M_S = 64
 L_S = 16
 S = Net(M=M_S, L=L_S) 
 
