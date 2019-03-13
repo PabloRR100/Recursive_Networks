@@ -37,8 +37,8 @@ args = parser.parse_args()
 
 
 # Paths to Results
-check_path = './checkpoint/ckpt_non_rec.t7'
-path = '../results/single_non_recursive/Results_Single.pkl'
+check_path = './checkpoint/ckpt_non_rec_BN.t7'
+path = '../results/dicts/single_non_recursive/Results_Single_BN.pkl'
 
 
 
