@@ -38,7 +38,7 @@ args = parser.parse_args()
 
 # Paths to Results
 check_path = './checkpoint/ckpt_non_rec_BN.t7'
-path = '../results/dicts/single_non_recursive/Results_Single_BN.pkl'
+path = '../results/dicts/single_non_recursive/Results_Single_no_BN.pkl'
 
 
 
@@ -46,9 +46,9 @@ path = '../results/dicts/single_non_recursive/Results_Single_BN.pkl'
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 500  ## TODO: set to args.epochs
+num_epochs = 700  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.batch
-milestones = [450]
+milestones = [450, 600]
 
 L = args.layers
 M = args.filters
@@ -266,10 +266,15 @@ exit()
 
 ## TEST LOSS AND ACCY EVOLUTION
 
+import pickle
+path = '../results/dicts/single_non_recursive/Results_Single_no_BN.pkl'
+
 with open(path, 'rb') as input:
     results = pickle.load(input)
 
 import matplotlib.pyplot as plt
+
+num_epochs = 500
 
 plt.figure()
 plt.plot(range(num_epochs), results.train_loss, label='Train')

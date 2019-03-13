@@ -8,6 +8,7 @@ class Net:
     def __init__(self,M,L):
         self.M = M
         self.L = L
+        self.parameters = self.total()
     
     def V(self):
         return 8*8*3*self.M
@@ -194,13 +195,33 @@ L_ = [4, 8, 16, 32, 64]
 M_ = [4, 8, 16, 32, 64]
 K_ = [4, 8, 16, 32, 64]
 
-M_range = 64
-L_range = 64
-K_range = 64
+# Check all those models have in fact the correct parameters
+import pandas as pd
+candidates = pd.DataFrame(columns=['K','Le','Me','Score'])
 
+candidates = list()
+
+def score(S,E,K):
+    return round( (K * Ek.parameters) / S.parameters, 3)
+
+for K in K_:
+    for Le in L_:
+        Me = getM_L(S,K,Le)  
+        Ek = Net(Me, Le)
+        candidates.append({'K':K, 'Le':Le, 'Me':Me, 'Ek': Ek.parameters, 'Score': score(S,Ek,K), 'Net':Ek})
+      
+candidates = pd.DataFrame(candidates, columns=['K','Le','Me','Score','Net'])      
+candidates.sort_values(by='Score', ascending=False, inplace=True)
+candidates = candidates[candidates['Score'] > 0.9]
+
+import seaborn as sns
+ax = sns.heatmap(candidates[['K', 'Le', 'Me', 'Score']], 
+            yticklabels=False, linewidths=.5, annot=True, cbar=False, cmap="YlGnBu")
+ax.xaxis.set_ticks_position('top')
 
 ## Experiment 1 -- Given a single deep network, sweep all values of L and K, calculate M
 
+M_range, L_range, K_range = max(M_), max(L_), max(K_)
 KLM = np.zeros((L_range, L_range))
 KLNumParam = np.zeros((L_range, L_range))
 KLNumParamNorm = np.zeros((L_range, L_range))
@@ -228,36 +249,13 @@ pl.figure()
 hm(KLM,xlabel="K",ylabel="L",title="M | L,K")
 [pl.axvline(k, color='red') for k in K_]
 [pl.axhline(l, color='red') for l in L_]
+pl.scatter(x=candidates['K'])
 pl.plot()
-
-
-pl.figure()
-hm(KLNumParam,xlabel="K",ylabel="L",title="Total Parameters")
-[pl.axvline(k, color='red') for k in K_]
-[pl.axhline(l, color='red') for l in L_]
-pl.plot()
-
 
 pl.figure()
 hm(KLNumParamNorm,xlabel="K",ylabel="L",title="Normalize Total Parameters")
 [pl.axvline(k, color='red') for k in K_]
 [pl.axhline(l, color='red') for l in L_]
 pl.plot()
-
-
-# Check all those models have in fact the correct parameters
-from collections import defaultdict
-from collections import namedtuple
-candidates = defaultdict()
-Candidates = namedtuple('Candidate', ['K', 'Net'])
-
-for K in K_:
-    for Le in L_:
-      
-      K = 4; Le = 12
-      Me = getM_L(S,K,Le)  
-      n = Candidates(K, Net(Me,Le))
-      
-      
       
       
