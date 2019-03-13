@@ -269,7 +269,7 @@ exit()
 ## TEST LOSS AND ACCY EVOLUTION
 
 import pickle
-path = '../results/dicts/single_non_recursive/Results_Single_no_BN_I.pkl'
+path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
 
 with open(path, 'rb') as input:
     results = pickle.load(input)
@@ -282,6 +282,7 @@ plt.plot(range(num_epochs), results.train_loss, label='Train')
 plt.plot(range(num_epochs), results.valid_loss, label='Valid')
 plt.title('Loss')
 plt.legend()
+plt.grid()
 plt.show()
 
 plt.figure()
@@ -289,25 +290,26 @@ plt.plot(range(num_epochs), results.train_accy, label='Train')
 plt.plot(range(num_epochs), results.valid_accy, label='Valid')
 plt.title('Accuracy')
 plt.legend()
+plt.grid()
 plt.show()
 
 
-# CONCAT 2 RESULTS
-path = '../results/dicts/single_non_recursive/Results_Single_no_BN_I.pkl'
-path2 = '../results/dicts/single_non_recursive/Results_Single_no_BN_II.pkl'
-
-def concat_resumed_training(path1, path2, resume_at):
-    with open(path, 'rb') as input: results = pickle.load(input)
-    with open(path2, 'rb') as input: results2 = pickle.load(input)
-    results.train_loss = results.train_loss[:resume_at] + results2.train_loss
-    results.train_accy = results.train_accy[:resume_at] + results2.train_accy
-    results.valid_loss = results.valid_loss[:resume_at] + results2.valid_loss
-    results.valid_accy = results.valid_accy[:resume_at] + results2.valid_accy
-    return results
-
-
-
-
-
-
+## CONCAT 2 RESULTS
+#path = '../results/dicts/single_non_recursive/Results_Single_no_BN_I.pkl'
+#path2 = '../results/dicts/single_non_recursive/Results_Single_no_BN_II.pkl'
+#
+#def concat_resumed_training(path1, path2, resume_at):
+#    with open(path, 'rb') as input: results = pickle.load(input)
+#    with open(path2, 'rb') as input: results2 = pickle.load(input)
+#    results.train_loss = results.train_loss[:resume_at] + results2.train_loss
+#    results.train_accy = results.train_accy[:resume_at] + results2.train_accy
+#    results.valid_loss = results.valid_loss[:resume_at] + results2.valid_loss
+#    results.valid_accy = results.valid_accy[:resume_at] + results2.valid_accy
+#    return results
+#
+#
+#
+#
+#
+#
 
