@@ -67,3 +67,9 @@ def getL_M_analytical(S,K,M):
     denominator = K * M *( (9 * M) + 1)
     L = nominator*1.0/denominator*1.0
     return math.floor(L)
+
+
+
+
+
+
