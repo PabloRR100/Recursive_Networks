@@ -67,11 +67,9 @@ class Conv_Net(nn.Module):
         else:
         
             x = self.bn1(self.act(self.V(x)))           # Out: 32x32xM  
-            x = self.d1(x)
             x = self.P(x)                               # Out: 8x8xM  
             for w in self.W:
-                x = self.bn2(self.act(w(x))) # Out: 8x8xM  
-                x = self.d1(x)
+                x = self.bn2(self.act(w(x)))            # Out: 8x8xM  
             x = x.view(x.size(0), -1)                   # Out: 64*M  (M = 32 -> 2048)
             return self.C(x)
 
