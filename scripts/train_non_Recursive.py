@@ -24,7 +24,7 @@ from beautifultable import BeautifulTable as BT
 avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.001, type=float, help='learning rate') #changed the learning rate to 0.001 as the paper uses. 
+parser.add_argument('--lr', default=1e-3, type=float, help='learning rate') #changed the learning rate to 0.001 as the paper uses. 
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
@@ -47,8 +47,8 @@ path = '../results/single_non_recursive/Results_Single.pkl'
 best_acc = 0  
 start_epoch = 0  
 num_epochs = 500  ## TODO: set to args.epochs
-batch_size = 128  ## TODO: set to args.barch
-milestones = [150, 300, 400]
+batch_size = 128  ## TODO: set to args.batch
+milestones = [450]
 
 L = args.layers
 M = args.filters
@@ -70,10 +70,11 @@ table.append_row(['GPUs', str(torch.cuda.device_count())])
 table.append_row(['CUDNN Enabled', str(torch.backends.cudnn.enabled)])
 table.append_row(['Architecture', 'Recursive NN'])
 table.append_row(['Dataset', 'CIFAR10'])
+table.append_row(['Testing', str(testing)])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
-table.append_row(['Testing', str(testing)])
 table.append_row(['Learning Rate', str(args.lr)])
+table.append_row(['LR Milestones', str(milestones)])
 
 print(table)
 
@@ -97,7 +98,7 @@ avoidWarnings()
 comments = True
 from models import Conv_Net
 from utils import count_parameters
-net = Conv_Net('net', layers=L, filters=M, normalize=False)
+net = Conv_Net('net', L, M, normalize=True)
 
 
 print('Regular net')
@@ -116,6 +117,7 @@ if args.resume:
     if device == 'cuda':
         net = torch.nn.DataParallel(net)
 
+    # Possibly check if model was traind without BN
     net.load_state_dict(checkpoint['net'])
     
     best_acc = checkpoint['acc']

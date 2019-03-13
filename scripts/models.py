@@ -8,13 +8,21 @@ from torch import nn
         
 class Conv_Net(nn.Module):
     
-    def __init__(self, name:str, L:int, M:int=32):
+    def __init__(self, name:str, L:int, M:int=32, normalize:bool=False):
         super(Conv_Net, self).__init__()
         
         self.L = L
         self.M = M
         self.name = name
-        self.act = nn.ReLU(inplace=True)    
+        self.normalize = normalize
+        
+        self.act = nn.ReLU()    
+        
+        if normalize:
+            self.d1 = nn.Dropout2d(p=0.2)
+            self.d2 = nn.Dropout2d(p=0.5)
+            self.bn1 = nn.BatchNorm2d(num_features=self.M)
+            self.bn2 = nn.BatchNorm2d(num_features=self.M)
         
         self.V = nn.Conv2d(3, self.M, 8, stride=1, padding=3)
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           
@@ -35,27 +43,37 @@ class Conv_Net(nn.Module):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
                 m.weight.data.normal_(0, math.sqrt(2. / n))
                 if m.bias is not None:
-#                    m.bias.data.zero_() ## Notes (1)
                     m.bias.data.fill_(0.01)
                     
             elif isinstance(m, nn.BatchNorm2d):
                 m.weight.data.fill_(1)
-#                m.bias.data.zero_() 
                 m.bias.data.fill_(0.01)
                 
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
-                m.bias.data.zero_()
-                                
-    def forward(self, x):
-        
-        x = self.act(self.V(x))         # Out: 32x32xM  
-        x = self.P(x)                   # Out: 8x8xM  
-        for w in self.W:
-            x = self.act(w(x))          # Out: 8x8xM  
-        x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
-        return self.C(x)
+                m.bias.data.fill_(0.01)
+               
 
+    def forward(self, x):
+            
+        if not self.normalize:
+            x = self.act(self.V(x))         # Out: 32x32xM
+            x = self.P(x)                   # Out: 8x8xM  
+            for w in self.W:
+                x = self.act(w(x))          # Out: 8x8xM  
+            x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
+            return self.C(x)
+        
+        else:
+        
+            x = self.bn1(self.act(self.V(x)))           # Out: 32x32xM  
+            x = self.d1(x)
+            x = self.P(x)                               # Out: 8x8xM  
+            for w in self.W:
+                x = self.bn2(self.act(w(x))) # Out: 8x8xM  
+                x = self.d1(x)
+            x = x.view(x.size(0), -1)                   # Out: 64*M  (M = 32 -> 2048)
+            return self.C(x)
 
 
 class Conv_Recusive_Net(nn.Module):
