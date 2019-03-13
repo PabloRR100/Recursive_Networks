@@ -75,6 +75,8 @@ table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
 table.append_row(['Learning Rate', str(args.lr)])
 table.append_row(['LR Milestones', str(milestones)])
+table.append_row(['Layers', str(L)])
+table.append_row(['Filters', str(M)])
 
 print(table)
 
