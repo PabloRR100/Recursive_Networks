@@ -54,7 +54,7 @@ L = args.layers
 M = args.filters
 E = args.ensemble
 
-testing = args.test 
+testing = args.testing
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
