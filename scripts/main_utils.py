@@ -223,25 +223,41 @@ for K in range(1,K_range):
 KLNumParamNorm = KLNumParam/np.max(KLNumParam)
 
 
-# Find potential candidates
-
-heatmap = True
-lineplot = True
-if heatmap:       
-    pl.figure()
-    hm(KLM,xlabel="K",ylabel="L",title="M | L,K")
-    pl.figure()
-    hm(KLNumParam,xlabel="K",ylabel="L",title="Total Parameters")
-    pl.figure()
-    hm(KLNumParamNorm,xlabel="K",ylabel="L",title="Normalize Total Parameters")
-if lineplot:
-    pl.figure()
-    yarrays = [KLM[2,:][1:], KLM[4,:][1:], KLM[8,:][1:], KLM[16,:][1:], KLM[32,:][1:] ]
-    labels = ['K=2','K=4','K=8','K=16','K=32']
-    lp(range(1,33),yarrays,labels,xlabel="L",ylabel="M")
+# Find potential candidates #####
+pl.figure()
+hm(KLM,xlabel="K",ylabel="L",title="M | L,K")
+[pl.axvline(k, color='red') for k in K_]
+[pl.axhline(l, color='red') for l in L_]
+pl.plot()
 
 
- 
+pl.figure()
+hm(KLNumParam,xlabel="K",ylabel="L",title="Total Parameters")
+[pl.axvline(k, color='red') for k in K_]
+[pl.axhline(l, color='red') for l in L_]
+pl.plot()
 
-    
-    
+
+pl.figure()
+hm(KLNumParamNorm,xlabel="K",ylabel="L",title="Normalize Total Parameters")
+[pl.axvline(k, color='red') for k in K_]
+[pl.axhline(l, color='red') for l in L_]
+pl.plot()
+
+
+# Check all those models have in fact the correct parameters
+from collections import defaultdict
+from collections import namedtuple
+candidates = defaultdict()
+Candidates = namedtuple('Candidate', ['K', 'Net'])
+
+for K in K_:
+    for Le in L_:
+      
+      K = 4; Le = 12
+      Me = getM_L(S,K,Le)  
+      n = Candidates(K, Net(Me,Le))
+      
+      
+      
+      
