@@ -84,7 +84,6 @@ print(table)
 # ----
 
 avoidWarnings()
-dataset = 'MNIST'
 dataset = 'CIFAR'
 from data import dataloaders
 trainloader, testloader, classes = dataloaders(dataset, batch_size)
