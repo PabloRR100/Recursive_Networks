@@ -8,7 +8,7 @@ from torch import nn
         
 class Conv_Net(nn.Module):
     
-    def __init__(self, name:str, L:int, M:int=32, normalize:bool=False):
+    def __init__(self, name:str, L:int=16, M:int=64, normalize:bool=False):
         super(Conv_Net, self).__init__()
         
         self.L = L
@@ -206,7 +206,6 @@ class Conv_K_Recusive_Net(nn.Module):
         return self.C(x) 
 
 
-
 if '__name__' == '__main__':
     
     from torch.autograd import Variable
@@ -231,6 +230,52 @@ if '__name__' == '__main__':
     
     exit()
     
+    
+    
+
+
+    class Ensemble:
+        
+        def __init__(self, net:list, size:int=None):
+            super(Ensemble).__init__()
+            
+            if size is None:
+                assert isinstance(net, list), \
+                'Models should be a list if size is not provided'
+                self.nets = net
+                self.size = len(net)
+                
+            else:
+                assert not isinstance(net, list), \
+                'If size is provide, pass just a single Model'
+                self.net = [net('n{}'.format(n) for n in range(size))]
+                self.size = size
+                
+        def forward(self, x, set_):
+            '''
+            :Input: Tensor
+            :Output: List of predictions for each model and the ensemble'
+            '''
+            assert set_ in ['train', 'test'], 'Set must be set to train or test'
+            
+            n_outs = list()
+            for n, net in enumerate(self.net):
+                net.train() if set_ == 'train' else net.eval()
+                n_outs.append(net(x))
+                
+            pass
+    
+    
+    net1 = Conv_Net('n1', 16, 32)
+    net2 = Conv_Net('n2', 16, 32)
+    net3 = Conv_Net('n3', 16, 32)
+    nets = [net1, net2, net3]        
+    
+    ensemble1 = Ensemble(nets)
+    ensemble2 = Ensemble(Conv_Net, 3)
+    ensembles = [ensemble1, ensemble2]
+    
+
     
 ## Fully Connected Networks
 #

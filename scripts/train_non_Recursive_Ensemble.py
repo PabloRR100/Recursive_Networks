@@ -42,6 +42,23 @@ path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
 
 
 
+### CANDIDATES ###################################################
+from models import Conv_Net
+from collections import OrderedDict
+
+candidates = [{'K': 4,  'Le': 4,  'Me': 56},  ## Low K, Le
+              {'K': 8,  'Le': 64, 'Me': 11},  ## Low K, Me
+              {'K': 16, 'Le': 16, 'Me': 14},  ## Low K, Me, Le
+              {'K': 32, 'Le': 16, 'Me': 9}]   ## Low Me
+
+net = candidates[0]
+ensemble = OrderedDict()
+for n in range(1,1+net['K']):
+    ensemble['net_{}'.format(n)] = Conv_Net('net_{}'.format(n), net['Le'], net['Me'])
+
+
+
+####################################################################
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
 
 best_acc = 0  
