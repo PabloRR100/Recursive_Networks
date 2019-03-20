@@ -312,15 +312,15 @@ plt.show()
 # --------------------
 
 num_epochs = 700
-L = [16,16,32]
-M = [32,64,64]
-BN = [False] * 3
+L = [16,32,16,32]
+M = [32,32,64,64]
+BN = [False] * len(L)
 colors = ['red', 'blue', 'green', 'yellow', 'purple']
 P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]
 
 
 root = '../results/dicts/single_non_recursive/'
-paths = [root + 'Single_Non_Recursive_L_{}_M_{}.pkl'.format(l,m) for l,m in zip(L,M)]
+paths = [root + 'Single_Non_Recursive_L_{}_M_{}_BN_{}.pkl'.format(l,m,b) for l,m,b in zip(L,M,BN)]
 names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
 
 results = []
