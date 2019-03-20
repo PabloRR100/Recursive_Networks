@@ -27,6 +27,7 @@ parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble L
 parser.add_argument('--lr', default=1e-2, type=float, help='learning rate') #changed the learning rate to 0.001 as the paper uses. 
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
+parser.add_argument('--batchnorm', '-bn', default=False, type=bool, help='batch norm')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
 parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters')
 parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble size')
@@ -39,10 +40,11 @@ args = parser.parse_args()
 L = args.layers
 M = args.filters
 E = args.ensemble
+BN = args.batchnorm
 
 # Paths to Results
-check_path = './checkpoint/Single_Non_Recursive_L_{}_M_{}.t7'.format(L,M)
-path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_{}_M_{}.pkl'.format(L,M)
+check_path = './checkpoint/Single_Non_Recursive_L_{}_M_{}_BN_{}.t7'.format(L,M,BN)
+path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_{}_M_{}_BN_{}.pkl'.format(L,M,BN)
 
 
 
@@ -77,6 +79,7 @@ table.append_row(['Learning Rate', str(args.lr)])
 table.append_row(['LR Milestones', str(milestones)])
 table.append_row(['Layers', str(L)])
 table.append_row(['Filters', str(M)])
+table.append_row(['BatchNorm', str(BN)])
 
 print(table)
 
@@ -99,7 +102,7 @@ avoidWarnings()
 comments = True
 from models import Conv_Net
 from utils import count_parameters
-net = Conv_Net('net', L, M, normalize=False)
+net = Conv_Net('net', L, M, normalize=BN)
 
 
 print('Regular net')
@@ -269,7 +272,9 @@ exit()
 ## TEST LOSS AND ACCY EVOLUTION
 
 import pickle
+#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
 path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
+
 
 with open(path, 'rb') as input:
     results = pickle.load(input)
