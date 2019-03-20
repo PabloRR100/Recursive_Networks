@@ -232,57 +232,57 @@ if '__name__' == '__main__':
     
     
     
-
-
-class Ensemble:
     
-    def __init__(self, net:list, size:int=None):
-        super(Ensemble).__init__()
+    
+    class Ensemble:
         
-        if size is None:
-            assert isinstance(net, list), \
-            'Models should be a list if size is not provided'
-            self.nets = net
-            self.size = len(net)
+        def __init__(self, net:list, size:int=None):
+            super(Ensemble).__init__()
             
-        else:
-            assert not isinstance(net, list), \
-            'If size is provide, pass just a single Model'
-            self.net = [net('n{}'.format(n) for n in range(size))]
-            self.size = size
-            
-    def train(self):
-        for net in self.nets:
-            net.train()
+            if size is None:
+                assert isinstance(net, list), \
+                'Models should be a list if size is not provided'
+                self.nets = net
+                self.size = len(net)
                 
-    def eval(self):
-        for net in self.nets:
-            net.eval()
-            
-    def forward(self, x, device):
-        '''
-        :Input: Tensor
-        :Output: List of predictions for each model and the ensemble'
-        '''
-        outputs = list()
-        for n, net in enumerate(self.net):
-            outputs.append(net(x))
-        return outputs
-
-
-net1 = Conv_Net('n1', 32, 64)
-net2 = Conv_Net('n2', 32, 64)
-net3 = Conv_Net('n3', 32, 64)
-nets = [net1, net2, net3]        
-
-ensemble1 = Ensemble(nets)
-ensemble2 = Ensemble(Conv_Net, 3)
-ensembles = [ensemble1, ensemble2]
-
-images, labels = next(iter(trainloader))
-
-
-
+            else:
+                assert not isinstance(net, list), \
+                'If size is provide, pass just a single Model'
+                self.net = [net('n{}'.format(n) for n in range(size))]
+                self.size = size
+                
+        def train(self):
+            for net in self.nets:
+                net.train()
+                    
+        def eval(self):
+            for net in self.nets:
+                net.eval()
+                
+        def forward(self, x, device):
+            '''
+            :Input: Tensor
+            :Output: List of predictions for each model and the ensemble'
+            '''
+            outputs = list()
+            for n, net in enumerate(self.net):
+                outputs.append(net(x))
+            return outputs
+    
+    
+    net1 = Conv_Net('n1', 32, 64)
+    net2 = Conv_Net('n2', 32, 64)
+    net3 = Conv_Net('n3', 32, 64)
+    nets = [net1, net2, net3]        
+    
+    ensemble1 = Ensemble(nets)
+    ensemble2 = Ensemble(Conv_Net, 3)
+    ensembles = [ensemble1, ensemble2]
+    
+    images, labels = next(iter(trainloader))
+    
+    
+    
 
 
 
