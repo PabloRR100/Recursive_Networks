@@ -46,10 +46,18 @@ path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
 from models import Conv_Net
 from collections import OrderedDict
 
+# For M=32, L=16 ?
 candidates = [{'K': 4,  'Le': 4,  'Me': 56},  ## Low K, Le
               {'K': 8,  'Le': 64, 'Me': 11},  ## Low K, Me
               {'K': 16, 'Le': 16, 'Me': 14},  ## Low K, Me, Le
               {'K': 32, 'Le': 16, 'Me': 9}]   ## Low Me
+
+# For M=364, L=32
+candidates = [{'K': 16, 'Le': 4,  'Me': 36},  ## Low K, Le
+              {'K': 4,  'Le': 16, 'Me': 31},  ## Low K, Me
+              {'K': 32, 'Le': 32, 'Me': 10},  ## Low K, Me, Le
+              {'K': 4,  'Le': 8,  'Me': 59},  ## Low K, Me, Le
+              {'K': 16, 'Le': 16, 'Me': 20}]   ## Low Me
 
 net = candidates[0]
 ensemble = OrderedDict()

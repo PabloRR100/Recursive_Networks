@@ -285,7 +285,7 @@ num_epochs = 700
 
 #path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32.pkl'
 #path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_64.pkl'
+path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_64.pkl'
 
 with open(path, 'rb') as input:
     results = pickle.load(input)
