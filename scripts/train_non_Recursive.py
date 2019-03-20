@@ -270,7 +270,7 @@ exit()
 
 
 ## TEST LOSS AND ACCY EVOLUTION
-
+L = 32; M = 64; BN = False
 import pickle
 #path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
 path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
@@ -283,17 +283,17 @@ num_epochs = 700
 import matplotlib.pyplot as plt
 
 plt.figure()
+plt.title('Loss :: L={} M={} BN={}'.format(L,M,BN))
 plt.plot(range(num_epochs), results.train_loss, label='Train')
 plt.plot(range(num_epochs), results.valid_loss, label='Valid')
-plt.title('Loss')
 plt.legend()
 plt.grid()
 plt.show()
 
 plt.figure()
+plt.title('Accuracy :: L={} M={} BN={}'.format(L,M,BN))
 plt.plot(range(num_epochs), results.train_accy, label='Train')
 plt.plot(range(num_epochs), results.valid_accy, label='Valid')
-plt.title('Accuracy')
 plt.legend()
 plt.grid()
 plt.show()
