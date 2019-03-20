@@ -270,10 +270,14 @@ exit()
 
 
 ## TEST LOSS AND ACCY EVOLUTION
-L = 32; M = 64; BN = False
+L = 16
+M = 64
+BN = False
+
 import pickle
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
+#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32.pkl'
 path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
+#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_64.pkl'
 
 
 with open(path, 'rb') as input:
@@ -281,6 +285,7 @@ with open(path, 'rb') as input:
 
 num_epochs = 700
 import matplotlib.pyplot as plt
+
 
 plt.figure()
 plt.title('Loss :: L={} M={} BN={}'.format(L,M,BN))
@@ -299,22 +304,55 @@ plt.grid()
 plt.show()
 
 
+
+## PLOT MULTIPLE SINGLES
+num_epochs = 700
+L = [16,16,32]
+M = [32,64,64]
+BN = [False] * 3
+colors = ['red', 'blue', 'green', 'yellow', 'purple']
+
+
+root = '../results/dicts/single_non_recursive/'
+paths = [root + 'Single_Non_Recursive_L_{}_M_{}.pkl'.format(l,m) for l,m in zip(L,M)]
+names = ['L={}  M={}'.format(l,m) for l,m in zip(L,M)]
+
+results = []
+for path in paths:
+    with open(path, 'rb') as input:
+        results.append(pickle.load(input))
+        
+plt.figure()
+plt.title('Loss :: L={} M={} BN={}'.format(L,M,BN))
+for c,name,result in zip(colors,names,results):
+    plt.plot(range(num_epochs), result.train_loss, label='Train ' + name, color=c)
+    plt.plot(range(num_epochs), result.valid_loss, label='Valid ' + name, color=c, alpha=0.4)
+plt.legend()
+plt.grid()
+plt.show()
+
+
+
+
+
+
+
 ## CONCAT 2 RESULTS
-#path = '../results/dicts/single_non_recursive/Results_Single_no_BN_I.pkl'
-#path2 = '../results/dicts/single_non_recursive/Results_Single_no_BN_II.pkl'
+#path2 = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32_I.pkl'
+#path1 = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32_II.pkl'
+#path_concat = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32.pkl'
 #
 #def concat_resumed_training(path1, path2, resume_at):
-#    with open(path, 'rb') as input: results = pickle.load(input)
+#    with open(path1, 'rb') as input: results1 = pickle.load(input)
 #    with open(path2, 'rb') as input: results2 = pickle.load(input)
-#    results.train_loss = results.train_loss[:resume_at] + results2.train_loss
-#    results.train_accy = results.train_accy[:resume_at] + results2.train_accy
-#    results.valid_loss = results.valid_loss[:resume_at] + results2.valid_loss
-#    results.valid_accy = results.valid_accy[:resume_at] + results2.valid_accy
-#    return results
+#    results1.train_loss = results1.train_loss[:resume_at] + results2.train_loss
+#    results1.train_accy = results1.train_accy[:resume_at] + results2.train_accy
+#    results1.valid_loss = results1.valid_loss[:resume_at] + results2.valid_loss
+#    results1.valid_accy = results1.valid_accy[:resume_at] + results2.valid_accy
+#    return results1
 #
-#
-#
-#
-#
+#res = concat_resumed_training(path1, path2, 481)
+#with open(path_concat, 'wb') as object_result:
+#        pickle.dump(res, object_result, pickle.HIGHEST_PROTOCOL)   
 #
 
