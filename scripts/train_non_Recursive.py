@@ -224,10 +224,12 @@ def lr_schedule(epoch):
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
     
+
 def results_backup():
     global results
     with open(path, 'wb') as object_result:
         pickle.dump(results, object_result, pickle.HIGHEST_PROTOCOL)     
+
 
 @timeit
 def run_epoch(epoch):
@@ -273,7 +275,9 @@ exit()
 # ------------------------------
 
 import pickle
+from models import Conv_Net
 import matplotlib.pyplot as plt
+from utils import count_parameters
 
 # OF A SINGLE MODEL
 # ------------------
@@ -315,7 +319,7 @@ num_epochs = 700
 L = [16,32,16,32]
 M = [32,32,64,64]
 BN = [False] * len(L)
-colors = ['red', 'blue', 'green', 'yellow', 'purple']
+colors = ['red', 'blue', 'green', 'purple', 'orange', 'yellow']
 P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]
 
 
@@ -368,3 +372,24 @@ with open(path_concat, 'wb') as object_result:
         pickle.dump(res, object_result, pickle.HIGHEST_PROTOCOL)   
 
 
+
+
+
+
+plt.figure()
+plt.title('Loss')
+for c,name,result in zip(colors,names,results):
+    plt.plot(range(num_epochs), result.train_loss, label='Train ', color=c)
+    plt.plot(range(num_epochs), result.valid_loss, label='Valid ', color=c, alpha=0.5, linestyle='--')
+plt.legend()
+plt.grid()
+plt.show()
+
+plt.figure()
+plt.title('Accuracy')
+for c,name,result in zip(colors,names,results):
+    plt.plot(range(num_epochs), result.train_accy, label='Train ', color=c)
+    plt.plot(range(num_epochs), result.valid_accy, label='Valid ', color=c, alpha=0.5, linestyle='--')
+plt.legend()
+plt.grid()
+plt.show()
