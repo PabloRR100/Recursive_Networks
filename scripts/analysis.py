@@ -16,25 +16,18 @@ from results import accuracies
 from utils import count_parameters
 from collections import OrderedDict
 
-# Model, Data, Device, Paths
-# -------------------------------------------
 
-L = 16; M = 16; BN = False
-net = Conv_Net('net', L, M, BN)
+
+# Data, Device
+# -------------
+
 _, testloader_1, _ = dataloaders('CIFAR', 1)
 _, testloader, classes = dataloaders('CIFAR', 128)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
-        ## Single Non Recursive Models Checkpoints
-check_path = './checkpoint/Single_Non_Recursive_L_16_M_16_BN_False.t7'
-
-        ## Single Non Recursive Results
-path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_16_BN_False.pkl'
-
-
 def load_model(net, check_path, device):
-    
+    # Function to load saved models
     def load_weights(check_path):
         assert os.path.exists(check_path), 'Error: no checkpoint directory found!'
         checkpoint = torch.load(check_path, map_location=device)
@@ -51,15 +44,13 @@ def load_model(net, check_path, device):
     if device == 'cuda': net = torch.nn.DataParallel(net)
     return net
 
-    
-net = load_model(net, check_path, device)
-
 
 
 # INFERENCE TIME FOR IMAGE / BATCH
 # ----------------------------------
 
 def inference_time(net):
+    # Function to calculate inference time
     image, _ = next(iter(testloader_1))
     images, _ = next(iter(testloader))
     
@@ -80,6 +71,7 @@ def inference_time(net):
 # -------------------------------------------
 
 def test_accuracies(net):
+    # Function to calculate top1, top5 and classwise accuracies
     prec1, prec5 = list(), list()
     class_total = list(0. for i in range(10))
     class_correct = list(0. for i in range(10))
@@ -115,24 +107,22 @@ def test_accuracies(net):
 
 
 
-    
-
-
-num_epochs = 700
-L = [16] 
-M = [16]
-BN = [False] * len(L)
-
-def create_models(L,M,BN):
-    
+def load_models(L,M,BN,is_recursive=False, is_ensemble=False):
+    # Function to create models given the hyperparameters    
     err = 'Input should be a list'
+    err2 = 'rec should be a boolean indicanting if recursive architecture'
     assert isinstance(L, list), err
     assert isinstance(M, list), err
     assert isinstance(BN, list), err
+    assert isinstance(is_recursive, bool), err2
     
     root = './checkpoint/'
-    paths = [root + 'Single_Non_Recursive_L_{}_M_{}_BN_{}.t7'.format(l,m,b) for l,m,b in zip(L,M,BN)]
-    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]
+    prefix = 'Non_' if is_recursive == False else ''
+    type_ = 'Single' if is_ensemble == False else 'Ensemble'
+    paths = [root + '{}_{}Recursive_L_{}_M_{}_BN_{}.t7'.\
+             format(type_,prefix,l,m,b) for l,m,b in zip(L,M,BN)]
+    
+    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]   ## TODO: adjust for Rec_Conv_Net
     names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
     models = [Conv_Net(n,l,m) for n,l,m in zip(names,L,M)]
 
@@ -141,27 +131,67 @@ def create_models(L,M,BN):
         nets.append(load_model(model, check_path, device))
     return models
 
-def accuracy_metrics(L,M,BN):
-    
+
+def accuracy_metrics(L,M,BN,is_recursive, is_ensemble):
+    # Function to compute and store the accuracy results
     results = dict()
-    nets = create_models(L,M,BN)
+    nets = load_models(L,M,BN,is_recursive,is_ensemble)
+    for net in nets:
+        print('\n\nNetwork = ', net.name)
+        print('===================================')
+        top1, top5, classwise = test_accuracies(net)
+        results[net.name] = {'top1':top1, 'top5':top5, 'classwise':classwise}
+    return results    
+
+
+def time_metrics(L,M,BN,is_recursive,is_ensemble):
+    # Function to compute and store the inference time results
+    results = dict()
+    nets = load_models(L,M,BN,is_recursive,is_ensemble)
     for net in nets:
         print('\n\nNetwork = ', net.name)
         print('------------------------')
         img_inf_time, batch_inf_time = inference_time(net)
-        top1, top5, classwise = test_accuracies(net)
-        results[net.name] = {'top1':top1, 'top5':top5, 'classwise':classwise,
-                               'img_inf_time':img_inf_time, 'batch_inf_time':batch_inf_time}
+        results[net.name] = {'img_inf_time':img_inf_time, 'batch_inf_time':batch_inf_time}
     return results    
 
-r = accuracy_metrics(L,M,BN)
+
+
+
+
+r = accuracy_metrics(L,M,BN,recursive,ensemble)
+
+
 
 
 colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink']
 
 
 
+def load_training_results(L,M,BN,is_recursive=False, is_ensemble=False):
+    # Function to create models given the hyperparameters    
+    err = 'Input should be a list'
+    err2 = 'rec should be a boolean indicanting if recursive architecture'
+    assert isinstance(L, list), err
+    assert isinstance(M, list), err
+    assert isinstance(BN, list), err
+    assert isinstance(is_recursive, bool), err2
 
+    preroot = 'non_' if is_recursive == False else ''
+    root = '../results/dicts/single_{}recursive/'.format(preroot)
+    prefix = 'Non_' if is_recursive == False else ''
+    type_ = 'Single' if is_ensemble == False else 'Ensemble'
+    paths = [root + '{}_{}Recursive_L_{}_M_{}_BN_{}.pkl'.\
+             format(type_,prefix,l,m,b) for l,m,b in zip(L,M,BN)]
+        
+    def load_dict(path):
+        with open(path, 'rb') as input:
+            return pickle.load(input)
+
+    return [load_dict(path) for path in paths]
+
+
+r2 = load_training_results(L,M,BN,recursive,ensemble)
 
 ## TEST LOSS AND ACCY EVOLUTION
 # ------------------------------
@@ -173,7 +203,9 @@ import matplotlib.pyplot as plt
 
 L = [16]
 M = [64]
-BN = [False]
+BN = [False] * len(L)
+recursive = False
+ensemble = False
 num_epochs = 700
 
         ## Single Non Recursive Results
