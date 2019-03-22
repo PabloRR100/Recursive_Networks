@@ -268,16 +268,34 @@ else:
 results.show()
 
 
+
+
 exit()
+
+
+import pickle
+from models import Conv_Net
+from utils import count_parameters
+
+
+
+## TEST TOP-K ACCURACY AND PER CLASS METRICS
+# -------------------------------------------
+
+L = [16]
+M = [64]
+BN = [False]
+num_epochs = 700
+
+from analysis import accuracy_metrics
+acc = accuracy_metrics(L,M,BN)
+
 
 
 ## TEST LOSS AND ACCY EVOLUTION
 # ------------------------------
 
-import pickle
-from models import Conv_Net
 import matplotlib.pyplot as plt
-from utils import count_parameters
 
 # OF A SINGLE MODEL
 # ------------------
@@ -287,11 +305,11 @@ M = [64]
 BN = [False]
 num_epochs = 700
 
-path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_16.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_64.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_32.pkl'
+path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_16_BN_False.pkl'
+#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32_BN_False.pkl'
+#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64_BN_False.pkl'
+#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_64_BN_False.pkl'
+#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_32_BN_False.pkl'
 
 with open(path, 'rb') as input:
     results = pickle.load(input)
@@ -357,6 +375,7 @@ plt.show()
 # 4D PLOTS
 # ---------
 from mpl_toolkits.mplot3d import Axes3D
+
 
 
 
