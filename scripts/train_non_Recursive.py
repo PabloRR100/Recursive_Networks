@@ -273,119 +273,44 @@ results.show()
 exit()
 
 
+
+
+
 ## TODO: Simplify using analysis module
 
-
-
-
-
-from analysis import plot_loss, plot_accuracy, plot_inference_time, plot_top1_top5
-
-
-
-
-import pickle
-from models import Conv_Net
-from utils import count_parameters
-
-
-
-## TEST TOP-K ACCURACY AND PER CLASS METRICS
-# -------------------------------------------
-
-L = [16]
-M = [64]
-BN = [False]
-num_epochs = 700
-
-from analysis import accuracy_metrics
-acc = accuracy_metrics(L,M,BN)
-
-
-
-## TEST LOSS AND ACCY EVOLUTION
-# ------------------------------
-
-import matplotlib.pyplot as plt
-
-# OF A SINGLE MODEL
-# ------------------
-
-L = [16]
-M = [64]
-BN = [False]
-num_epochs = 700
-
-path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_16_BN_False.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32_BN_False.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_64_BN_False.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_64_BN_False.pkl'
-#path = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_32_M_32_BN_False.pkl'
-
-with open(path, 'rb') as input:
-    results = pickle.load(input)
-
-plt.figure()
-plt.title('Loss :: L={} M={} BN={}'.format(L,M,BN))
-plt.plot(range(num_epochs), results.train_loss, label='Train')
-plt.plot(range(num_epochs), results.valid_loss, label='Valid')
-plt.legend()
-plt.grid()
-plt.show()
-
-plt.figure()
-plt.title('Accuracy :: L={} M={} BN={}'.format(L,M,BN))
-plt.plot(range(num_epochs), results.train_accy, label='Train')
-plt.plot(range(num_epochs), results.valid_accy, label='Valid')
-plt.legend()
-plt.grid()
-plt.show()
-
-
-
-# OF MULTIPLE SINGLES
-# --------------------
-
-num_epochs = 700
+#L = [16]
+#M = [32]
 L = [16,32,16,32,16,32]
 M = [16,16,32,32,64,64]
+
 BN = [False] * len(L)
-colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink']
-P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]
+num_epochs = 700
+recursive = False
+ensemble = False
 
 
-root = '../results/dicts/single_non_recursive/'
-paths = [root + 'Single_Non_Recursive_L_{}_M_{}_BN_{}.pkl'.format(l,m,b) for l,m,b in zip(L,M,BN)]
-names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
+## Calculate Results
+# --------------------
+# --------------------
 
-results = []
-for path in paths:
-    with open(path, 'rb') as input:
-        results.append(pickle.load(input))
-        
-plt.figure()
-plt.title('Loss :: L = Layers, M = Filters, P = Parameters')
-for c,name,result in zip(colors,names,results):
-    plt.plot(range(num_epochs), result.train_loss, label='Train ' + name, color=c, linewidth=0.5)
-    plt.plot(range(num_epochs), result.valid_loss, label='Valid ' + name, color=c, alpha=0.5, linestyle='--')
-plt.legend()
-plt.grid()
-plt.show()
-
-plt.figure()
-plt.title('Accuracy :: L = Layers, M = Filters, P = Parameters')
-for c,name,result in zip(colors,names,results):
-    plt.plot(range(num_epochs), result.train_accy, label='Train ' + name, color=c)
-    plt.plot(range(num_epochs), result.valid_accy, label='Valid ' + name, color=c, alpha=0.5, linestyle='--')
-plt.legend()
-plt.grid()
-plt.show()
+from analysis import accuracy_metrics, time_metrics
+acc = accuracy_metrics(L,M,BN,recursive, ensemble)
+times = time_metrics(L,M,BN,recursive,ensemble)
 
 
 
-# 4D PLOTS
-# ---------
-from mpl_toolkits.mplot3d import Axes3D
+## Plot Results
+# ---------------
+# ---------------
+
+from analysis import plot_loss, plot_accuracy, \
+    plot_classwise_accuracy, plot_inference_time, plot_top1_top5_accuracy
+
+plot_loss(L,M,BN,recursive,ensemble)
+plot_accuracy(L,M,BN,recursive,ensemble)
+plot_inference_time(L,M,BN,recursive,ensemble,results=times) 
+plot_classwise_accuracy(L,M,BN,recursive,ensemble,results=acc)
+plot_top1_top5_accuracy(L,M,BN,recursive,ensemble,results=acc)
 
 
 
@@ -393,25 +318,6 @@ from mpl_toolkits.mplot3d import Axes3D
 
 
 
-concat = False
-if concat:
-    ## CONCAT 2 RESULTS
-    # -----------------
-    
-    path1 = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32_I.pkl'
-    path2 = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32_II.pkl'
-    path_concat = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_16_M_32.pkl'
-    
-    def concat_resumed_training(path1, path2, resume_at):
-        with open(path1, 'rb') as input: results1 = pickle.load(input)
-        with open(path2, 'rb') as input: results2 = pickle.load(input)
-        results1.train_loss = results1.train_loss[:resume_at] + results2.train_loss
-        results1.train_accy = results1.train_accy[:resume_at] + results2.train_accy
-        results1.valid_loss = results1.valid_loss[:resume_at] + results2.valid_loss
-        results1.valid_accy = results1.valid_accy[:resume_at] + results2.valid_accy
-        return results1
-    
-    res = concat_resumed_training(path1, path2, 481)
-    with open(path_concat, 'wb') as object_result:
-            pickle.dump(res, object_result, pickle.HIGHEST_PROTOCOL)   
-    
+
+
+
