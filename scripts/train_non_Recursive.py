@@ -278,8 +278,6 @@ exit()
 
 ## TODO: Simplify using analysis module
 
-#L = [16]
-#M = [32]
 L = [16,32,16,32,16,32]
 M = [16,16,32,32,64,64]
 
