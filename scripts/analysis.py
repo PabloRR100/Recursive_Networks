@@ -189,7 +189,7 @@ def load_training_results(L,M,BN,is_recursive=False, is_ensemble=False):
 ## TEST LOSS AND ACCY EVOLUTION
 # ------------------------------
 
-import seaborn as sns
+import pandas as pd
 import matplotlib.pyplot as plt
 
 num_epochs = 700
@@ -206,8 +206,6 @@ colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink']
 def plot_loss(L,M,BN,recursive,ensemble,results=None):
     
     global colors
-#    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]  ## TODO: adjust for Rec_Conv_Net
-#    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
     P, names, _ = create_models(L,M,BN)
     if results is None:
         results = load_training_results(L,M,BN,recursive,ensemble)
@@ -224,8 +222,6 @@ def plot_loss(L,M,BN,recursive,ensemble,results=None):
 def plot_accuracy(L,M,BN,recursive,ensemble,results=None):
     
     global colors
-#    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]  ## TODO: adjust for Rec_Conv_Net
-#    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
     P, names, models = create_models(L,M,BN)
     if results is None:
         results = load_training_results(L,M,BN,recursive,ensemble)
@@ -240,26 +236,53 @@ def plot_accuracy(L,M,BN,recursive,ensemble,results=None):
     plt.show()
     
     
+def plot_top1_top5(L,M,BN,recursive,ensemble,results=None):
+    
+    if results is None:
+        res = pd.DataFrame(accuracy_metrics(L,M,BN,recursive,ensemble))
+        tops = res.loc[['top1', 'top5'],:]
+        
+        c = []
+        clas = res.loc[['classwise']].T.reset_index()
+        for i in range(clas.shape[0]-1):
+            pd.DataFrame(clas.iloc[i,1])
+            c.append(pd.DataFrame(clas.iloc[i,1]))
+        
+        clas = pd.DataFrame.from_dict(res.loc[['classwise']])
+    
+    
 def plot_per_class_accuracy():
-    pass
+    results = accuracy_metrics(L,M,BN,recursive,ensemble)
+    res = pd.DataFrame(results)
+    tops, clas = res.loc[['top1', 'top5'],:]
     
     
-    import pandas as pd
+    
+
 def plot_inference_time(L,M,BN,recursive,ensemble):
     results = time_metrics(L,M,BN,recursive,ensemble)
     res = pd.DataFrame(results)
-    res['P'] = 
-    sns.barplot(data=res)
+    res.loc['P',:] = create_models(L,M,BN)[0]
+   
+    X = np.arange(res.shape[1])
+    fig, ax1 = plt.subplots()
+    ax1.bar(X+0.0, res.loc['img_inf_time',:], color = 'b', width = 0.25)
+    ax2 = ax1.twinx()
+    ax2.bar(X+0.25, res.loc['P',:], color = 'g', width = 0.25)
+    fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    plt.show()
     
     
-#    for name in results.keys():
-#        for inf, inf_batch in results[name].items():
-#            print(name, inf, inf_batch)
 
-
+## TODO: possiblity to pass results directly
 #plot_loss(L,M,BN,recursive,ensemble)
 #plot_accuracy(L,M,BN,recursive,ensemble)
-plot_inference_time(L,M,BN,recursive,ensemble)
+#plot_inference_time(L,M,BN,recursive,ensemble)
+plot_top1_top5(L,M,BN,recursive,ensemble)
+
+
+
+
 
 
 
