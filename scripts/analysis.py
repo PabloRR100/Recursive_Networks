@@ -10,11 +10,15 @@ import time
 import torch
 import pickle
 import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+
 from models import Conv_Net
 from data import dataloaders
 from results import accuracies
 from utils import count_parameters
 from collections import OrderedDict
+
 
 
 
@@ -188,20 +192,6 @@ def load_training_results(L,M,BN,is_recursive=False, is_ensemble=False):
 
 ## TEST LOSS AND ACCY EVOLUTION
 # ------------------------------
-
-import pandas as pd
-import matplotlib.pyplot as plt
-
-num_epochs = 700
-#L = [16,32,16,32,16,32]
-#M = [16,16,32,32,64,64]
-L = [16,32,32,16,32]
-M = [16,16,32,64,64]
-BN = [False] * len(L)
-ensemble = False
-recursive = False
-colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink']
-
      
 def plot_loss(L,M,BN,recursive,ensemble,results=None):
     
@@ -236,49 +226,99 @@ def plot_accuracy(L,M,BN,recursive,ensemble,results=None):
     plt.show()
     
     
-def plot_top1_top5(L,M,BN,recursive,ensemble,results=None):
+def plot_classwise_accuracy(L,M,BN,recursive,ensemble,results=None):
     
     if results is None:
-        res = pd.DataFrame(accuracy_metrics(L,M,BN,recursive,ensemble))
-        tops = res.loc[['top1', 'top5'],:]
-        
+        res = pd.DataFrame(accuracy_metrics(L,M,BN,recursive,ensemble))        
         c = []
         clas = res.loc[['classwise']].T.reset_index()
-        for i in range(clas.shape[0]-1):
-            pd.DataFrame(clas.iloc[i,1])
-            c.append(pd.DataFrame(clas.iloc[i,1]))
+        for i in range(clas.shape[0]):
+            c.append(clas.iloc[i,1])
         
-        clas = pd.DataFrame.from_dict(res.loc[['classwise']])
-    
-    
-def plot_per_class_accuracy():
-    results = accuracy_metrics(L,M,BN,recursive,ensemble)
-    res = pd.DataFrame(results)
-    tops, clas = res.loc[['top1', 'top5'],:]
-    
-    
+        clas = pd.DataFrame(c, index=res.keys())
+        
+    # Class-Wise
+    fig, axs = plt.subplots(nrows=len(res.keys()))
+    for i,r in enumerate(res.keys()):
+        axs[i].set_title(str(clas.index[i]))
+        axs[i].bar(X, clas.loc[r,:], width=0.8)
+        axs[i].set_xticks(X)
+        axs[i].set_xticklabels(clas.columns)
+    plt.tight_layout()
+    plt.show()
+    plt.figure()
+    plt.boxplot(clas, labels=clas.index)
+    plt.title('Mean - Variance Comparison')
+    plt.show()
     
 
+
+    
+def plot_top1_top5_accuracy(L,M,BN,recursive,ensemble,results=None):
+    
+    global colors
+    if results is None:
+        res = pd.DataFrame(accuracy_metrics(L,M,BN,recursive,ensemble))
+        tops = res.loc[['top1', 'top5'],:].T
+    
+    X = np.arange(len(res.keys()))
+    
+    fig, axs = plt.subplots(figsize=(15,15),nrows=2)
+    
+    axs[0].set_title('TOP-1 Accuracy')
+    axs[0].bar(X, tops.loc[:,'top1'], width=0.8, color=colors)
+    axs[0].set_xticks(X)
+    axs[0].set_xticklabels(tops.index)
+    
+    axs[1].set_title('TOP-5 Accuracy')
+    axs[1].bar(X, tops.loc[:,'top5'], width=0.8, color=colors)
+    axs[1].set_xticks(X)
+    axs[1].set_xticklabels(tops.index)
+    
+    axs[0].grid(); axs[1].grid()
+    plt.tight_layout()
+    plt.show()
+    
+
+
 def plot_inference_time(L,M,BN,recursive,ensemble):
+    
+    global colors
     results = time_metrics(L,M,BN,recursive,ensemble)
     res = pd.DataFrame(results)
     res.loc['P',:] = create_models(L,M,BN)[0]
    
     X = np.arange(res.shape[1])
-    fig, ax1 = plt.subplots()
-    ax1.bar(X+0.0, res.loc['img_inf_time',:], color = 'b', width = 0.25)
+    fig, ax1 = plt.subplots(figsize=(15,15))
+    ax1.bar(X+0.0, res.loc['img_inf_time',:], color = colors, width = 0.25, label='Infernce Time')
     ax2 = ax1.twinx()
-    ax2.bar(X+0.25, res.loc['P',:], color = 'g', width = 0.25)
+    ax2.bar(X+0.25, res.loc['P',:], color = 'brown', width = 0.25, label='Parameters')
+    
+    ax1.set_xticks(X)
+    ax1.set_xticklabels(res.columns)
     fig.tight_layout()  # otherwise the right y-label is slightly clipped
+    ax1.grid()
+    plt.title('Inference time vs # of Parameters (brown)')
     plt.show()
     
     
+
+num_epochs = 700
+#L = [16,32,16,32,16,32]
+#M = [16,16,32,32,64,64]
+L = [16,32,32,16,32]
+M = [16,16,32,64,64]
+BN = [False] * len(L)
+ensemble = False
+recursive = False
+colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink']
 
 ## TODO: possiblity to pass results directly
 #plot_loss(L,M,BN,recursive,ensemble)
 #plot_accuracy(L,M,BN,recursive,ensemble)
 #plot_inference_time(L,M,BN,recursive,ensemble)
-plot_top1_top5(L,M,BN,recursive,ensemble)
+plot_top1_top5_accuracy(L,M,BN,recursive,ensemble)
+
 
 
 

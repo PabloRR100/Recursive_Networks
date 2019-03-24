@@ -273,6 +273,12 @@ results.show()
 exit()
 
 
+## TODO: Simplify using analysis module
+from analysis import plot_loss, plot_accuracy, plot_inference_time, plot_top1_top5
+
+
+
+
 import pickle
 from models import Conv_Net
 from utils import count_parameters
