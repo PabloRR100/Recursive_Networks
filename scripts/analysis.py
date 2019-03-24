@@ -45,6 +45,12 @@ def load_model(net, check_path, device):
     return net
 
 
+def create_models(L,M,BN):
+    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]   ## TODO: adjust for Rec_Conv_Net
+    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
+    models = [Conv_Net(n,l,m) for n,l,m in zip(names,L,M)]
+    return P,names,models
+
 
 # INFERENCE TIME FOR IMAGE / BATCH
 # ----------------------------------
@@ -122,9 +128,7 @@ def load_models(L,M,BN,is_recursive=False, is_ensemble=False):
     paths = [root + '{}_{}Recursive_L_{}_M_{}_BN_{}.t7'.\
              format(type_,prefix,l,m,b) for l,m,b in zip(L,M,BN)]
     
-    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]   ## TODO: adjust for Rec_Conv_Net
-    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
-    models = [Conv_Net(n,l,m) for n,l,m in zip(names,L,M)]
+    P, names, models = create_models(L,M,BN)
 
     nets = []
     for check_path,model in zip(paths,models):
@@ -185,6 +189,7 @@ def load_training_results(L,M,BN,is_recursive=False, is_ensemble=False):
 ## TEST LOSS AND ACCY EVOLUTION
 # ------------------------------
 
+import seaborn as sns
 import matplotlib.pyplot as plt
 
 num_epochs = 700
@@ -201,8 +206,9 @@ colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink']
 def plot_loss(L,M,BN,recursive,ensemble,results=None):
     
     global colors
-    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]  ## TODO: adjust for Rec_Conv_Net
-    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
+#    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]  ## TODO: adjust for Rec_Conv_Net
+#    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
+    P, names, _ = create_models(L,M,BN)
     if results is None:
         results = load_training_results(L,M,BN,recursive,ensemble)
         
@@ -218,8 +224,9 @@ def plot_loss(L,M,BN,recursive,ensemble,results=None):
 def plot_accuracy(L,M,BN,recursive,ensemble,results=None):
     
     global colors
-    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]  ## TODO: adjust for Rec_Conv_Net
-    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
+#    P = [count_parameters(Conv_Net('',l,m,bn)) for l,m,bn in zip(L,M,BN)]  ## TODO: adjust for Rec_Conv_Net
+#    names = ['L={}  M={} P={}'.format(l,m,p) for l,m,p in zip(L,M,P)]
+    P, names, models = create_models(L,M,BN)
     if results is None:
         results = load_training_results(L,M,BN,recursive,ensemble)
     
@@ -237,17 +244,22 @@ def plot_per_class_accuracy():
     pass
     
     
-    
+    import pandas as pd
 def plot_inference_time(L,M,BN,recursive,ensemble):
     results = time_metrics(L,M,BN,recursive,ensemble)
-    for name in results.keys():
-        for inf, inf_batch in name.items():
-            print(name, name[inf], name[inf_batch])
+    res = pd.DataFrame(results)
+    res['P'] = 
+    sns.barplot(data=res)
+    
+    
+#    for name in results.keys():
+#        for inf, inf_batch in results[name].items():
+#            print(name, inf, inf_batch)
 
 
-plot_loss(L,M,BN,recursive,ensemble)
-plot_accuracy(L,M,BN,recursive,ensemble)
-plot_inference_time(L,M,BN,is_recursive,is_ensemble)
+#plot_loss(L,M,BN,recursive,ensemble)
+#plot_accuracy(L,M,BN,recursive,ensemble)
+plot_inference_time(L,M,BN,recursive,ensemble)
 
 
 
