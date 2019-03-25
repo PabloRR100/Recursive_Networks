@@ -36,6 +36,10 @@ parser.add_argument('--testing', '-t', default=False, type=bool, help='set True 
 args = parser.parse_args()
 
 
+
+## TODO: Adjust paths -> Results and checkpoints
+
+
 # Paths to Results
 check_path = './checkpoint/ckpt_non_rec_ens.t7'
 path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
@@ -367,6 +371,14 @@ results.show()
 
 exit()
 
+
+
+
+
+
+
+
+## TODO: Adjust this plotting funcitonality to 
 
 # Analysizing Results
 # --------------------
