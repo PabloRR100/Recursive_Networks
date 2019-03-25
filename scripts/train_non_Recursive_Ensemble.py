@@ -163,6 +163,7 @@ def load_model(net, n, check_path, device):
     if device == 'cuda': net = torch.nn.DataParallel(net)
     return net
 
+
 if args.resume:
     
     print('==> Resuming from checkpoint..')
@@ -404,19 +405,20 @@ exit()
 
 import matplotlib.pyplot as plt
 
-plot_single_model = psm = True
+plot_single_model = psm = False
 ## Ensemble vs the Individuals is the default option
 ## set plot_single_model to True to include the results from train_non_Recursive.py
 
 
-path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
+path = '../results/ensemble_non_recursives/Ensemble_Non_Recursive_L_16_M_32_BN_False_K_5.pkl'
+#path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
 #path = '../results/ensemble_non_recursives/definitives/Results_Ensemble_Non_Recursive.pkl'
 path_ = '../results/single_non_recursive/definitives/Results_Single.pkl'
 with open(path, 'rb') as input: results = pickle.load(input)
 with open(path_, 'rb') as input: results_ = pickle.load(input)
 
 E = 5
-num_epochs = 500
+num_epochs = 7
 
 c = [0, 'pink', 'blue', 'green', 'yellow', 'purple']
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
