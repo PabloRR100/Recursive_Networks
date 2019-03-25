@@ -52,37 +52,37 @@ path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{}_M_{
 
 
 ### CANDIDATES ###################################################
-from models import Conv_Net
-from collections import OrderedDict
-
-# For M=32, L=16 ?
-candidates = [{'K': 4,  'Le': 4,  'Me': 56},  ## Low K, Le
-              {'K': 8,  'Le': 64, 'Me': 11},  ## Low K, Me
-              {'K': 16, 'Le': 16, 'Me': 14},  ## Low K, Me, Le
-              {'K': 32, 'Le': 16, 'Me': 9}]   ## Low Me
-
-# For M=364, L=32
-candidates = [{'K': 16, 'Le': 4,  'Me': 36},  ## Low K, Le
-              {'K': 4,  'Le': 16, 'Me': 31},  ## Low K, Me
-              {'K': 32, 'Le': 32, 'Me': 10},  ## Low K, Me, Le
-              {'K': 4,  'Le': 8,  'Me': 59},  ## Low K, Me, Le
-              {'K': 16, 'Le': 16, 'Me': 20}]   ## Low Me
-
-net = candidates[0]
-ensemble = OrderedDict()
-for n in range(1,1+net['K']):
-    ensemble['net_{}'.format(n)] = Conv_Net('net_{}'.format(n), net['Le'], net['Me'])
-
-
-
+#from models import Conv_Net
+#from collections import OrderedDict
+#
+## For M=32, L=16 ?
+#candidates = [{'K': 4,  'Le': 4,  'Me': 56},  ## Low K, Le
+#              {'K': 8,  'Le': 64, 'Me': 11},  ## Low K, Me
+#              {'K': 16, 'Le': 16, 'Me': 14},  ## Low K, Me, Le
+#              {'K': 32, 'Le': 16, 'Me': 9}]   ## Low Me
+#
+## For M=64, L=32
+#candidates = [{'K': 16, 'Le': 4,  'Me': 36},  ## Low K, Le
+#              {'K': 4,  'Le': 16, 'Me': 31},  ## Low K, Me
+#              {'K': 32, 'Le': 32, 'Me': 10},  ## Low K, Me, Le
+#              {'K': 4,  'Le': 8,  'Me': 59},  ## Low K, Me, Le
+#              {'K': 16, 'Le': 16, 'Me': 20}]   ## Low Me
+#
+#net = candidates[0]
+#ensemble = OrderedDict()
+#for n in range(1,1+net['K']):
+#    ensemble['net_{}'.format(n)] = Conv_Net('net_{}'.format(n), net['Le'], net['Me'])
+#
+#
+#
 ####################################################################
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 7  ## TODO: set to args.epochs
+num_epochs = 700  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
-milestones = [4,5]
+milestones = [550]
 
 testing = args.testing 
 comments = args.comments
