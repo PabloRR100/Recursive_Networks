@@ -156,11 +156,11 @@ def load_model(net, n, check_path, device):
             new_state_dict[name] = v
         return new_state_dict
     
-    if device == 'cpu': 
-        net.load_state_dict(load_weights(check_path)) # remove word `module`
-    else: 
-        net.load_state_dict(torch.load(check_path)['net_{}'.format(n)])
-    
+#    if device == 'cpu': 
+    net.load_state_dict(load_weights(check_path)) # remove word `module`
+#    else: 
+#        net.load_state_dict(torch.load(check_path)['net_{}'.format(n)])
+#    
     net.to(device)
     if device == 'cuda': 
         net = torch.nn.DataParallel(net)
