@@ -143,19 +143,36 @@ ensemble = OrderedDict()
 for n in range(1,1+K):
     ensemble['net_{}'.format(n)] = Conv_Net('net_{}'.format(n), L, M)
 
+
+def load_model(net, n, check_path, device):
+    # Function to load saved models
+    def load_weights(check_path):
+        assert os.path.exists(check_path), 'Error: no checkpoint directory found!'
+        checkpoint = torch.load(check_path, map_location=device)
+        new_state_dict = OrderedDict()
+        
+        for k,v in checkpoint['net_{}'.format(n)].state_dict().items():
+            name = k.replace('module.', '')
+            new_state_dict[name] = v
+        return new_state_dict
+    
+    if device == 'cpu': net.load_state_dict(load_weights(check_path)) # remove word `module`
+    else: net.load_state_dict(torch.load(check_path)['net'])
+    
+    net.to(device)
+    if device == 'cuda': net = torch.nn.DataParallel(net)
+    return net
+
 if args.resume:
     
     print('==> Resuming from checkpoint..')
     print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-    checkpoint = torch.load(check_path)
     
     for n,net in enumerate(ensemble.values()):
-        net.to(device)
-        if device == 'cuda':
-            net = torch.nn.DataParallel(net)
-        net.load_state_dict(checkpoint['net_{}'.format(n)])
+        net = load_model(net, n+1, check_path, device)
     
+    checkpoint = torch.load(check_path, map_location=device)
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
