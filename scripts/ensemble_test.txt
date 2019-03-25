@@ -1,0 +1,130 @@
++-----------------+----------------------+
+| Python Version  |        3.6.5         |
++-----------------+----------------------+
+| PyTorch Version |        1.0.0         |
++-----------------+----------------------+
+|     Device      | Tesla V100-SXM2-16GB |
++-----------------+----------------------+
+|      Cores      |          8           |
++-----------------+----------------------+
+|      GPUs       |          1           |
++-----------------+----------------------+
+|  CUDNN Enabled  |         True         |
++-----------------+----------------------+
+|  Architecture   |     Recursive NN     |
++-----------------+----------------------+
+|     Dataset     |       CIFAR10        |
++-----------------+----------------------+
+|     Testing     |        False         |
++-----------------+----------------------+
+|     Epochs      |          7           |
++-----------------+----------------------+
+|   Batch Size    |         128          |
++-----------------+----------------------+
+|  Learning Rate  |         0.01         |
++-----------------+----------------------+
+|  LR Milestones  |        [4, 5]        |
++-----------------+----------------------+
+|     Layers      |          16          |
++-----------------+----------------------+
+|     Filters     |          32          |
++-----------------+----------------------+
+|    BatchNorm    |        False         |
++-----------------+----------------------+
+==> Preparing data..
+Files already downloaded and verified
+Files already downloaded and verified
+Non Recursive ConvNet
+Conv_Net(
+  (act): ReLU()
+  (V): Conv2d(3, 32, kernel_size=(8, 8), stride=(1, 1), padding=(3, 3))
+  (P): MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+  (W): ModuleList(
+    (0): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (2): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (5): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (7): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (9): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (10): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (12): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (13): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (14): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (15): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  )
+  (C): Linear(in_features=2048, out_features=10, bias=True)
+)
+
+
+		Parameters: 0.174634M
+Current set up
+Testing  False
+[ALERT]: Path to results (this may overwrite ../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_16_M_32_BN_False_K_5.pkl
+[ALERT]: Path to checkpoint (this may overwrite ./checkpoint/Ensemble_Non_Recursive_L_16_M_32_BN_False_K_5.t7
+Do you want to continue? [Y/n]: [OK]: Starting Training of Recursive Ensemble Model
+
+Epoch: 0
+Train :: Loss: 1.7 | Accy: 42.5
+Valid :: Loss: 1.54 | Accy: 37.5
+Saving..
+'run_epoch'  18562.45 ms
+
+Epoch: 1
+Train :: Loss: 1.51 | Accy: 45.0
+Valid :: Loss: 1.47 | Accy: 50.0
+Saving..
+'run_epoch'  18612.22 ms
+
+Epoch: 2
+Train :: Loss: 1.27 | Accy: 53.75
+Valid :: Loss: 1.17 | Accy: 50.0
+'run_epoch'  18924.48 ms
+
+Epoch: 3
+Train :: Loss: 1.19 | Accy: 56.25
+Valid :: Loss: 1.05 | Accy: 56.25
+Saving..
+'run_epoch'  18768.18 ms
+
+** Changing LR to 0.001 
+
+
+Epoch: 4
+Train :: Loss: 1.09 | Accy: 58.75
+Valid :: Loss: 1.0 | Accy: 62.5
+Saving..
+'run_epoch'  18855.96 ms
+
+** Changing LR to 0.0001 
+
+
+Epoch: 5
+Train :: Loss: 1.07 | Accy: 60.0
+Valid :: Loss: 1.01 | Accy: 62.5
+'run_epoch'  18701.63 ms
+
+Epoch: 6
+Train :: Loss: 1.19 | Accy: 56.25
+Valid :: Loss: 1.02 | Accy: 62.5
+'run_epoch'  18835.83 ms
+Lenght of results collected
++--------------+-------------+-------------+------------+
+|    Model     | Epoch Train | Epoch Valid | Iter Train |
++--------------+-------------+-------------+------------+
+| Individual 1 |      7      |      7      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 2 |      7      |      7      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 3 |      7      |      7      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 4 |      7      |      7      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 5 |      7      |      7      |     0      |
++--------------+-------------+-------------+------------+
+|   Ensemble   |      7      |      7      |     0      |
++--------------+-------------+-------------+------------+
