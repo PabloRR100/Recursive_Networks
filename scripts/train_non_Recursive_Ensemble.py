@@ -80,9 +80,9 @@ for n in range(1,1+net['K']):
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 700  ## TODO: set to args.epochs
+num_epochs = 7  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
-milestones = [550]
+milestones = [4,5]
 
 testing = args.testing 
 comments = args.comments
