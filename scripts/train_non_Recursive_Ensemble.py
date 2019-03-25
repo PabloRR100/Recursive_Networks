@@ -150,7 +150,7 @@ if args.resume:
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
     checkpoint = torch.load(check_path)
     
-    for n,net in enumerate(ensemble):
+    for n,net in enumerate(ensemble.values()):
         net.to(device)
         if device == 'cuda':
             net = torch.nn.DataParallel(net)
@@ -352,7 +352,7 @@ names = [n.name for n in ensemble.values()]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
 if device == 'cuda':
-    for net in ensemble:
+    for net in ensemble.values():
         net = torch.nn.DataParallel(net)
 
 # Start Training
