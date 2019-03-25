@@ -47,7 +47,7 @@ BN = args.batchnorm
 
 # Paths to Results
 check_path = './checkpoint/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.t7'.format(L,M,BN,K)
-path = '../results/dicts/ensemble_non_recursive/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
+path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
 
 
 
