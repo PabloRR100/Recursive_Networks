@@ -13,7 +13,6 @@ import argparse
 import torch
 import torch.nn as nn
 import torch.optim as optim
-import torch.backends.cudnn as cudnn
 
 import torch.multiprocessing
 torch.multiprocessing.set_sharing_strategy('file_system')
@@ -376,9 +375,6 @@ results.show()
 
 
 exit()
-
-
-
 
 
 
