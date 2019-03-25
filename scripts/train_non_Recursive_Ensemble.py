@@ -24,25 +24,31 @@ from beautifultable import BeautifulTable as BT
 avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
-parser.add_argument('--lr', default=0.001, type=float, help='learning rate')
+parser.add_argument('--lr', default=1e-2, type=float, help='learning rate')
 parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
+parser.add_argument('--batchnorm', '-bn', default=False, type=bool, help='batch norm')
 parser.add_argument('--epochs', '-e', default=200, type=int, help='num epochs')
 parser.add_argument('--filters', '-M', default=32, type=int, help='# of filters')
-parser.add_argument('--ensemble', '-es', default=5, type=int, help='ensemble size')
+parser.add_argument('--ensemble', '-K', default=5, type=int, help='ensemble size')
 parser.add_argument('--resume', '-r', action='store_true', help='resume from checkpoint')
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
 parser.add_argument('--testing', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
 
 
+L = args.layers
+M = args.filters
+K = args.ensemble
+BN = args.batchnorm
+
 
 ## TODO: Adjust paths -> Results and checkpoints
 
 
 # Paths to Results
-check_path = './checkpoint/ckpt_non_rec_ens.t7'
-path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
+check_path = './checkpoint/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.t7'.format(L,M,BN,K)
+path = '../results/dicts/ensemble_non_recursive/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
 
 
 
@@ -79,10 +85,6 @@ num_epochs = 700  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
 milestones = [550]
 
-L = args.layers
-M = args.filters
-E = args.ensemble
-
 testing = args.testing 
 comments = args.comments
 n_workers = torch.multiprocessing.cpu_count()
@@ -97,12 +99,16 @@ table.append_row(['Device', str(device_name)])
 table.append_row(['Cores', str(n_workers)])
 table.append_row(['GPUs', str(torch.cuda.device_count())])
 table.append_row(['CUDNN Enabled', str(torch.backends.cudnn.enabled)])
-table.append_row(['Architecture', 'DenseNet x{}'.format(E)])
+table.append_row(['Architecture', 'Recursive NN'])
 table.append_row(['Dataset', 'CIFAR10'])
+table.append_row(['Testing', str(testing)])
 table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
-table.append_row(['Testing', str(testing)])
-
+table.append_row(['Learning Rate', str(args.lr)])
+table.append_row(['LR Milestones', str(milestones)])
+table.append_row(['Layers', str(L)])
+table.append_row(['Filters', str(M)])
+table.append_row(['BatchNorm', str(BN)])
 print(table)
 
 
@@ -111,7 +117,6 @@ print(table)
 # ----
 
 avoidWarnings()
-dataset = 'MNIST'
 dataset = 'CIFAR'
 from data import dataloaders
 trainloader, testloader, classes = dataloaders(dataset, batch_size)
@@ -125,7 +130,7 @@ avoidWarnings()
 comments = True
 from models import Conv_Net
 from utils import count_parameters
-net = Conv_Net('Convnet', L, M)
+net = Conv_Net('net', L, M, normalize=BN)
 
 
 print('Non Recursive ConvNet')
@@ -136,7 +141,7 @@ print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
 from collections import OrderedDict
 
 ensemble = OrderedDict()
-for n in range(1,1+E):
+for n in range(1,1+K):
     ensemble['net_{}'.format(n)] = Conv_Net('net_{}'.format(n), L, M)
 
 if args.resume:
@@ -158,7 +163,7 @@ if args.resume:
 optimizers = []
 criterion = nn.CrossEntropyLoss()
 
-for n in range(1,1+E):
+for n in range(1,1+K):
     optimizers.append(
         optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
     )
@@ -180,7 +185,6 @@ def train(epoch):
 
     total = 0
     correct = 0
-    len_ = len(trainloader)
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
@@ -190,7 +194,6 @@ def train(epoch):
             
             if device == 'cuda':
                 net.to(device)
-                net = torch.nn.DataParallel(net)
         
             net.train()
             optimizers[n].zero_grad()
@@ -213,12 +216,8 @@ def train(epoch):
             n_correct += predicted.eq(targets).sum().item()
             n_accuracy = 100. * n_correct / n_total
             
-            # Store iteration results for this individual
-            results.append_iter_loss(round(loss.item(), 3), 'train', n+1)
-            results.append_iter_accy(round(n_accuracy, 2), 'train', n+1)
-            
-            if batch_idx == len_-1:
-                # Store epoch results for this individual (as last iter)
+            if batch_idx == 0:
+                # Store epoch results for this individual (as first iter of the epoch)
                 results.append_loss(round(loss.item(), 3), 'train', n+1)
                 results.append_accy(round(n_accuracy, 2), 'train', n+1)
             
@@ -239,9 +238,8 @@ def train(epoch):
     accuracy = 100 * correct / total
     
     # Store iteration results for Ensemble
-    results.append_loss(round(loss.item(), 3), 'train', None)
+    results.append_loss(round(loss.item(), 2), 'train', None)
     results.append_accy(round(accuracy, 2), 'train', None)
-
     print('Train :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(accuracy,2)))
 
         
@@ -258,7 +256,7 @@ def test(epoch):
             
             inputs, targets = inputs.to(device), targets.to(device)
             
-            outs = []
+            individual_outputs = list()
             for n, net in enumerate(ensemble.values()):
                 
                 net.eval()  
@@ -270,7 +268,7 @@ def test(epoch):
                 n_correct = 0
                 
                 output = net(inputs)
-                outs.append(output)
+                individual_outputs.append(output)
                 loss = criterion(output, targets)
     
                 # Store epoch (as first iteration of the epoch) results for each net
@@ -281,7 +279,7 @@ def test(epoch):
                     n_correct += predicted.eq(targets).sum().item()
                     n_accuracy = n_correct / n_total
                     
-                    results.append_loss(round(loss.item(), 3), 'valid', n+1)
+                    results.append_loss(round(loss.item(), 2), 'valid', n+1)
                     results.append_accy(round(n_accuracy * 100, 2), 'valid', n+1)
     
             
@@ -289,15 +287,18 @@ def test(epoch):
 #            if testing and batch_idx == 5:
 #                break
             
-            _, predicted = output.max(1)
-            total += targets.size(0)
-            correct += predicted.eq(targets).sum().item()
+        output = torch.mean(torch.stack(individual_outputs), dim=0)
+        loss = criterion(output, targets) 
         
-        # Store epoch results for ensemble
-        acc = 100.*correct/total
-        results.append_loss(round(loss.item(), 3), 'valid', None)
-        results.append_accy(round(acc,2), 'valid', None)
-        print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
+        _, predicted = output.max(1)
+        total += targets.size(0)
+        correct += predicted.eq(targets).sum().item()
+        
+    # Store epoch results for ensemble
+    acc = 100.*correct/total
+    results.append_loss(round(loss.item(), 2), 'valid', None)
+    results.append_accy(round(acc,2), 'valid', None)
+    print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
     
             
     # Save checkpoint.
@@ -305,24 +306,26 @@ def test(epoch):
     if acc > best_acc:
         print('Saving..')
         state = {
-            'net': net.state_dict(),
             'acc': acc,
             'epoch': epoch,
         }
+        for k in range(1,K+1):
+            netname = 'net_{}'.format(k)
+            state[netname] = ensemble[netname]
         if not os.path.isdir('checkpoint/'):
             os.mkdir('checkpoint')
-        torch.save(state, './checkpoint/ens_rec_ckpt.t7')
+        torch.save(state, check_path)
         best_acc = acc
     return
 
 
 def lr_schedule(epoch):
 
-    global E
+    global K
     global milestones
     if epoch in milestones:
-        for n in range(E):
-            for p in optimizers[n].param_groups:  p['lr'] = p['lr'] / 10
+        for k in range(K):
+            for p in optimizers[k].param_groups:  p['lr'] = p['lr'] / 10
         print('\n** Changing LR to {} \n'.format(p['lr']))    
     return
 
@@ -349,6 +352,9 @@ results.append_time(0)
 names = [n.name for n in ensemble.values()]
 results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
 
+if device == 'cuda':
+    for net in ensemble:
+        net = torch.nn.DataParallel(net)
 
 # Start Training
 import click

@@ -54,7 +54,7 @@ best_acc = 0
 start_epoch = 0  
 num_epochs = 700  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.batch
-milestones = [550, 650]
+milestones = [550]
 
 testing = args.testing
 comments = args.comments
@@ -80,7 +80,6 @@ table.append_row(['LR Milestones', str(milestones)])
 table.append_row(['Layers', str(L)])
 table.append_row(['Filters', str(M)])
 table.append_row(['BatchNorm', str(BN)])
-
 print(table)
 
 
