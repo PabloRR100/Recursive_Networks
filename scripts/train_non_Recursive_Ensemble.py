@@ -75,9 +75,9 @@ for n in range(1,1+net['K']):
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 500  ## TODO: set to args.epochs
+num_epochs = 700  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
-milestones = [150, 300, 400]
+milestones = [550]
 
 L = args.layers
 M = args.filters
