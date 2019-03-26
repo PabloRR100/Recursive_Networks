@@ -438,6 +438,7 @@ from analysis_ensembles import plot_accuracy_ensembles_vs_single ## print_inidiv
 from analysis_ensembles import plot_classwise_accuracy
 
 plot_loss_ensembles_vs_single(L,M,BN,K, results, print_individuals=True)
+plot_accuracy_ensembles_vs_single(L,M,BN,K, results, print_individuals=True)
 plot_accuracy_ensembles_vs_single(L,M,BN,K, results, print_individuals=False, results_=results_)
 plot_classwise_accuracy(L,M,BN,K,recursive=False, results=acc)
 
