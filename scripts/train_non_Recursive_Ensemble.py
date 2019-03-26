@@ -408,22 +408,50 @@ exit()
 
 import matplotlib.pyplot as plt
 
-plot_single_model = psm = False
+plot_single_model = psm = True
 ## Ensemble vs the Individuals is the default option
 ## set plot_single_model to True to include the results from train_non_Recursive.py
 
 
-path = '../results/ensemble_non_recursives/Ensemble_Non_Recursive_L_16_M_32_BN_False_K_5.pkl'
-#path = '../results/ensemble_non_recursives/Results_Ensemble_Non_Recursive.pkl'
-#path = '../results/ensemble_non_recursives/definitives/Results_Ensemble_Non_Recursive.pkl'
-path_ = '../results/single_non_recursive/definitives/Results_Single.pkl'
+single_prmts = {'L': 32, 'M': 64, 'BN': False} 
+ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}
+
+path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{L}_M_{M}_BN_{BN}_K_{K}.pkl'.format(**ensemble_prmts)
+path_ = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_{L}_M_{M}_BN_{BN}.pkl'.format(**single_prmts)
 with open(path, 'rb') as input: results = pickle.load(input)
 with open(path_, 'rb') as input: results_ = pickle.load(input)
 
-E = 5
-num_epochs = 7
 
-c = [0, 'pink', 'blue', 'green', 'yellow', 'purple']
+E = 4
+num_epochs = 700
+
+colors = c = ['pink', 'blue', 'green', 'yellow', 'purple']
+
+
+def plot_loss_ensembles_vs_single(results, results_=None, print_individuals=False, print_single=False):
+    
+    global colors
+    global num_epochs
+
+    plt.figure()
+    plt.plot(range(num_epochs), results.train_loss['ensemble'], label='Ensemble', color='black', alpha=1)
+
+    if print_individuals:
+        for m,c in zip(range(1,ensemble_prmts['K']+1),colors):
+            plt.plot(range(num_epochs), results.train_loss['m{}'.format(m)], label='m{}'.format(m), color=c[m], alpha=0.4)
+            
+    if print_single:
+        plt.plot(range(num_epochs), results_.train_loss, label='Single Model', color='red', alpha=1, linewidth=0.5)
+        
+    plt.title('Training Loss')
+    plt.grid(True)
+    plt.show()
+    
+    
+plot_loss_ensembles_vs_single(results)
+
+        
+
 fig, ((ax1, ax2), (ax3, ax4)) = plt.subplots(2, 2)
 for m in range(1,1+E):
     ax1.plot(range(num_epochs), results.train_loss['m{}'.format(m)], label='m{}'.format(m), color=c[m], alpha=0.4)
@@ -454,6 +482,7 @@ if psm: ax4.plot(range(num_epochs), results_.valid_accy, label='Single Model', c
 ax4.set_title('Validation Accuracy')
 ax4.legend(loc='center left', bbox_to_anchor=(1, 0.5))
 ax4.grid(True)
+plt.title()
 plt.show()
 
 
