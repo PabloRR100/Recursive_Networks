@@ -308,11 +308,11 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
         
-    # Store epoch results for ensemble
-    acc = 100.*correct/total
-    results.append_loss(round(loss.item(), 2), 'valid', None)
-    results.append_accy(round(acc,2), 'valid', None)
-    print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
+        # Store epoch results for ensemble
+        acc = 100.*correct/total
+        results.append_loss(round(loss.item(), 2), 'valid', None)
+        results.append_accy(round(acc,2), 'valid', None)
+        print('Valid :: Loss: {} | Accy: {}'.format(round(loss.item(),2), round(acc,2)))
     
             
     # Save checkpoint.
