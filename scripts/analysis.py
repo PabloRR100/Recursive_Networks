@@ -26,8 +26,8 @@ colors = ['red', 'blue', 'green', 'purple', 'orange', 'pink']
 # Data, Device
 # -------------
 
-_, testloader_1, _ = dataloaders('CIFAR', 1)
-_, testloader, classes = dataloaders('CIFAR', 128)
+#_, testloader_1, _ = dataloaders('CIFAR', 1)
+#_, testloader, classes = dataloaders('CIFAR', 128)
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
 
