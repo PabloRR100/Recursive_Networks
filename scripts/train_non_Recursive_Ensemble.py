@@ -99,7 +99,7 @@ table.append_row(['Device', str(device_name)])
 table.append_row(['Cores', str(n_workers)])
 table.append_row(['GPUs', str(torch.cuda.device_count())])
 table.append_row(['CUDNN Enabled', str(torch.backends.cudnn.enabled)])
-table.append_row(['Architecture', 'Recursive NN (x{}'.format(K)])
+table.append_row(['Architecture', 'Recursive NN (x{})'.format(K)])
 table.append_row(['Dataset', 'CIFAR10'])
 table.append_row(['Testing', str(testing)])
 table.append_row(['Epochs', str(num_epochs)])
@@ -426,8 +426,8 @@ L,M,BN,K = list(ensemble_prmts.values())
 # --------------------
 
 from analysis_ensembles import accuracy_metrics, time_metrics
-#times = time_metrics(L,M,BN,K,is_recursive=False)
-#acc = accuracy_metrics(L,M,BN,K,is_recursive=False)
+times = time_metrics(L,M,BN,K,is_recursive=False)
+acc = accuracy_metrics(L,M,BN,K,is_recursive=False)
 
 
 ## Plot Results
