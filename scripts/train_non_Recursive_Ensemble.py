@@ -414,7 +414,6 @@ path_ = '../results/dicts/single_non_recursive/Single_Non_Recursive_L_{L}_M_{M}_
 with open(path, 'rb') as input: results = pickle.load(input)
 with open(path_, 'rb') as input: results_ = pickle.load(input)
 
-
 num_epochs = 700
 colors = c = ['pink', 'blue', 'green', 'yellow', 'purple']
 L,M,BN,K = list(ensemble_prmts.values())
@@ -436,17 +435,22 @@ acc = accuracy_metrics(L,M,BN,K,is_recursive=False)
 
 from analysis_ensembles import plot_loss_ensembles_vs_single  ## print_inidividuals, print_single
 from analysis_ensembles import plot_accuracy_ensembles_vs_single ## print_inidividuals, print_single
+from analysis_ensembles import plot_classwise_accuracy
 
 plot_loss_ensembles_vs_single(L,M,BN,K, results, print_individuals=True)
 plot_accuracy_ensembles_vs_single(L,M,BN,K, results, print_individuals=False, results_=results_)
-
-
-from analysis_ensembles import plot_classwise_accuracy
 plot_classwise_accuracy(L,M,BN,K,recursive=False, results=acc)
 
 
-
 ##TODO: COMPARE SINGLE VS LOST OF DIFFERENT ENSEBLE CONFIGURATIONS !!
+recursive = False
+L = [16, 4]
+M = [31, 36]
+K = [4, 16]
+BN = [False] * len(L)
+
+from analysis_ensembles import plot_compare_ensembles_accuracy
+plot_compare_ensembles_accuracy(L,M,BN,K, results=None, results_=results_)
 
 
 

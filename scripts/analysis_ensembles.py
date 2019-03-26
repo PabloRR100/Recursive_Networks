@@ -2,6 +2,7 @@
 import os
 import time
 import torch
+import pickle
 import numpy as np
 import pandas as pd
 from models import Conv_Net
@@ -262,6 +263,61 @@ def plot_classwise_accuracy(L,M,BN,K,recursive,results=None):
     plt.show()
     
 
+
+
+def load_training_results(L,M,BN,K,is_recursive=False):
+    # Function to create models given the hyperparameters    
+    err = 'Input should be a list'
+    err2 = 'rec should be a boolean indicanting if recursive architecture'
+    assert isinstance(L, list), err
+    assert isinstance(M, list), err
+    assert isinstance(BN, list), err
+    assert isinstance(is_recursive, bool), err2
+
+    preroot = 'non_' if is_recursive == False else ''
+    root = '../results/dicts/ensemble_{}recursives/'.format(preroot)
+    prefix = 'Non_' if is_recursive == False else ''
+    paths = [root + 'Ensemble_{}Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.\
+             format(prefix,l,m,b,k) for l,m,b,k in zip(L,M,BN,K)]
+        
+    def load_dict(path):
+        with open(path, 'rb') as input:
+            return pickle.load(input)
+
+    return [load_dict(path) for path in paths]
+
+
+def plot_compare_ensembles_accuracy(L,M,BN,K,recursive=False,results=None, results_=None):
+    
+    colors = plt.cm.jet(np.linspace(0,1,len(K)))
+    if results is None:
+        results = load_training_results(L,M,BN,K,recursive)        
+        
+    num_epochs = len(results[0].train_loss['ensemble'])
+    names = [create_models(l,m,bn,k)[0] for l,m,bn,k in zip(L,M,BN,K)]
+    
+    fig, (ax1, ax2) = plt.subplots(nrows=2)
+    for c,name,result in zip(colors,names,results):
+        ax1.plot(range(num_epochs), result.train_accy['ensemble'], label=name, color=c, alpha=1)
+
+    if results_ is not None:
+        ax1.plot(range(num_epochs), results_.train_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
+        
+    ax1.set_title('Training Accuracy')
+    ax1.grid(True)
+    ax1.legend()
+    
+    for c,name,result in zip(colors,names,results):
+        ax2.plot(range(num_epochs), result.valid_accy['ensemble'], label=name, color=c, alpha=1)    
+    
+    if results_ is not None:
+        ax2.plot(range(num_epochs), results_.valid_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
+    
+    ax2.set_title('Validation Accuracy')
+    ax2.grid(True)
+    ax2.legend()
+    plt.suptitle('Comparing different ensembles')
+    plt.show()
 
 
 
