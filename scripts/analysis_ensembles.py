@@ -160,7 +160,7 @@ def model_definition(L,M,BN,K):
 
 def plot_loss_ensembles_vs_single(L,M,BN,K, results, print_individuals=False, results_=None):
     
-    global colors
+    colors = plt.cm.jet(np.linspace(0,1,K))
     num_epochs = len(results.train_loss['ensemble'])
     
     name = model_definition(L,M,BN,K)
@@ -196,7 +196,7 @@ def plot_loss_ensembles_vs_single(L,M,BN,K, results, print_individuals=False, re
 
 def plot_accuracy_ensembles_vs_single(L,M,BN,K, results, print_individuals=False, results_=None):
     
-    global colors
+    colors = plt.cm.jet(np.linspace(0,1,K))
     num_epochs = len(results.train_loss['ensemble'])
 
     name = model_definition(L,M,BN,K)
@@ -210,7 +210,7 @@ def plot_accuracy_ensembles_vs_single(L,M,BN,K, results, print_individuals=False
     if results_ is not None:
         ax1.plot(range(num_epochs), results_.train_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
         
-    ax1.set_title('Training Loss')
+    ax1.set_title('Training Accuracy')
     ax1.grid(True)
     ax1.legend()
     
@@ -223,7 +223,7 @@ def plot_accuracy_ensembles_vs_single(L,M,BN,K, results, print_individuals=False
     if results_ is not None:
         ax2.plot(range(num_epochs), results_.valid_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
     
-    ax2.set_title('Validation Loss')
+    ax2.set_title('Validation Accuracy')
     ax2.grid(True)
     ax2.legend()
     plt.suptitle(name)
