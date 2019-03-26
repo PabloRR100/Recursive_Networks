@@ -38,7 +38,6 @@ def load_model(net, check_path, device):
         checkpoint = torch.load(check_path, map_location=device)
         new_state_dict = OrderedDict()
         for k,v in checkpoint['net'].items():
-#            name = k[7:]                        # TODO: some have double module. -> remove that by regex ?
             name = k.replace('module.', '')
             new_state_dict[name] = v
         return new_state_dict
