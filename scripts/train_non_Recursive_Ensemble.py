@@ -404,9 +404,9 @@ import pickle
 
 # CANDIDATES
 single_prmts = {'L': 32, 'M': 64, 'BN': False} 
-#ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}
+ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}
 #ensemble_prmts = {'L': 4,  'M': 36, 'BN': False, 'K': 16}
-ensemble_prmts = {'L': 4, 'M': 54, 'BN': False, 'K': 8}
+#ensemble_prmts = {'L': 4, 'M': 54, 'BN': False, 'K': 8}
 
 
 path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{L}_M_{M}_BN_{BN}_K_{K}.pkl'.format(**ensemble_prmts)
@@ -445,9 +445,9 @@ plot_classwise_accuracy(L,M,BN,K,recursive=False, results=acc)
 
 ##TODO: COMPARE SINGLE VS LOST OF DIFFERENT ENSEBLE CONFIGURATIONS !!
 recursive = False
-L = [16, 4]
-M = [31, 36]
-K = [4, 16]
+L = [16, 4, 4]
+M = [31, 36, 54]
+K = [4, 16, 8]
 BN = [False] * len(L)
 
 from analysis_ensembles import plot_compare_ensembles_accuracy
