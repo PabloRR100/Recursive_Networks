@@ -301,7 +301,8 @@ def plot_compare_ensembles_accuracy(L,M,BN,K,recursive=False,results=None, resul
         ax1.plot(range(num_epochs), result.train_accy['ensemble'], label=name, color=c, alpha=1)
 
     if results_ is not None:
-        ax1.plot(range(num_epochs), results_.train_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
+        name = 'Single: ' + results_.name
+        ax1.plot(range(num_epochs), results_.train_accy, label=name, color='red', alpha=1, linewidth=0.5)
         
     ax1.set_title('Training Accuracy')
     ax1.grid(True)
@@ -311,7 +312,8 @@ def plot_compare_ensembles_accuracy(L,M,BN,K,recursive=False,results=None, resul
         ax2.plot(range(num_epochs), result.valid_accy['ensemble'], label=name, color=c, alpha=1)    
     
     if results_ is not None:
-        ax2.plot(range(num_epochs), results_.valid_accy, label='Single Model', color='red', alpha=1, linewidth=0.5)
+        name = 'Single: ' + results_.name
+        ax2.plot(range(num_epochs), results_.valid_accy, label=name, color='red', alpha=1, linewidth=0.5)
     
     ax2.set_title('Validation Accuracy')
     ax2.grid(True)

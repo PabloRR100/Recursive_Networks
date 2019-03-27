@@ -449,6 +449,7 @@ L = [16, 4, 4]
 M = [31, 36, 54]
 K = [4, 16, 8]
 BN = [False] * len(L)
+results_.name = 'L = {L} M = {M} P = {K}'.format(**single_prmts)
 
 from analysis_ensembles import plot_compare_ensembles_accuracy
 plot_compare_ensembles_accuracy(L,M,BN,K, results=None, results_=results_)
