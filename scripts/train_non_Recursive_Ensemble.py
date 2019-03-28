@@ -155,7 +155,7 @@ def load_model(net, n, check_path, device):
         for k,v in checkpoint['net_{}'.format(n)].state_dict().items():
             name = k.replace('module.', '')
             new_state_dict[name] = v
-        return new_state_dict
+        return new_state_dict 
     
     net.load_state_dict(load_weights(check_path)) # remove word `module`
     
@@ -170,11 +170,17 @@ if args.resume:
     print('==> Resuming from checkpoint..')
     print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
     assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
+    checkpoint = torch.load(check_path, map_location=device)
     
     for n,net in enumerate(ensemble.values()):
         net = load_model(net, n+1, check_path, device)
     
-    checkpoint = torch.load(check_path, map_location=device)
+    for o,opt in enumerate(optimizers):
+        opt.load_state_dict(checkpoint['opt'][o])
+        
+#    for o in range(K):
+#        optimizers[o] = optimizers[o].load_state_dict(checkpoint['opt'][o])
+    
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
@@ -322,7 +328,9 @@ def test(epoch):
         state = {
             'acc': acc,
             'epoch': epoch,
+            'opt': [optimizers[k].state_dict() for k in range(K)]
         }
+            
         for k in range(1,K+1):
             netname = 'net_{}'.format(k)
             state[netname] = ensemble[netname]

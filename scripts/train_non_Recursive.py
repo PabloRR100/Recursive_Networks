@@ -120,9 +120,8 @@ if args.resume:
     if device == 'cuda':
         net = torch.nn.DataParallel(net)
 
-    # Possibly check if model was traind without BN
     net.load_state_dict(checkpoint['net'])
-    
+    optimizer = checkpoint['opt']
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
@@ -160,10 +159,6 @@ def train(epoch):
         _, predicted = outputs.max(1)
         total += targets.size(0)
         correct += predicted.eq(targets).sum().item()
-        
-#        ## TODO: UNCOMMENT WHEN RUNNING ON SERVER - It just for debuggin on local
-#        if test and batch_idx == 20:
-#            break
     
     accuracy = 100.*correct/total    
     results.append_loss(round(loss.item(),2), 'train')
@@ -192,10 +187,6 @@ def test(epoch):
             total += targets.size(0)
             correct += predicted.eq(targets).sum().item()
             
-#            # TODO: UNCOMMENT WHEN RUNNING ON SERVER -> wraped in test parameter
-#            if test and batch_idx == 20:
-#                break
-            
     # Save checkpoint.
     acc = 100.*correct/total
     results.append_loss(round(loss.item(),2), 'valid')
@@ -206,6 +197,7 @@ def test(epoch):
         print('Saving..')
         state = {
             'net': net.state_dict(),
+            'opt': optimizer.state_dict(),
             'acc': acc,
             'epoch': epoch,
         }
