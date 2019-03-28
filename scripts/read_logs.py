@@ -7,7 +7,7 @@ import pickle
 
 
 ## TODO: Introduce the correct path ##
-path = os.path.abspath('../results/ensemble_non_recursives/ensemble_non_recursive.txt')  
+path = os.path.abspath('../results/logs/ensemble_non_recursives/K_16_L_4_M_36.txt')
 path = os.path.abspath('../results/ensemble_recursives/definitives/ensemble_recursive.txt')  
 
 f = open(path, 'r')
@@ -15,7 +15,7 @@ x = f.readlines()
 x = [t for t in x if (t != '\n')]
 f.close()
 
-MODELS = 5
+MODELS = 16
 
 def get_loss_accy(tr):
     loss = list(map(float, [t.split('Loss: ')[1].split(' |')[0] for t in tr if 'Loss' in t]))
@@ -58,13 +58,13 @@ def remove_empty_keys(d):
     d = {k: v for k, v in d.items() if v != []}
     return d
 
-MODELS = 5
+MODELS = 16
 models = ['m'+str(i) for i in range(1, MODELS+1)]
 res = TrainResults(models)
-res.name = 'Recursive (x5)'
+res.name = 'Recursive (x{})'.format(MODELS)
 
 # Use a created results
-path = os.path.abspath('../results/ensemble_non_recursives/Results_Ensemble_Recursive.pkl')  
+path = os.path.abspath('../results/dicts/ensemble_non_recursives/definitives/Ensemble_Non_Recursive_L_4_M_36_BN_False_K_16.pkl')  
 with open(path, 'rb') as input: res = pickle.load(input)
 
 res.train_loss['ensemble'] = tr_loss
@@ -79,7 +79,7 @@ res.valid_accy = remove_empty_keys(res.valid_accy)
 
 # Save results object from the log
 ## TODO: set the path and name of the results - avoid overwrite!
-name = 'Results_Ensemble_Recursive.pkl'
+name = '../results/dicts/ensemble_non_recursives/definitives/Ensemble_Non_Recursive_L_4_M_36_BN_False_K_16.pkl'
 with open(name, 'wb') as object_result:
     pickle.dump(res, object_result, pickle.HIGHEST_PROTOCOL)
 
