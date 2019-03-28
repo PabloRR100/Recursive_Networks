@@ -2800,3 +2800,34 @@ Valid :: Loss: 0.37 | Accy: 87.88
 'run_epoch'  23846.69 ms
 
 Epoch: 536
+Train :: Loss: 0.21 | Accy: 96.25
+Valid :: Loss: 0.37 | Accy: 87.75
+'run_epoch'  23792.27 ms
+
+Epoch: 537
+Train :: Loss: 0.26 | Accy: 91.25
+Valid :: Loss: 0.38 | Accy: 87.63
+'run_epoch'  23851.97 ms
+
+Epoch: 538
+Train :: Loss: 0.3 | Accy: 88.75
+Valid :: Loss: 0.4 | Accy: 88.19
+Saving..
+'run_epoch'  23828.56 ms
+
+Epoch: 539
+Train :: Loss: 0.26 | Accy: 90.0
+Valid :: Loss: 0.36 | Accy: 87.65
+'run_epoch'  23813.41 ms
+
+Epoch: 540
+Train :: Loss: 0.32 | Accy: 87.5
+Valid :: Loss: 0.5 | Accy: 88.0
+'run_epoch'  23964.53 ms
+
+Epoch: 541
+Train :: Loss: 0.2 | Accy: 95.0
+Valid :: Loss: 0.41 | Accy: 87.69
+'run_epoch'  23781.34 ms
+
+Epoch: 542
