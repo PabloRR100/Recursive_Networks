@@ -296,7 +296,7 @@ def plot_compare_ensembles_accuracy(L,M,BN,K,recursive=False,results=None, resul
     num_epochs = len(results[0].train_loss['ensemble'])
     names = [create_models(l,m,bn,k)[0] for l,m,bn,k in zip(L,M,BN,K)]
     
-    fig, (ax1, ax2) = plt.subplots(nrows=2)
+    fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(20,20))
     for c,name,result in zip(colors,names,results):
         ax1.plot(range(num_epochs), result.train_accy['ensemble'], label=name, color=c, alpha=1)
 
@@ -331,7 +331,7 @@ def plot_compare_ensembles_loss(L,M,BN,K,recursive=False,results=None, results_=
     num_epochs = len(results[0].train_loss['ensemble'])
     names = [create_models(l,m,bn,k)[0] for l,m,bn,k in zip(L,M,BN,K)]
     
-    fig, (ax1, ax2) = plt.subplots(nrows=2)
+    fig, (ax1, ax2) = plt.subplots(nrows=2, figsize=(20,20))
     for c,name,result in zip(colors,names,results):
         ax1.plot(range(num_epochs), result.train_loss['ensemble'], label=name, color=c, alpha=1)
 
