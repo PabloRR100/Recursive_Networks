@@ -108,6 +108,8 @@ print('Regular net')
 if comments: print(net)
 print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
 
+criterion = nn.CrossEntropyLoss()
+optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
 
 if args.resume:
     
@@ -121,12 +123,9 @@ if args.resume:
         net = torch.nn.DataParallel(net)
 
     net.load_state_dict(checkpoint['net'])
-    optimizer = checkpoint['opt']
+    optimizer.load_state_dict(checkpoint['opt'])
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
-
-criterion = nn.CrossEntropyLoss()
-optimizer = optim.SGD(net.parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
 
 
 # Training

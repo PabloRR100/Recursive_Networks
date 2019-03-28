@@ -144,6 +144,13 @@ ensemble = OrderedDict()
 for n in range(1,1+K):
     ensemble['net_{}'.format(n)] = Conv_Net('net_{}'.format(n), L, M)
 
+optimizers = []
+criterion = nn.CrossEntropyLoss()
+
+for n in range(1,1+K):
+    optimizers.append(
+        optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
+    )
 
 def load_model(net, n, check_path, device):
     # Function to load saved models
@@ -175,22 +182,12 @@ if args.resume:
     for n,net in enumerate(ensemble.values()):
         net = load_model(net, n+1, check_path, device)
     
-    for o,opt in enumerate(optimizers):
-        opt.load_state_dict(checkpoint['opt'][o])
-        
-#    for o in range(K):
-#        optimizers[o] = optimizers[o].load_state_dict(checkpoint['opt'][o])
+    for o in range(K):
+        optimizers[o] = optimizers[o].load_state_dict(checkpoint['opt'][o])
     
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
-optimizers = []
-criterion = nn.CrossEntropyLoss()
-
-for n in range(1,1+K):
-    optimizers.append(
-        optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
-    )
 
 
 # Training
@@ -246,19 +243,16 @@ def train(epoch):
                 results.append_accy(round(n_accuracy, 2), 'train', n+1)
             
             individual_outputs.append(output)
-        
-#        ## TODO: Just set testing = True when debuggin on local
-#        if testing and batch_idx == 5:
-#            break
     
-     ## Ensemble forward pass
+         ## Ensemble forward pass
+            
+        output = torch.mean(torch.stack(individual_outputs), dim=0)
+        loss = criterion(output, targets) 
         
-    output = torch.mean(torch.stack(individual_outputs), dim=0)
-    loss = criterion(output, targets) 
-    
-    _, predicted = output.max(1)
-    total += targets.size(0)
-    correct += predicted.eq(targets).sum().item()
+        _, predicted = output.max(1)
+        total += targets.size(0)
+        correct += predicted.eq(targets).sum().item()
+
     accuracy = 100 * correct / total
     
     # Store iteration results for Ensemble
@@ -387,7 +381,7 @@ print('[ALERT]: Path to checkpoint (this may overwrite', check_path)
 if click.confirm('Do you want to continue?', default=True):
 
     print('[OK]: Starting Training of Recursive Ensemble Model')
-    for epoch in range(start_epoch, num_epochs):
+    for epoch in range(start_epoch, 1):
         run_epoch(epoch)
 
 else:
@@ -404,7 +398,6 @@ exit()
 
 
 
-## TODO: Adjust this plotting funcitonality to 
 import pickle
 
 # Analysizing Results
@@ -415,6 +408,7 @@ single_prmts = {'L': 32, 'M': 64, 'BN': False}
 ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}
 #ensemble_prmts = {'L': 4,  'M': 36, 'BN': False, 'K': 16}
 #ensemble_prmts = {'L': 4, 'M': 54, 'BN': False, 'K': 8}
+#ensemble_prmts = {'L': 8, 'M': 49, 'BN': False, 'K': 8}  -- Pending
 
 
 path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{L}_M_{M}_BN_{BN}_K_{K}.pkl'.format(**ensemble_prmts)
