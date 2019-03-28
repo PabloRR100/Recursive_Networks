@@ -381,7 +381,7 @@ print('[ALERT]: Path to checkpoint (this may overwrite', check_path)
 if click.confirm('Do you want to continue?', default=True):
 
     print('[OK]: Starting Training of Recursive Ensemble Model')
-    for epoch in range(start_epoch, 1):
+    for epoch in range(start_epoch, num_epochs):
         run_epoch(epoch)
 
 else:

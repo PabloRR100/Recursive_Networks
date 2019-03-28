@@ -1,4 +1,4 @@
-+-----------------+----------------------+
+ +-----------------+----------------------+
 | Python Version  |        3.6.5         |
 +-----------------+----------------------+
 | PyTorch Version |        1.0.0         |
@@ -37,7 +37,7 @@ Conv_Net(
     (4): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
     (5): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
     (6): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
-    (7): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (7): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), p adding=(1, 1))
     (8): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
     (9): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
     (10): Conv2d(32, 32, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
