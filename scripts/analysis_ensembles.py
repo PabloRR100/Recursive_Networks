@@ -322,6 +322,39 @@ def plot_compare_ensembles_accuracy(L,M,BN,K,recursive=False,results=None, resul
     plt.show()
 
 
+def plot_compare_ensembles_loss(L,M,BN,K,recursive=False,results=None, results_=None):
+    
+    colors = plt.cm.jet(np.linspace(0,1,len(K)))
+    if results is None:
+        results = load_training_results(L,M,BN,K,recursive)        
+        
+    num_epochs = len(results[0].train_loss['ensemble'])
+    names = [create_models(l,m,bn,k)[0] for l,m,bn,k in zip(L,M,BN,K)]
+    
+    fig, (ax1, ax2) = plt.subplots(nrows=2)
+    for c,name,result in zip(colors,names,results):
+        ax1.plot(range(num_epochs), result.train_loss['ensemble'], label=name, color=c, alpha=1)
+
+    if results_ is not None:
+        name = 'Single: ' + results_.name
+        ax1.plot(range(num_epochs), results_.train_loss, label=name, color='red', alpha=1, linewidth=0.5)
+        
+    ax1.set_title('Training Accuracy')
+    ax1.grid(True)
+    ax1.legend()
+    
+    for c,name,result in zip(colors,names,results):
+        ax2.plot(range(num_epochs), result.valid_loss['ensemble'], label=name, color=c, alpha=1)    
+    
+    if results_ is not None:
+        name = 'Single: ' + results_.name
+        ax2.plot(range(num_epochs), results_.valid_loss, label=name, color='red', alpha=1, linewidth=0.5)
+    
+    ax2.set_title('Validation Accuracy')
+    ax2.grid(True)
+    ax2.legend()
+    plt.suptitle('Comparing different ensembles')
+    plt.show()
 
 
 

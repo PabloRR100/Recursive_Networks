@@ -181,10 +181,8 @@ if args.resume:
     
     for n,net in enumerate(ensemble.values()):
         net = load_model(net, n+1, check_path, device)
-    
-    for o in range(K):
-        optimizers[o] = optimizers[o].load_state_dict(checkpoint['opt'][o])
-    
+        optimizers[n].load_state_dict(checkpoint['opt'][n])  
+        
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
@@ -451,13 +449,13 @@ L = [16, 4, 4]
 M = [31, 36, 54]
 K = [4, 16, 8]
 BN = [False] * len(L)
-results_.name = 'L = {L} M = {M} P = {K}'.format(**single_prmts)
+results_.name = 'L = {L} M = {M}'.format(**single_prmts)
 
 from analysis_ensembles import plot_compare_ensembles_accuracy
 plot_compare_ensembles_accuracy(L,M,BN,K, results=None, results_=results_)
 
-
-
+from analysis_ensembles import plot_compare_ensembles_loss
+plot_compare_ensembles_loss(L,M,BN,K, results=None, results_=results_)
 
 
 

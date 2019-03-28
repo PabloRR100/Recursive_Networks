@@ -43,7 +43,7 @@ path = 'test_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
 
 best_acc = 0  
 start_epoch = 0  
-num_epochs = 2  ## TODO: set to args.epochs
+num_epochs = 5  ## TODO: set to args.epochs
 batch_size = 128  ## TODO: set to args.barch
 milestones = [550]
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -57,6 +57,7 @@ avoidWarnings()
 comments = True
 from models import Conv_Net
 net = Conv_Net('net', L, M, normalize=BN)
+print(net)
 
 from collections import OrderedDict
 ensemble = OrderedDict()
@@ -103,6 +104,9 @@ for epoch in range(num_epochs):
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
+        if batch_idx >= 10: 
+            break
+        
         individual_outputs = list()
         
         for n, net in enumerate(ensemble.values()):
@@ -125,6 +129,7 @@ for epoch in range(num_epochs):
             loss.backward()
             optimizers[n].step()
             individual_outputs.append(output)
+    
     
          ## Ensemble forward pass
             
@@ -158,10 +163,9 @@ state2 = {
 print('==> Resuming from checkpoint..')
 print("[IMPORTANT] Don't forget to rename the results object to not overwrite!! ")
 assert os.path.isdir('checkpoint'), 'Error: no checkpoint directory found!'
-checkpoint = torch.load(check_path, map_location=device)
 
 for o in range(K):
-    optimizers[o] = optimizers[o].load_state_dict(state['opt'][o])
+    optimizers[o].load_state_dict(state['opt'][o])
 
 # Print optimizer's state_dict
 print("Optimizer's state_dict:")
@@ -170,4 +174,6 @@ for var_name in optimizers[0].state_dict():
     print(var_name, "\t", optimizers[0].state_dict()[var_name])
     collector.append((var_name, "\t", optimizers[0].state_dict()[var_name]))
     
-
+state3 = {
+    'opt': [optimizers[k].state_dict() for k in range(K)]
+}
