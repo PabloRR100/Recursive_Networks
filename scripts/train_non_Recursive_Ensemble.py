@@ -63,7 +63,7 @@ path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{}_M_{
 #
 ## For M=64, L=32
 #candidates = [{'K': 16, 'Le': 4,  'Me': 36},  ## Low K, Le
-#              {'K': 4,  'Le': 16, 'Me': 31},  ## Low K, Me
+#              {'K': 4,  'Le': 32, 'Me': 31},  ## Low K, Me  --> This was wrong with Le = 16
 #              {'K': 32, 'Le': 32, 'Me': 10},  ## Low K, Me, Le
 #              {'K': 4,  'Le': 8,  'Me': 59},  ## Low K, Me, Le
 #              {'K': 8,  'Le': 4,  'Me': 54},  ## Good K, Large Me, Low Le
@@ -403,10 +403,10 @@ import pickle
 
 # CANDIDATES
 single_prmts = {'L': 32, 'M': 64, 'BN': False} 
-ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}
-#ensemble_prmts = {'L': 4,  'M': 36, 'BN': False, 'K': 16}
-#ensemble_prmts = {'L': 4, 'M': 54, 'BN': False, 'K': 8}
-#ensemble_prmts = {'L': 8, 'M': 49, 'BN': False, 'K': 8}  -- Pending
+#ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}   - repeat
+#ensemble_prmts = {'L': 4,  'M': 36, 'BN': False, 'K': 16}  - repeat
+#ensemble_prmts = {'L': 4, 'M': 54, 'BN': False, 'K': 8}    - done 
+#ensemble_prmts = {'L': 8, 'M': 40, 'BN': False, 'K': 8}    - done
 
 
 path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{L}_M_{M}_BN_{BN}_K_{K}.pkl'.format(**ensemble_prmts)
@@ -445,9 +445,9 @@ plot_classwise_accuracy(L,M,BN,K,recursive=False, results=acc)
 
 ##TODO: COMPARE SINGLE VS LOST OF DIFFERENT ENSEBLE CONFIGURATIONS !!
 recursive = False
-L = [16, 4, 4]
-M = [31, 36, 54]
-K = [4, 16, 8]
+L = [16, 4, 4, 8]
+M = [31, 36, 54, 40]
+K = [4, 16, 8, 8]
 BN = [False] * len(L)
 results_.name = 'L = {L} M = {M}'.format(**single_prmts)
 
@@ -456,6 +456,76 @@ plot_compare_ensembles_accuracy(L,M,BN,K, results=None, results_=results_)
 
 from analysis_ensembles import plot_compare_ensembles_loss
 plot_compare_ensembles_loss(L,M,BN,K, results=None, results_=results_)
+
+
+
+
+
+K = 1
+L = 32
+M = 64
+net = Conv_Net('', L=L, M=M)
+print('\n\n\t\tParameters: {}M'.format(K * count_parameters(net)/1e6))
+
+
+K = 4
+L = 16
+M = 31
+net = Conv_Net('', L=L, M=M)
+print('\n\n\t\tParameters: {}M'.format(K * count_parameters(net)/1e6))
+
+
+K = 16
+L = 4
+M = 36
+net = Conv_Net('', L=L, M=M)
+print('\n\n\t\tParameters: {}M'.format(K * count_parameters(net)/1e6))
+
+
+K = 8
+L = 8
+M = 40
+net = Conv_Net('', L=L, M=M)
+
+print('\n\n\t\tParameters: {}M'.format(K * count_parameters(net)/1e6))
+
+
+
+import sys
+sys.path.append('../deep-to-ensemble')
+from main_utils import Net
+
+K = 1
+L = 32
+M = 64
+net = Net(L=L, M=M)
+print('\n\n\t\tParameters: {}M'.format(K * net.parameters))
+
+
+K = 4
+L = 16
+M = 31
+net = Net(L=L, M=M)
+print('\n\n\t\tParameters: {}M'.format(K * net.parameters))
+
+
+K = 16
+L = 4
+M = 36
+net = Net(L=L, M=M)
+print('\n\n\t\tParameters: {}M'.format(K * net.parameters))
+
+
+K = 8
+L = 8
+M = 40
+net = Net(L=L, M=M)
+print('\n\n\t\tParameters: {}M'.format(K * net.parameters))
+
+
+
+
+
 
 
 
