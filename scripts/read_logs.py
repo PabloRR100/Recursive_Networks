@@ -5,10 +5,9 @@
 import os
 import pickle
 
+# Introduce path 
+path = os.path.abspath('.logs/aws_training.txt')
 
-## TODO: Introduce the correct path ##
-path = os.path.abspath('../results/logs/ensemble_non_recursives/K_16_L_4_M_36.txt')
-path = os.path.abspath('../results/ensemble_recursives/definitives/ensemble_recursive.txt')  
 
 f = open(path, 'r')
 x = f.readlines()
