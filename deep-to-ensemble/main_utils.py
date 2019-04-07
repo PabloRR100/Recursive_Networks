@@ -71,13 +71,15 @@ def getL_M(S,K,M):
             return L
         if ensemble_network.total() > budget:
             return L-1
+        
     return -1
 
 
 if __name__ == '__main__':
     
-    K = 4
-    S = Net(M = 32, L = 16)
+    K = 16
+    
+    S = Net(M = 64, L = 32)
     print('\n\Single')
     print(' S: M = {},  L = {}'.format(S.M, S.L))
     print('Budget: ', S.total())
@@ -88,12 +90,26 @@ if __name__ == '__main__':
     Ek = Net(M = Me, L=Le)
     print('\n\nPLAIN HORIZONTAL')
     print(' S: M = {},  L = {}'.format(S.M, S.L))
+    print(' E: M = {},  L = {}, P = {}'.format(Ek.M, Ek.L, K*Ek.total()))
     print('Ek: Me = {}, Le = {}, K = {}'.format(Me, Le, K))
     print('|S| / |Ek| = ', S.total() / Ek.total())
-        
+    
+    ## B1: VERTICAL DIVISION: Fix M, K --> Divide L into Le
+    Me = S.M
+    Le = getL(S, K = K)
+    Ek = Net(M = Me, L = Le)
+    print('\n\nPLAIN VERTICAL')
+    print(' S: M = {},  L = {}'.format(S.M, S.L))
+    print(' E: M = {},  L = {}, P = {}'.format(Ek.M, Ek.L, K*Ek.total()))
+    print('Ek: Me = {}, Le = {}, K = {}'.format(Me, Le, K))
+    print('|S| / |Ek| = ', S.total() / Ek.total())
+    
+    
+    
+    
     ## A21: CONDITIONED HORIZONTAL DIVISION: Fix K, Choose Le < L --> Divide M into Me
     Le = 4
-    Me = getM_L(S = S, K = 4, L = Le)
+    Me = getM_L(S = S, K = K, L = Le)
     Ek = Net(M = Me, L = Le)
     print('\n\nCONDITIONED HORIZONTAL Le < L')
     print(' S: M = {},  L = {}'.format(S.M, S.L))
@@ -102,7 +118,7 @@ if __name__ == '__main__':
     
     ## A21: CONDITIONED HORIZONTAL DIVISION: Fix K, Choose Le > L --> Divide M into Me
     Le = 20
-    Me = getM_L(S = S, K = 4, L = Le)
+    Me = getM_L(S = S, K = K, L = Le)
     Ek = Net(M = Me, L = Le)
     print('\n\nCONDITIONED HORIZONTAL Le > L')
     print(' S: M = {},  L = {}'.format(S.M, S.L))
@@ -110,9 +126,12 @@ if __name__ == '__main__':
     print('|S| / |Ek| = ', S.total() / Ek.total())
 
 
+
+
+
     ## B1: VERTICAL DIVISION: Fix M, K --> Divide L into Le
     Me = S.M
-    Le = getL(S, K = 4)
+    Le = getL(S, K = K)
     Ek = Net(M = Me, L = Le)
     print('\n\nPLAIN VERTICAL')
     print(' S: M = {},  L = {}'.format(S.M, S.L))
@@ -121,21 +140,24 @@ if __name__ == '__main__':
     
     ## B21: CONDITIONED VERICAL DIVISION: Fix K, Choose Me < M --> Divide L into Le
     Me = 16
-    Le = getL_M(S = S, K = 4, M = Me)
+    Le = getL_M(S = S, K = K, M = Me)
     Ek = Net(M = Me, L = Le)
     print('\n\nCONDITIONED VERTICAL Me < M')
     print(' S: M = {},  L = {}'.format(S.M, S.L))
+    print(' E: M = {},  L = {}, P = {}'.format(Ek.M, Ek.L, Ek.total()))
     print('Ek: Me = {}, Le = {}, K = {}'.format(Me, Le, K))
     print('|S| / |Ek| = ', S.total() / Ek.total())
     
     ## B22: CONDITIONED VERICAL DIVISION: Fix K, Choose Me > M --> Divide L into Le
     Me = 48
-    Le = getL_M(S = S, K = 4, M = Me)
+    Le = getL_M(S = S, K = K, M = Me)
     Ek = Net(M = Me, L = Le)
     print('\n\nCONDITIONED VERTICAL Me > M')
     print(' S: M = {},  L = {}'.format(S.M, S.L))
     print('Ek: Me = {}, Le = {}, K = {}'.format(Me, Le, K))
     print('|S| / |Ek| = ', S.total() / Ek.total())
+
+
 
 
     ## CA: RECURSIVE: Fix Le = 1, Choose M --> Calculate Ensemble Size allowed
