@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Activate Environment
-source activate pytorch_py36
+source activate pytorch_p36
 
 # Big Ensemble
 
