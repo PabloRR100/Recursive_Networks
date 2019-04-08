@@ -17,7 +17,7 @@
 +-----------------+----------------------+
 |     Testing     |        False         |
 +-----------------+----------------------+
-|     Epochs      |          2           |
+|     Epochs      |         700          |
 +-----------------+----------------------+
 |   Batch Size    |         128          |
 +-----------------+----------------------+
@@ -85,35 +85,1173 @@ Testing  False
 Do you want to continue? [Y/n]: [OK]: Starting Training of Recursive Ensemble Model
 
 Epoch: 0
-Train :: Loss: 1.84 | Accy: 22.63
-Valid :: Loss: 1.68 | Accy: 30.09
+Train :: Loss: 1.82 | Accy: 24.32
+Valid :: Loss: 1.79 | Accy: 31.94
 Saving..
-'run_epoch'  56310.24 ms
+'run_epoch'  58882.71 ms
 
 Epoch: 1
-Train :: Loss: 1.68 | Accy: 35.18
-Valid :: Loss: 1.57 | Accy: 41.59
+Train :: Loss: 1.73 | Accy: 36.1
+Valid :: Loss: 1.55 | Accy: 41.71
 Saving..
-'run_epoch'  56985.25 ms
-Lenght of results collected
-+--------------+-------------+-------------+------------+
-|    Model     | Epoch Train | Epoch Valid | Iter Train |
-+--------------+-------------+-------------+------------+
-| Individual 1 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 2 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 3 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 4 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 5 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 6 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 7 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 8 |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
-|   Ensemble   |      2      |      2      |     0      |
-+--------------+-------------+-------------+------------+
+'run_epoch'  59155.05 ms
+
+Epoch: 2
+Train :: Loss: 1.56 | Accy: 41.24
+Valid :: Loss: 1.41 | Accy: 45.11
+Saving..
+'run_epoch'  58876.58 ms
+
+Epoch: 3
+Train :: Loss: 1.54 | Accy: 44.36
+Valid :: Loss: 1.46 | Accy: 46.21
+Saving..
+'run_epoch'  59737.91 ms
+
+Epoch: 4
+Train :: Loss: 1.29 | Accy: 47.59
+Valid :: Loss: 1.31 | Accy: 51.57
+Saving..
+'run_epoch'  59122.72 ms
+
+Epoch: 5
+Train :: Loss: 1.27 | Accy: 50.49
+Valid :: Loss: 1.21 | Accy: 54.32
+Saving..
+'run_epoch'  58824.71 ms
+
+Epoch: 6
+Train :: Loss: 1.39 | Accy: 53.11
+Valid :: Loss: 1.42 | Accy: 55.3
+Saving..
+'run_epoch'  59450.86 ms
+
+Epoch: 7
+Train :: Loss: 1.23 | Accy: 54.89
+Valid :: Loss: 1.29 | Accy: 57.35
+Saving..
+'run_epoch'  58125.49 ms
+
+Epoch: 8
+Train :: Loss: 1.3 | Accy: 57.08
+Valid :: Loss: 1.02 | Accy: 58.72
+Saving..
+'run_epoch'  58211.26 ms
+
+Epoch: 9
+Train :: Loss: 1.18 | Accy: 58.07
+Valid :: Loss: 1.19 | Accy: 60.48
+Saving..
+'run_epoch'  57329.81 ms
+
+Epoch: 10
+Train :: Loss: 1.01 | Accy: 59.25
+Valid :: Loss: 1.13 | Accy: 61.39
+Saving..
+'run_epoch'  57015.96 ms
+
+Epoch: 11
+Train :: Loss: 1.21 | Accy: 60.58
+Valid :: Loss: 1.05 | Accy: 61.61
+Saving..
+'run_epoch'  58806.77 ms
+
+Epoch: 12
+Train :: Loss: 0.93 | Accy: 61.89
+Valid :: Loss: 1.04 | Accy: 63.14
+Saving..
+'run_epoch'  58948.97 ms
+
+Epoch: 13
+Train :: Loss: 1.17 | Accy: 62.64
+Valid :: Loss: 1.05 | Accy: 64.19
+Saving..
+'run_epoch'  58660.75 ms
+
+Epoch: 14
+Train :: Loss: 0.98 | Accy: 63.7
+Valid :: Loss: 1.08 | Accy: 63.12
+'run_epoch'  59624.78 ms
+
+Epoch: 15
+Train :: Loss: 1.1 | Accy: 64.38
+Valid :: Loss: 0.91 | Accy: 65.79
+Saving..
+'run_epoch'  58677.80 ms
+
+Epoch: 16
+Train :: Loss: 0.81 | Accy: 65.31
+Valid :: Loss: 0.92 | Accy: 66.79
+Saving..
+'run_epoch'  58977.97 ms
+
+Epoch: 17
+Train :: Loss: 1.07 | Accy: 66.11
+Valid :: Loss: 0.81 | Accy: 67.24
+Saving..
+'run_epoch'  59045.75 ms
+
+Epoch: 18
+Train :: Loss: 0.9 | Accy: 66.56
+Valid :: Loss: 0.96 | Accy: 67.42
+Saving..
+'run_epoch'  59132.49 ms
+
+Epoch: 19
+Train :: Loss: 0.76 | Accy: 66.93
+Valid :: Loss: 0.94 | Accy: 68.61
+Saving..
+'run_epoch'  59351.69 ms
+
+Epoch: 20
+Train :: Loss: 0.82 | Accy: 67.74
+Valid :: Loss: 0.84 | Accy: 68.72
+Saving..
+'run_epoch'  59239.27 ms
+
+Epoch: 21
+Train :: Loss: 0.91 | Accy: 68.15
+Valid :: Loss: 1.08 | Accy: 68.68
+'run_epoch'  59732.58 ms
+
+Epoch: 22
+Train :: Loss: 1.01 | Accy: 68.48
+Valid :: Loss: 0.97 | Accy: 69.76
+Saving..
+'run_epoch'  58928.77 ms
+
+Epoch: 23
+Train :: Loss: 0.92 | Accy: 69.16
+Valid :: Loss: 0.83 | Accy: 70.16
+Saving..
+'run_epoch'  59597.07 ms
+
+Epoch: 24
+Train :: Loss: 0.91 | Accy: 69.58
+Valid :: Loss: 0.76 | Accy: 68.96
+'run_epoch'  59903.68 ms
+
+Epoch: 25
+Train :: Loss: 0.88 | Accy: 70.0
+Valid :: Loss: 1.02 | Accy: 70.25
+Saving..
+'run_epoch'  58728.57 ms
+
+Epoch: 26
+Train :: Loss: 1.0 | Accy: 70.49
+Valid :: Loss: 1.04 | Accy: 68.91
+'run_epoch'  59189.06 ms
+
+Epoch: 27
+Train :: Loss: 0.75 | Accy: 70.59
+Valid :: Loss: 0.91 | Accy: 70.65
+Saving..
+'run_epoch'  59643.89 ms
+
+Epoch: 28
+Train :: Loss: 0.59 | Accy: 71.33
+Valid :: Loss: 0.78 | Accy: 71.43
+Saving..
+'run_epoch'  59108.23 ms
+
+Epoch: 29
+Train :: Loss: 0.9 | Accy: 71.36
+Valid :: Loss: 1.01 | Accy: 71.74
+Saving..
+'run_epoch'  58411.24 ms
+
+Epoch: 30
+Train :: Loss: 0.75 | Accy: 71.67
+Valid :: Loss: 0.85 | Accy: 71.2
+'run_epoch'  59111.95 ms
+
+Epoch: 31
+Train :: Loss: 0.82 | Accy: 72.15
+Valid :: Loss: 0.89 | Accy: 71.95
+Saving..
+'run_epoch'  59364.63 ms
+
+Epoch: 32
+Train :: Loss: 0.84 | Accy: 72.36
+Valid :: Loss: 0.89 | Accy: 71.96
+Saving..
+'run_epoch'  57426.36 ms
+
+Epoch: 33
+Train :: Loss: 0.64 | Accy: 72.64
+Valid :: Loss: 0.83 | Accy: 72.37
+Saving..
+'run_epoch'  57559.15 ms
+
+Epoch: 34
+Train :: Loss: 0.69 | Accy: 73.23
+Valid :: Loss: 0.83 | Accy: 72.37
+'run_epoch'  57295.41 ms
+
+Epoch: 35
+Train :: Loss: 0.78 | Accy: 73.48
+Valid :: Loss: 0.88 | Accy: 73.09
+Saving..
+'run_epoch'  56991.71 ms
+
+Epoch: 36
+Train :: Loss: 0.51 | Accy: 73.61
+Valid :: Loss: 0.84 | Accy: 73.82
+Saving..
+'run_epoch'  57134.18 ms
+
+Epoch: 37
+Train :: Loss: 0.9 | Accy: 73.74
+Valid :: Loss: 0.81 | Accy: 74.18
+Saving..
+'run_epoch'  55217.13 ms
+
+Epoch: 38
+Train :: Loss: 0.73 | Accy: 73.93
+Valid :: Loss: 0.71 | Accy: 73.07
+'run_epoch'  57565.04 ms
+
+Epoch: 39
+Train :: Loss: 0.79 | Accy: 74.0
+Valid :: Loss: 0.73 | Accy: 73.78
+'run_epoch'  58569.86 ms
+
+Epoch: 40
+Train :: Loss: 0.68 | Accy: 74.48
+Valid :: Loss: 0.87 | Accy: 74.1
+'run_epoch'  58075.73 ms
+
+Epoch: 41
+Train :: Loss: 0.67 | Accy: 74.65
+Valid :: Loss: 0.74 | Accy: 73.73
+'run_epoch'  58200.61 ms
+
+Epoch: 42
+Train :: Loss: 0.89 | Accy: 74.52
+Valid :: Loss: 0.7 | Accy: 74.4
+Saving..
+'run_epoch'  58280.63 ms
+
+Epoch: 43
+Train :: Loss: 0.8 | Accy: 74.86
+Valid :: Loss: 0.74 | Accy: 74.5
+Saving..
+'run_epoch'  58544.48 ms
+
+Epoch: 44
+Train :: Loss: 0.77 | Accy: 75.18
+Valid :: Loss: 0.81 | Accy: 73.66
+'run_epoch'  58029.76 ms
+
+Epoch: 45
+Train :: Loss: 0.71 | Accy: 75.59
+Valid :: Loss: 0.73 | Accy: 74.6
+Saving..
+'run_epoch'  58439.69 ms
+
+Epoch: 46
+Train :: Loss: 0.69 | Accy: 75.64
+Valid :: Loss: 0.75 | Accy: 75.52
+Saving..
+'run_epoch'  58429.36 ms
+
+Epoch: 47
+Train :: Loss: 0.7 | Accy: 75.53
+Valid :: Loss: 0.88 | Accy: 74.5
+'run_epoch'  57600.91 ms
+
+Epoch: 48
+Train :: Loss: 0.73 | Accy: 76.06
+Valid :: Loss: 0.71 | Accy: 76.5
+Saving..
+'run_epoch'  58906.13 ms
+
+Epoch: 49
+Train :: Loss: 0.66 | Accy: 76.2
+Valid :: Loss: 0.75 | Accy: 75.76
+'run_epoch'  57803.06 ms
+
+Epoch: 50
+Train :: Loss: 0.81 | Accy: 76.17
+Valid :: Loss: 0.84 | Accy: 75.29
+'run_epoch'  58318.42 ms
+
+Epoch: 51
+Train :: Loss: 0.72 | Accy: 76.44
+Valid :: Loss: 0.83 | Accy: 75.12
+'run_epoch'  57856.04 ms
+
+Epoch: 52
+Train :: Loss: 0.75 | Accy: 76.6
+Valid :: Loss: 0.7 | Accy: 76.11
+'run_epoch'  55015.47 ms
+
+Epoch: 53
+Train :: Loss: 0.63 | Accy: 76.57
+Valid :: Loss: 0.7 | Accy: 76.22
+'run_epoch'  56286.58 ms
+
+Epoch: 54
+Train :: Loss: 0.7 | Accy: 76.67
+Valid :: Loss: 0.77 | Accy: 76.75
+Saving..
+'run_epoch'  57125.73 ms
+
+Epoch: 55
+Train :: Loss: 0.7 | Accy: 76.88
+Valid :: Loss: 0.68 | Accy: 76.25
+'run_epoch'  58133.77 ms
+
+Epoch: 56
+Train :: Loss: 0.82 | Accy: 77.05
+Valid :: Loss: 0.88 | Accy: 76.1
+'run_epoch'  59557.88 ms
+
+Epoch: 57
+Train :: Loss: 0.69 | Accy: 77.18
+Valid :: Loss: 0.56 | Accy: 76.54
+'run_epoch'  60391.84 ms
+
+Epoch: 58
+Train :: Loss: 0.59 | Accy: 77.27
+Valid :: Loss: 0.74 | Accy: 76.84
+Saving..
+'run_epoch'  60736.77 ms
+
+Epoch: 59
+Train :: Loss: 0.92 | Accy: 77.16
+Valid :: Loss: 0.74 | Accy: 76.88
+Saving..
+'run_epoch'  60603.94 ms
+
+Epoch: 60
+Train :: Loss: 0.64 | Accy: 77.42
+Valid :: Loss: 0.67 | Accy: 76.76
+'run_epoch'  59763.24 ms
+
+Epoch: 61
+Train :: Loss: 0.65 | Accy: 77.63
+Valid :: Loss: 0.81 | Accy: 77.23
+Saving..
+'run_epoch'  59873.05 ms
+
+Epoch: 62
+Train :: Loss: 0.79 | Accy: 77.92
+Valid :: Loss: 0.74 | Accy: 77.07
+'run_epoch'  59467.11 ms
+
+Epoch: 63
+Train :: Loss: 0.77 | Accy: 78.08
+Valid :: Loss: 0.76 | Accy: 76.24
+'run_epoch'  60329.90 ms
+
+Epoch: 64
+Train :: Loss: 0.6 | Accy: 77.99
+Valid :: Loss: 0.77 | Accy: 76.84
+'run_epoch'  59212.14 ms
+
+Epoch: 65
+Train :: Loss: 0.71 | Accy: 78.24
+Valid :: Loss: 0.9 | Accy: 77.57
+Saving..
+'run_epoch'  59596.74 ms
+
+Epoch: 66
+Train :: Loss: 0.76 | Accy: 78.03
+Valid :: Loss: 0.79 | Accy: 77.67
+Saving..
+'run_epoch'  60082.03 ms
+
+Epoch: 67
+Train :: Loss: 0.57 | Accy: 78.24
+Valid :: Loss: 0.75 | Accy: 77.16
+'run_epoch'  59994.00 ms
+
+Epoch: 68
+Train :: Loss: 0.55 | Accy: 78.49
+Valid :: Loss: 0.77 | Accy: 77.38
+'run_epoch'  59906.71 ms
+
+Epoch: 69
+Train :: Loss: 0.61 | Accy: 78.35
+Valid :: Loss: 0.76 | Accy: 77.7
+Saving..
+'run_epoch'  59597.04 ms
+
+Epoch: 70
+Train :: Loss: 0.73 | Accy: 78.51
+Valid :: Loss: 0.73 | Accy: 78.28
+Saving..
+'run_epoch'  59491.80 ms
+
+Epoch: 71
+Train :: Loss: 0.6 | Accy: 78.62
+Valid :: Loss: 0.62 | Accy: 78.06
+'run_epoch'  60097.35 ms
+
+Epoch: 72
+Train :: Loss: 0.64 | Accy: 78.88
+Valid :: Loss: 0.61 | Accy: 77.98
+'run_epoch'  59090.80 ms
+
+Epoch: 73
+Train :: Loss: 0.72 | Accy: 78.7
+Valid :: Loss: 0.75 | Accy: 77.83
+'run_epoch'  59827.92 ms
+
+Epoch: 74
+Train :: Loss: 0.68 | Accy: 78.92
+Valid :: Loss: 0.71 | Accy: 78.38
+Saving..
+'run_epoch'  60258.18 ms
+
+Epoch: 75
+Train :: Loss: 0.6 | Accy: 79.11
+Valid :: Loss: 0.68 | Accy: 78.19
+'run_epoch'  60172.84 ms
+
+Epoch: 76
+Train :: Loss: 0.61 | Accy: 78.96
+Valid :: Loss: 0.72 | Accy: 78.5
+Saving..
+'run_epoch'  60588.45 ms
+
+Epoch: 77
+Train :: Loss: 0.61 | Accy: 79.09
+Valid :: Loss: 0.71 | Accy: 78.73
+Saving..
+'run_epoch'  59953.86 ms
+
+Epoch: 78
+Train :: Loss: 0.63 | Accy: 79.24
+Valid :: Loss: 0.77 | Accy: 78.17
+'run_epoch'  59846.12 ms
+
+Epoch: 79
+Train :: Loss: 0.56 | Accy: 79.38
+Valid :: Loss: 0.76 | Accy: 78.32
+'run_epoch'  60262.28 ms
+
+Epoch: 80
+Train :: Loss: 0.79 | Accy: 79.34
+Valid :: Loss: 0.73 | Accy: 78.86
+Saving..
+'run_epoch'  60223.80 ms
+
+Epoch: 81
+Train :: Loss: 0.77 | Accy: 79.49
+Valid :: Loss: 0.74 | Accy: 78.08
+'run_epoch'  59930.49 ms
+
+Epoch: 82
+Train :: Loss: 0.73 | Accy: 79.47
+Valid :: Loss: 0.71 | Accy: 77.53
+'run_epoch'  60265.30 ms
+
+Epoch: 83
+Train :: Loss: 0.47 | Accy: 79.49
+Valid :: Loss: 0.63 | Accy: 78.94
+Saving..
+'run_epoch'  59957.19 ms
+
+Epoch: 84
+Train :: Loss: 0.6 | Accy: 79.62
+Valid :: Loss: 0.69 | Accy: 79.15
+Saving..
+'run_epoch'  60601.44 ms
+
+Epoch: 85
+Train :: Loss: 0.55 | Accy: 79.76
+Valid :: Loss: 0.84 | Accy: 78.79
+'run_epoch'  59938.36 ms
+
+Epoch: 86
+Train :: Loss: 0.69 | Accy: 79.89
+Valid :: Loss: 0.68 | Accy: 77.59
+'run_epoch'  59787.31 ms
+
+Epoch: 87
+Train :: Loss: 0.6 | Accy: 79.8
+Valid :: Loss: 0.75 | Accy: 78.61
+'run_epoch'  60296.00 ms
+
+Epoch: 88
+Train :: Loss: 0.71 | Accy: 79.84
+Valid :: Loss: 0.81 | Accy: 78.51
+'run_epoch'  60510.28 ms
+
+Epoch: 89
+Train :: Loss: 0.58 | Accy: 80.05
+Valid :: Loss: 0.57 | Accy: 78.03
+'run_epoch'  59934.82 ms
+
+Epoch: 90
+Train :: Loss: 0.6 | Accy: 80.04
+Valid :: Loss: 0.74 | Accy: 78.87
+'run_epoch'  60316.43 ms
+
+Epoch: 91
+Train :: Loss: 0.65 | Accy: 80.15
+Valid :: Loss: 0.68 | Accy: 78.81
+'run_epoch'  60322.02 ms
+
+Epoch: 92
+Train :: Loss: 0.74 | Accy: 80.2
+Valid :: Loss: 0.69 | Accy: 79.46
+Saving..
+'run_epoch'  59360.00 ms
+
+Epoch: 93
+Train :: Loss: 0.65 | Accy: 80.39
+Valid :: Loss: 0.81 | Accy: 79.04
+'run_epoch'  60015.07 ms
+
+Epoch: 94
+Train :: Loss: 0.38 | Accy: 80.37
+Valid :: Loss: 0.92 | Accy: 79.3
+'run_epoch'  60284.37 ms
+
+Epoch: 95
+Train :: Loss: 0.66 | Accy: 80.36
+Valid :: Loss: 0.74 | Accy: 79.29
+'run_epoch'  60043.08 ms
+
+Epoch: 96
+Train :: Loss: 0.43 | Accy: 80.38
+Valid :: Loss: 0.75 | Accy: 79.19
+'run_epoch'  59323.31 ms
+
+Epoch: 97
+Train :: Loss: 0.51 | Accy: 80.68
+Valid :: Loss: 0.67 | Accy: 79.08
+'run_epoch'  59978.69 ms
+
+Epoch: 98
+Train :: Loss: 0.67 | Accy: 80.62
+Valid :: Loss: 0.83 | Accy: 79.23
+'run_epoch'  59943.67 ms
+
+Epoch: 99
+Train :: Loss: 0.73 | Accy: 80.68
+Valid :: Loss: 0.81 | Accy: 79.21
+'run_epoch'  59698.81 ms
+
+Epoch: 100
+Train :: Loss: 0.5 | Accy: 80.65
+Valid :: Loss: 0.69 | Accy: 79.45
+'run_epoch'  59907.50 ms
+
+Epoch: 101
+Train :: Loss: 0.48 | Accy: 80.84
+Valid :: Loss: 0.65 | Accy: 79.42
+'run_epoch'  61185.67 ms
+
+Epoch: 102
+Train :: Loss: 0.68 | Accy: 80.92
+Valid :: Loss: 0.67 | Accy: 78.99
+'run_epoch'  60563.32 ms
+
+Epoch: 103
+Train :: Loss: 0.65 | Accy: 80.86
+Valid :: Loss: 0.65 | Accy: 79.81
+Saving..
+'run_epoch'  59541.52 ms
+
+Epoch: 104
+Train :: Loss: 0.4 | Accy: 80.81
+Valid :: Loss: 0.86 | Accy: 79.65
+'run_epoch'  60250.25 ms
+
+Epoch: 105
+Train :: Loss: 0.44 | Accy: 80.94
+Valid :: Loss: 0.68 | Accy: 79.59
+'run_epoch'  59616.59 ms
+
+Epoch: 106
+Train :: Loss: 0.36 | Accy: 81.04
+Valid :: Loss: 0.72 | Accy: 79.93
+Saving..
+'run_epoch'  59868.36 ms
+
+Epoch: 107
+Train :: Loss: 0.62 | Accy: 81.12
+Valid :: Loss: 0.67 | Accy: 79.33
+'run_epoch'  59762.10 ms
+
+Epoch: 108
+Train :: Loss: 0.54 | Accy: 81.02
+Valid :: Loss: 0.84 | Accy: 79.15
+'run_epoch'  60791.09 ms
+
+Epoch: 109
+Train :: Loss: 0.61 | Accy: 80.96
+Valid :: Loss: 0.72 | Accy: 79.93
+'run_epoch'  59474.83 ms
+
+Epoch: 110
+Train :: Loss: 0.51 | Accy: 81.42
+Valid :: Loss: 0.68 | Accy: 79.6
+'run_epoch'  60294.80 ms
+
+Epoch: 111
+Train :: Loss: 0.51 | Accy: 81.19
+Valid :: Loss: 0.7 | Accy: 79.62
+'run_epoch'  60277.64 ms
+
+Epoch: 112
+Train :: Loss: 0.53 | Accy: 81.3
+Valid :: Loss: 0.66 | Accy: 79.48
+'run_epoch'  60294.60 ms
+
+Epoch: 113
+Train :: Loss: 0.64 | Accy: 81.49
+Valid :: Loss: 0.69 | Accy: 79.98
+Saving..
+'run_epoch'  61433.57 ms
+
+Epoch: 114
+Train :: Loss: 0.66 | Accy: 81.33
+Valid :: Loss: 0.79 | Accy: 79.98
+'run_epoch'  60107.61 ms
+
+Epoch: 115
+Train :: Loss: 0.6 | Accy: 81.46
+Valid :: Loss: 0.65 | Accy: 80.55
+Saving..
+'run_epoch'  60429.86 ms
+
+Epoch: 116
+Train :: Loss: 0.55 | Accy: 81.54
+Valid :: Loss: 0.63 | Accy: 80.34
+'run_epoch'  61052.23 ms
+
+Epoch: 117
+Train :: Loss: 0.52 | Accy: 81.62
+Valid :: Loss: 0.71 | Accy: 79.93
+'run_epoch'  60321.01 ms
+
+Epoch: 118
+Train :: Loss: 0.35 | Accy: 81.69
+Valid :: Loss: 0.73 | Accy: 79.94
+'run_epoch'  60055.99 ms
+
+Epoch: 119
+Train :: Loss: 0.48 | Accy: 81.71
+Valid :: Loss: 0.71 | Accy: 80.49
+'run_epoch'  59272.51 ms
+
+Epoch: 120
+Train :: Loss: 0.57 | Accy: 81.61
+Valid :: Loss: 0.64 | Accy: 80.71
+Saving..
+'run_epoch'  59912.35 ms
+
+Epoch: 121
+Train :: Loss: 0.43 | Accy: 81.79
+Valid :: Loss: 0.69 | Accy: 80.31
+'run_epoch'  60015.25 ms
+
+Epoch: 122
+Train :: Loss: 0.47 | Accy: 81.85
+Valid :: Loss: 0.78 | Accy: 79.52
+'run_epoch'  60265.25 ms
+
+Epoch: 123
+Train :: Loss: 0.52 | Accy: 81.78
+Valid :: Loss: 0.55 | Accy: 80.51
+'run_epoch'  59961.13 ms
+
+Epoch: 124
+Train :: Loss: 0.64 | Accy: 81.94
+Valid :: Loss: 0.78 | Accy: 80.71
+'run_epoch'  60540.50 ms
+
+Epoch: 125
+Train :: Loss: 0.4 | Accy: 81.79
+Valid :: Loss: 0.69 | Accy: 80.49
+'run_epoch'  59979.35 ms
+
+Epoch: 126
+Train :: Loss: 0.76 | Accy: 82.05
+Valid :: Loss: 0.69 | Accy: 79.37
+'run_epoch'  59258.38 ms
+
+Epoch: 127
+Train :: Loss: 0.51 | Accy: 81.85
+Valid :: Loss: 0.69 | Accy: 80.09
+'run_epoch'  60525.73 ms
+
+Epoch: 128
+Train :: Loss: 0.32 | Accy: 81.81
+Valid :: Loss: 0.76 | Accy: 80.07
+'run_epoch'  60220.21 ms
+
+Epoch: 129
+Train :: Loss: 0.38 | Accy: 82.02
+Valid :: Loss: 0.58 | Accy: 80.1
+'run_epoch'  59728.08 ms
+
+Epoch: 130
+Train :: Loss: 0.56 | Accy: 81.96
+Valid :: Loss: 0.64 | Accy: 80.13
+'run_epoch'  59761.83 ms
+
+Epoch: 131
+Train :: Loss: 0.43 | Accy: 82.18
+Valid :: Loss: 0.63 | Accy: 80.8
+Saving..
+'run_epoch'  61036.80 ms
+
+Epoch: 132
+Train :: Loss: 0.44 | Accy: 82.1
+Valid :: Loss: 0.65 | Accy: 80.81
+Saving..
+'run_epoch'  59630.99 ms
+
+Epoch: 133
+Train :: Loss: 0.61 | Accy: 82.33
+Valid :: Loss: 0.71 | Accy: 80.59
+'run_epoch'  59980.09 ms
+
+Epoch: 134
+Train :: Loss: 0.47 | Accy: 82.18
+Valid :: Loss: 0.61 | Accy: 80.69
+'run_epoch'  60311.36 ms
+
+Epoch: 135
+Train :: Loss: 0.47 | Accy: 82.23
+Valid :: Loss: 0.72 | Accy: 79.47
+'run_epoch'  60252.80 ms
+
+Epoch: 136
+Train :: Loss: 0.61 | Accy: 82.31
+Valid :: Loss: 0.68 | Accy: 79.91
+'run_epoch'  60510.43 ms
+
+Epoch: 137
+Train :: Loss: 0.66 | Accy: 82.29
+Valid :: Loss: 0.64 | Accy: 80.35
+'run_epoch'  60217.77 ms
+
+Epoch: 138
+Train :: Loss: 0.66 | Accy: 82.29
+Valid :: Loss: 0.81 | Accy: 80.0
+'run_epoch'  59864.16 ms
+
+Epoch: 139
+Train :: Loss: 0.58 | Accy: 82.41
+Valid :: Loss: 0.67 | Accy: 80.54
+'run_epoch'  60205.32 ms
+
+Epoch: 140
+Train :: Loss: 0.37 | Accy: 82.41
+Valid :: Loss: 0.61 | Accy: 80.31
+'run_epoch'  60394.61 ms
+
+Epoch: 141
+Train :: Loss: 0.53 | Accy: 82.6
+Valid :: Loss: 0.61 | Accy: 80.78
+'run_epoch'  59612.46 ms
+
+Epoch: 142
+Train :: Loss: 0.5 | Accy: 82.38
+Valid :: Loss: 0.72 | Accy: 80.43
+'run_epoch'  59795.86 ms
+
+Epoch: 143
+Train :: Loss: 0.42 | Accy: 82.61
+Valid :: Loss: 0.85 | Accy: 80.53
+'run_epoch'  61065.81 ms
+
+Epoch: 144
+Train :: Loss: 0.46 | Accy: 82.53
+Valid :: Loss: 0.65 | Accy: 81.12
+Saving..
+'run_epoch'  61209.03 ms
+
+Epoch: 145
+Train :: Loss: 0.46 | Accy: 82.4
+Valid :: Loss: 0.62 | Accy: 80.5
+'run_epoch'  60226.69 ms
+
+Epoch: 146
+Train :: Loss: 0.51 | Accy: 82.55
+Valid :: Loss: 0.71 | Accy: 80.63
+'run_epoch'  60082.53 ms
+
+Epoch: 147
+Train :: Loss: 0.45 | Accy: 82.67
+Valid :: Loss: 0.62 | Accy: 80.32
+'run_epoch'  60045.10 ms
+
+Epoch: 148
+Train :: Loss: 0.57 | Accy: 82.73
+Valid :: Loss: 0.64 | Accy: 80.66
+'run_epoch'  60484.50 ms
+
+Epoch: 149
+Train :: Loss: 0.51 | Accy: 82.67
+Valid :: Loss: 0.64 | Accy: 80.79
+'run_epoch'  59534.92 ms
+
+Epoch: 150
+Train :: Loss: 0.6 | Accy: 82.95
+Valid :: Loss: 0.7 | Accy: 80.19
+'run_epoch'  59839.41 ms
+
+Epoch: 151
+Train :: Loss: 0.52 | Accy: 82.73
+Valid :: Loss: 0.63 | Accy: 81.01
+'run_epoch'  59509.71 ms
+
+Epoch: 152
+Train :: Loss: 0.44 | Accy: 82.83
+Valid :: Loss: 0.64 | Accy: 80.32
+'run_epoch'  60313.08 ms
+
+Epoch: 153
+Train :: Loss: 0.52 | Accy: 82.83
+Valid :: Loss: 0.54 | Accy: 81.37
+Saving..
+'run_epoch'  59783.38 ms
+
+Epoch: 154
+Train :: Loss: 0.37 | Accy: 82.71
+Valid :: Loss: 0.7 | Accy: 80.96
+'run_epoch'  59752.72 ms
+
+Epoch: 155
+Train :: Loss: 0.52 | Accy: 82.97
+Valid :: Loss: 0.71 | Accy: 81.25
+'run_epoch'  60412.56 ms
+
+Epoch: 156
+Train :: Loss: 0.49 | Accy: 82.85
+Valid :: Loss: 0.63 | Accy: 80.84
+'run_epoch'  61448.91 ms
+
+Epoch: 157
+Train :: Loss: 0.28 | Accy: 83.04
+Valid :: Loss: 0.63 | Accy: 81.14
+'run_epoch'  59996.22 ms
+
+Epoch: 158
+Train :: Loss: 0.52 | Accy: 83.08
+Valid :: Loss: 0.55 | Accy: 80.76
+'run_epoch'  59715.34 ms
+
+Epoch: 159
+Train :: Loss: 0.41 | Accy: 83.16
+Valid :: Loss: 0.61 | Accy: 80.33
+'run_epoch'  60159.33 ms
+
+Epoch: 160
+Train :: Loss: 0.66 | Accy: 82.82
+Valid :: Loss: 0.69 | Accy: 80.94
+'run_epoch'  60144.99 ms
+
+Epoch: 161
+Train :: Loss: 0.34 | Accy: 83.18
+Valid :: Loss: 0.72 | Accy: 81.14
+'run_epoch'  59846.78 ms
+
+Epoch: 162
+Train :: Loss: 0.54 | Accy: 83.16
+Valid :: Loss: 0.74 | Accy: 81.04
+'run_epoch'  60348.39 ms
+
+Epoch: 163
+Train :: Loss: 0.49 | Accy: 83.43
+Valid :: Loss: 0.71 | Accy: 81.55
+Saving..
+'run_epoch'  59936.59 ms
+
+Epoch: 164
+Train :: Loss: 0.73 | Accy: 83.19
+Valid :: Loss: 0.69 | Accy: 80.78
+'run_epoch'  59763.36 ms
+
+Epoch: 165
+Train :: Loss: 0.51 | Accy: 83.23
+Valid :: Loss: 0.61 | Accy: 80.74
+'run_epoch'  59671.28 ms
+
+Epoch: 166
+Train :: Loss: 0.39 | Accy: 83.17
+Valid :: Loss: 0.66 | Accy: 81.53
+'run_epoch'  59855.93 ms
+
+Epoch: 167
+Train :: Loss: 0.7 | Accy: 83.09
+Valid :: Loss: 0.68 | Accy: 81.31
+'run_epoch'  60260.16 ms
+
+Epoch: 168
+Train :: Loss: 0.46 | Accy: 83.32
+Valid :: Loss: 0.59 | Accy: 81.08
+'run_epoch'  60101.51 ms
+
+Epoch: 169
+Train :: Loss: 0.56 | Accy: 83.23
+Valid :: Loss: 0.74 | Accy: 80.9
+'run_epoch'  60246.61 ms
+
+Epoch: 170
+Train :: Loss: 0.69 | Accy: 83.35
+Valid :: Loss: 0.64 | Accy: 81.36
+'run_epoch'  59810.88 ms
+
+Epoch: 171
+Train :: Loss: 0.48 | Accy: 83.49
+Valid :: Loss: 0.62 | Accy: 81.45
+'run_epoch'  60736.43 ms
+
+Epoch: 172
+Train :: Loss: 0.49 | Accy: 83.29
+Valid :: Loss: 0.66 | Accy: 81.45
+'run_epoch'  60761.96 ms
+
+Epoch: 173
+Train :: Loss: 0.35 | Accy: 83.45
+Valid :: Loss: 0.52 | Accy: 81.26
+'run_epoch'  60111.45 ms
+
+Epoch: 174
+Train :: Loss: 0.48 | Accy: 83.44
+Valid :: Loss: 0.73 | Accy: 80.73
+'run_epoch'  59830.80 ms
+
+Epoch: 175
+Train :: Loss: 0.66 | Accy: 83.4
+Valid :: Loss: 0.53 | Accy: 81.16
+'run_epoch'  59655.80 ms
+
+Epoch: 176
+Train :: Loss: 0.48 | Accy: 83.39
+Valid :: Loss: 0.68 | Accy: 81.03
+'run_epoch'  59650.40 ms
+
+Epoch: 177
+Train :: Loss: 0.45 | Accy: 83.62
+Valid :: Loss: 0.75 | Accy: 81.33
+'run_epoch'  60368.78 ms
+
+Epoch: 178
+Train :: Loss: 0.46 | Accy: 83.31
+Valid :: Loss: 0.58 | Accy: 81.55
+'run_epoch'  60719.79 ms
+
+Epoch: 179
+Train :: Loss: 0.49 | Accy: 83.64
+Valid :: Loss: 0.72 | Accy: 81.42
+'run_epoch'  59905.19 ms
+
+Epoch: 180
+Train :: Loss: 0.43 | Accy: 83.34
+Valid :: Loss: 0.54 | Accy: 81.93
+Saving..
+'run_epoch'  59763.72 ms
+
+Epoch: 181
+Train :: Loss: 0.48 | Accy: 83.61
+Valid :: Loss: 0.55 | Accy: 81.54
+'run_epoch'  59955.95 ms
+
+Epoch: 182
+Train :: Loss: 0.46 | Accy: 83.59
+Valid :: Loss: 0.55 | Accy: 81.39
+'run_epoch'  59682.15 ms
+
+Epoch: 183
+Train :: Loss: 0.43 | Accy: 83.78
+Valid :: Loss: 0.56 | Accy: 81.64
+'run_epoch'  60332.14 ms
+
+Epoch: 184
+Train :: Loss: 0.58 | Accy: 83.55
+Valid :: Loss: 0.67 | Accy: 81.88
+'run_epoch'  60397.28 ms
+
+Epoch: 185
+Train :: Loss: 0.67 | Accy: 83.91
+Valid :: Loss: 0.57 | Accy: 81.44
+'run_epoch'  59786.05 ms
+
+Epoch: 186
+Train :: Loss: 0.58 | Accy: 83.65
+Valid :: Loss: 0.66 | Accy: 80.88
+'run_epoch'  60311.51 ms
+
+Epoch: 187
+Train :: Loss: 0.56 | Accy: 83.66
+Valid :: Loss: 0.51 | Accy: 81.05
+'run_epoch'  59965.88 ms
+
+Epoch: 188
+Train :: Loss: 0.55 | Accy: 83.76
+Valid :: Loss: 0.74 | Accy: 81.11
+'run_epoch'  60340.44 ms
+
+Epoch: 189
+Train :: Loss: 0.4 | Accy: 83.98
+Valid :: Loss: 0.68 | Accy: 81.29
+'run_epoch'  60767.53 ms
+
+Epoch: 190
+Train :: Loss: 0.37 | Accy: 83.73
+Valid :: Loss: 0.62 | Accy: 81.51
+'run_epoch'  59750.25 ms
+
+Epoch: 191
+Train :: Loss: 0.46 | Accy: 83.78
+Valid :: Loss: 0.59 | Accy: 80.99
+'run_epoch'  59736.43 ms
+
+Epoch: 192
+Train :: Loss: 0.43 | Accy: 83.92
+Valid :: Loss: 0.62 | Accy: 81.5
+'run_epoch'  60433.90 ms
+
+Epoch: 193
+Train :: Loss: 0.41 | Accy: 83.81
+Valid :: Loss: 0.46 | Accy: 81.73
+'run_epoch'  60479.32 ms
+
+Epoch: 194
+Train :: Loss: 0.52 | Accy: 84.01
+Valid :: Loss: 0.58 | Accy: 81.13
+'run_epoch'  61165.09 ms
+
+Epoch: 195
+Train :: Loss: 0.5 | Accy: 83.99
+Valid :: Loss: 0.55 | Accy: 81.41
+'run_epoch'  59720.06 ms
+
+Epoch: 196
+Train :: Loss: 0.52 | Accy: 83.87
+Valid :: Loss: 0.59 | Accy: 81.28
+'run_epoch'  60509.30 ms
+
+Epoch: 197
+Train :: Loss: 0.59 | Accy: 83.91
+Valid :: Loss: 0.54 | Accy: 81.83
+'run_epoch'  60069.81 ms
+
+Epoch: 198
+Train :: Loss: 0.5 | Accy: 83.81
+Valid :: Loss: 0.67 | Accy: 82.15
+Saving..
+'run_epoch'  59835.39 ms
+
+Epoch: 199
+Train :: Loss: 0.46 | Accy: 84.07
+Valid :: Loss: 0.56 | Accy: 81.63
+'run_epoch'  60655.18 ms
+
+Epoch: 200
+Train :: Loss: 0.58 | Accy: 84.15
+Valid :: Loss: 0.6 | Accy: 81.7
+'run_epoch'  60582.15 ms
+
+Epoch: 201
+Train :: Loss: 0.52 | Accy: 84.09
+Valid :: Loss: 0.48 | Accy: 81.88
+'run_epoch'  60109.58 ms
+
+Epoch: 202
+Train :: Loss: 0.63 | Accy: 84.03
+Valid :: Loss: 0.57 | Accy: 81.93
+'run_epoch'  60685.08 ms
+
+Epoch: 203
+Train :: Loss: 0.56 | Accy: 84.0
+Valid :: Loss: 0.54 | Accy: 81.98
+'run_epoch'  60877.48 ms
+
+Epoch: 204
+Train :: Loss: 0.59 | Accy: 84.11
+Valid :: Loss: 0.54 | Accy: 81.58
+'run_epoch'  60377.11 ms
+
+Epoch: 205
+Train :: Loss: 0.46 | Accy: 84.0
+Valid :: Loss: 0.56 | Accy: 82.09
+'run_epoch'  60642.72 ms
+
+Epoch: 206
+Train :: Loss: 0.43 | Accy: 84.06
+Valid :: Loss: 0.61 | Accy: 81.97
+'run_epoch'  60268.67 ms
+
+Epoch: 207
+Train :: Loss: 0.63 | Accy: 84.35
+Valid :: Loss: 0.56 | Accy: 82.01
+'run_epoch'  58685.91 ms
+
+Epoch: 208
+Train :: Loss: 0.51 | Accy: 84.17
+Valid :: Loss: 0.55 | Accy: 81.53
+'run_epoch'  59484.20 ms
+
+Epoch: 209
+Train :: Loss: 0.54 | Accy: 84.21
+Valid :: Loss: 0.57 | Accy: 81.18
+'run_epoch'  59585.20 ms
+
+Epoch: 210
+Train :: Loss: 0.44 | Accy: 84.18
+Valid :: Loss: 0.63 | Accy: 81.92
+'run_epoch'  60536.51 ms
+
+Epoch: 211
+Train :: Loss: 0.29 | Accy: 84.3
+Valid :: Loss: 0.5 | Accy: 81.71
+'run_epoch'  59576.47 ms
+
+Epoch: 212
+Train :: Loss: 0.36 | Accy: 84.28
+Valid :: Loss: 0.52 | Accy: 82.1
+'run_epoch'  59227.96 ms
+
+Epoch: 213
+Train :: Loss: 0.44 | Accy: 84.23
+Valid :: Loss: 0.61 | Accy: 81.85
+'run_epoch'  59510.13 ms
+
+Epoch: 214
+Train :: Loss: 0.44 | Accy: 84.31
+Valid :: Loss: 0.64 | Accy: 82.06
+'run_epoch'  59888.00 ms
+
+Epoch: 215
+Train :: Loss: 0.57 | Accy: 84.31
+Valid :: Loss: 0.52 | Accy: 82.31
+Saving..
+'run_epoch'  59673.94 ms
+
+Epoch: 216
+Train :: Loss: 0.51 | Accy: 84.17
+Valid :: Loss: 0.53 | Accy: 81.16
+'run_epoch'  59259.52 ms
+
+Epoch: 217
+Train :: Loss: 0.59 | Accy: 84.55
+Valid :: Loss: 0.69 | Accy: 82.01
+'run_epoch'  60245.27 ms
+
+Epoch: 218
+Train :: Loss: 0.4 | Accy: 84.64
+Valid :: Loss: 0.52 | Accy: 81.78
+'run_epoch'  59958.81 ms
+
+Epoch: 219
+Train :: Loss: 0.43 | Accy: 84.59
+Valid :: Loss: 0.5 | Accy: 82.07
+'run_epoch'  59401.61 ms
+
+Epoch: 220
+Train :: Loss: 0.43 | Accy: 84.43
+Valid :: Loss: 0.59 | Accy: 81.21
+'run_epoch'  59957.17 ms
+
+Epoch: 221
