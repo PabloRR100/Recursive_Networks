@@ -1,0 +1,191 @@
++-----------------+----------------------+
+| Python Version  |        3.6.5         |
++-----------------+----------------------+
+| PyTorch Version |        1.0.0         |
++-----------------+----------------------+
+|     Device      | Tesla V100-SXM2-16GB |
++-----------------+----------------------+
+|      Cores      |          8           |
++-----------------+----------------------+
+|      GPUs       |          1           |
++-----------------+----------------------+
+|  CUDNN Enabled  |         True         |
++-----------------+----------------------+
+|  Architecture   |  Recursive NN (x8)   |
++-----------------+----------------------+
+|     Dataset     |       CIFAR10        |
++-----------------+----------------------+
+|     Testing     |        False         |
++-----------------+----------------------+
+|     Epochs      |         700          |
++-----------------+----------------------+
+|   Batch Size    |         128          |
++-----------------+----------------------+
+|  Learning Rate  |         0.01         |
++-----------------+----------------------+
+|  LR Milestones  |        [550]         |
++-----------------+----------------------+
+|     Layers      |          32          |
++-----------------+----------------------+
+|     Filters     |          21          |
++-----------------+----------------------+
+|    BatchNorm    |        False         |
++-----------------+----------------------+
+==> Preparing data..
+Files already downloaded and verified
+Files already downloaded and verified
+Non Recursive ConvNet
+Conv_Net(
+  (act): ReLU()
+  (V): Conv2d(3, 21, kernel_size=(8, 8), stride=(1, 1), padding=(3, 3))
+  (P): MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+  (W): ModuleList(
+    (0): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (2): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (5): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (7): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (9): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (10): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (12): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (13): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (14): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (15): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (16): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (17): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (18): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (19): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (20): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (21): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (22): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (23): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (24): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (25): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (26): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (27): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (28): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (29): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (30): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (31): Conv2d(21, 21, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  )
+  (C): Linear(in_features=1344, out_features=10, bias=True)
+)
+
+
+		Parameters: 0.145183M
+==> Resuming from checkpoint..
+[IMPORTANT] Don't forget to rename the results object to not overwrite!! 
+Current set up
+Testing  False
+[ALERT]: Path to results (this may overwrite ../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_32_M_21_BN_False_K_8.pkl
+[ALERT]: Path to checkpoint (this may overwrite ./checkpoint/Ensemble_Non_Recursive_L_32_M_21_BN_False_K_8.t7
+Do you want to continue? [Y/n]: [OK]: Starting Training of Recursive Ensemble Model
+
+Epoch: 215
+Train :: Loss: 0.37 | Accy: 84.41
+Valid :: Loss: 0.59 | Accy: 81.94
+'run_epoch'  60064.21 ms
+
+Epoch: 216
+Train :: Loss: 0.58 | Accy: 84.41
+Valid :: Loss: 0.47 | Accy: 82.06
+'run_epoch'  59558.51 ms
+
+Epoch: 217
+Train :: Loss: 0.41 | Accy: 84.35
+Valid :: Loss: 0.54 | Accy: 82.09
+'run_epoch'  59272.98 ms
+
+Epoch: 218
+Train :: Loss: 0.43 | Accy: 84.53
+Valid :: Loss: 0.65 | Accy: 81.74
+'run_epoch'  60047.89 ms
+
+Epoch: 219
+Train :: Loss: 0.3 | Accy: 84.4
+Valid :: Loss: 0.6 | Accy: 82.0
+'run_epoch'  59785.97 ms
+
+Epoch: 220
+Train :: Loss: 0.68 | Accy: 84.7
+Valid :: Loss: 0.58 | Accy: 82.11
+'run_epoch'  59250.22 ms
+
+Epoch: 221
+Train :: Loss: 0.54 | Accy: 84.42
+Valid :: Loss: 0.63 | Accy: 80.94
+'run_epoch'  59261.39 ms
+
+Epoch: 222
+Train :: Loss: 0.5 | Accy: 84.5
+Valid :: Loss: 0.51 | Accy: 82.34
+Saving..
+'run_epoch'  59334.38 ms
+
+Epoch: 223
+Train :: Loss: 0.43 | Accy: 84.51
+Valid :: Loss: 0.61 | Accy: 82.34
+'run_epoch'  59207.62 ms
+
+Epoch: 224
+Train :: Loss: 0.47 | Accy: 84.48
+Valid :: Loss: 0.52 | Accy: 82.13
+'run_epoch'  60403.24 ms
+
+Epoch: 225
+Train :: Loss: 0.34 | Accy: 84.61
+Valid :: Loss: 0.74 | Accy: 81.33
+'run_epoch'  59829.15 ms
+
+Epoch: 226
+Train :: Loss: 0.46 | Accy: 84.49
+Valid :: Loss: 0.64 | Accy: 82.13
+'run_epoch'  59983.75 ms
+
+Epoch: 227
+Train :: Loss: 0.37 | Accy: 84.73
+Valid :: Loss: 0.49 | Accy: 82.18
+'run_epoch'  59442.33 ms
+
+Epoch: 228
+Train :: Loss: 0.46 | Accy: 84.69
+Valid :: Loss: 0.67 | Accy: 82.19
+'run_epoch'  59722.64 ms
+
+Epoch: 229
+Train :: Loss: 0.42 | Accy: 84.62
+Valid :: Loss: 0.57 | Accy: 81.89
+'run_epoch'  60565.23 ms
+
+Epoch: 230
+Train :: Loss: 0.56 | Accy: 84.71
+Valid :: Loss: 0.61 | Accy: 82.36
+Saving..
+'run_epoch'  60137.83 ms
+
+Epoch: 231
+Train :: Loss: 0.4 | Accy: 84.51
+Valid :: Loss: 0.58 | Accy: 82.1
+'run_epoch'  60641.10 ms
+
+Epoch: 232
+Train :: Loss: 0.36 | Accy: 84.74
+Valid :: Loss: 0.54 | Accy: 82.19
+'run_epoch'  60453.58 ms
+
+Epoch: 233
+Train :: Loss: 0.34 | Accy: 84.8
+Valid :: Loss: 0.66 | Accy: 82.34
+'run_epoch'  60454.32 ms
+
+Epoch: 234
+Train :: Loss: 0.45 | Accy: 84.64
+Valid :: Loss: 0.64 | Accy: 82.11
+'run_epoch'  61211.80 ms
+
+Epoch: 235
