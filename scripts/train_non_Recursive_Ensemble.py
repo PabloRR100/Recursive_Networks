@@ -379,10 +379,23 @@ import pickle
 
 # CANDIDATES
 single_prmts = {'L': 32, 'M': 64, 'BN': False} 
-#ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}  #  - repeat
-ensemble_prmts = {'L': 4,  'M': 36, 'BN': False, 'K': 16}  # - repeat
+#ensemble_prmts = {'L': 16, 'M': 31, 'BN': False, 'K': 4}  #  - done
+#ensemble_prmts = {'L': 4,  'M': 36, 'BN': False, 'K': 16}  # - done
 #ensemble_prmts = {'L': 4, 'M': 54, 'BN': False, 'K': 8}   #  - done 
 #ensemble_prmts = {'L': 8, 'M': 40, 'BN': False, 'K': 8}   #  - done
+
+# Round 2 Candidates
+# ------------------
+
+# Horizontal Division
+ensemble_prmts = {'L': 32,  'M': 31, 'BN': False, 'K': 4}  # - done
+ensemble_prmts = {'L': 32,  'M': 21, 'BN': False, 'K': 8}  # - done
+ensemble_prmts = {'L': 32,  'M': 14, 'BN': False, 'K': 16}  # - done
+ensemble_prmts = {'L': 32,  'M': 21, 'BN': False, 'K': 8}  # - done
+ensemble_prmts = {'L': 32,  'M': 14, 'BN': False, 'K': 16}  # - done
+
+
+# Vertical Division
 
 
 path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{L}_M_{M}_BN_{BN}_K_{K}.pkl'.format(**ensemble_prmts)
@@ -393,8 +406,6 @@ with open(path_, 'rb') as input: results_ = pickle.load(input)
 num_epochs = 700
 colors = c = ['pink', 'blue', 'green', 'yellow', 'purple']
 L,M,BN,K = list(ensemble_prmts.values())
-
-
 
 
 
@@ -428,7 +439,7 @@ plot_classwise_accuracy(L,M,BN,K,recursive=False, results=acc)
 
 
 recursive = False
-#L = [16, 4, 4, 8]
+L = [16, 4, 4, 8]
 L = [32, 4, 4, 8]
 M = [31, 36, 54, 40]
 K = [4, 16, 8, 8]
