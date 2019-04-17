@@ -6,6 +6,7 @@ source activate pytorch_p36
 
 E=5
 BN=False
+GPU=$1
 
 function g() {
     arg1=$1; arg2=$2; arg3=$3 
@@ -16,25 +17,25 @@ function g() {
 
 L=12; M=48; K=4;
 echo Running L=$L M=$M K=$K
-echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}.txt
+echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
 # g "$K" "$L" "$M"
 
 
 L=5; M=48; K=8;
 echo Running L=$L M=$M K=$K
-echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}.txt
+echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
 # g "$K" "$L" "$M"
 
 
 L=3; M=48; K=12;
 echo Running L=$L M=$M K=$K
-echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}.txt
+echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
 # g "$K" "$L" "$M"
 
 
 L=1; M=48; K=16;
 echo Running L=$L M=$M K=$K
-echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}.txt
+echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
 # g "$K" "$L" "$M"
 
 
@@ -42,19 +43,19 @@ echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_
 
 L=3; M=48; K=16;
 echo Running L=$L M=$M K=$K
-echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}.txt
+echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
 # g "$K" "$L" "$M"
 
 
 L=5; M=48; K=16;
 echo Running L=$L M=$M K=$K
-echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}.txt
+echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
 # g "$K" "$L" "$M"
 
 
 L=12; M=48; K=16;
 echo Running L=$L M=$M K=$K
-echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}.txt
+echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
 # g "$K" "$L" "$M"
 
 exit
