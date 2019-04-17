@@ -1,0 +1,120 @@
++-----------------+----------------------+
+| Python Version  |        3.6.5         |
++-----------------+----------------------+
+| PyTorch Version |        1.0.0         |
++-----------------+----------------------+
+|     Device      | Tesla V100-SXM2-16GB |
++-----------------+----------------------+
+|      Cores      |          8           |
++-----------------+----------------------+
+|      GPUs       |          1           |
++-----------------+----------------------+
+|  CUDNN Enabled  |         True         |
++-----------------+----------------------+
+|  Architecture   |  Recursive NN (x16)  |
++-----------------+----------------------+
+|     Dataset     |       CIFAR10        |
++-----------------+----------------------+
+|     Testing     |        False         |
++-----------------+----------------------+
+|     Epochs      |          5           |
++-----------------+----------------------+
+|   Batch Size    |         128          |
++-----------------+----------------------+
+|  Learning Rate  |         0.01         |
++-----------------+----------------------+
+|  LR Milestones  |        [550]         |
++-----------------+----------------------+
+|     Layers      |          12          |
++-----------------+----------------------+
+|     Filters     |          48          |
++-----------------+----------------------+
+|    BatchNorm    |        False         |
++-----------------+----------------------+
+==> Preparing data..
+Files already downloaded and verified
+Files already downloaded and verified
+Recursive ConvNet
+Conv_Recusive_Net(
+  (act): ReLU(inplace)
+  (V): Conv2d(3, 48, kernel_size=(8, 8), stride=(1, 1), padding=(3, 3))
+  (P): MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+  (W): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  (C): Linear(in_features=3072, out_features=10, bias=True)
+)
+
+
+		Parameters: 0.060778M
+Current set up
+Testing  False
+[ALERT]: Path to results (this may overwrite ../results/dicts/ensemble_recursives/Results_Ensemble_Recursive.pkl
+[ALERT]: Path to checkpoint (this may overwrite ./checkpoint/ckpt_rec_ens.t7
+Do you want to continue? [Y/n]: [OK]: Starting Training of Recursive Ensemble Model
+
+Epoch: 0
+Train :: Loss: 1.63 | Accy: 31.42
+Valid :: Loss: 1.53 | Accy: 42.08
+Saving..
+'run_epoch'  45712.44 ms
+
+Epoch: 1
+Train :: Loss: 1.49 | Accy: 44.25
+Valid :: Loss: 1.37 | Accy: 48.84
+Saving..
+'run_epoch'  45690.97 ms
+
+Epoch: 2
+Train :: Loss: 1.32 | Accy: 50.02
+Valid :: Loss: 1.23 | Accy: 53.4
+Saving..
+'run_epoch'  45698.04 ms
+
+Epoch: 3
+Train :: Loss: 1.18 | Accy: 53.68
+Valid :: Loss: 1.22 | Accy: 56.86
+Saving..
+'run_epoch'  45631.35 ms
+
+Epoch: 4
+Train :: Loss: 1.29 | Accy: 56.33
+Valid :: Loss: 1.15 | Accy: 59.12
+Saving..
+'run_epoch'  45702.03 ms
+Lenght of results collected
++---------------+-------------+-------------+------------+
+|     Model     | Epoch Train | Epoch Valid | Iter Train |
++---------------+-------------+-------------+------------+
+| Individual 1  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 2  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 3  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 4  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 5  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 6  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 7  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 8  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 9  |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 10 |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 11 |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 12 |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 13 |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 14 |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 15 |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+| Individual 16 |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
+|   Ensemble    |      5      |      5      |     0      |
++---------------+-------------+-------------+------------+
