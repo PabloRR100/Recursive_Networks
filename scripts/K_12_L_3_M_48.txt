@@ -123,7 +123,7 @@ Epoch  32
 Epoch  33
 'run_epoch'  0.00 ms
 Epoch  34
-'run_epoch'  0.00 ms
+'run_epoch'  0.01 ms
 Epoch  35
 'run_epoch'  0.00 ms
 Epoch  36
@@ -195,7 +195,7 @@ Epoch  68
 Epoch  69
 'run_epoch'  0.00 ms
 Epoch  70
-'run_epoch'  0.00 ms
+'run_epoch'  0.01 ms
 Epoch  71
 'run_epoch'  0.00 ms
 Epoch  72
@@ -203,11 +203,11 @@ Epoch  72
 Epoch  73
 'run_epoch'  0.00 ms
 Epoch  74
-'run_epoch'  0.00 ms
+'run_epoch'  0.01 ms
 Epoch  75
 'run_epoch'  0.00 ms
 Epoch  76
-'run_epoch'  0.00 ms
+'run_epoch'  0.02 ms
 Epoch  77
 'run_epoch'  0.00 ms
 Epoch  78
@@ -229,7 +229,7 @@ Epoch  85
 Epoch  86
 'run_epoch'  0.00 ms
 Epoch  87
-'run_epoch'  0.01 ms
+'run_epoch'  0.00 ms
 Epoch  88
 'run_epoch'  0.00 ms
 Epoch  89
@@ -377,7 +377,7 @@ Epoch  159
 Epoch  160
 'run_epoch'  0.00 ms
 Epoch  161
-'run_epoch'  0.01 ms
+'run_epoch'  0.00 ms
 Epoch  162
 'run_epoch'  0.00 ms
 Epoch  163
@@ -1135,7 +1135,7 @@ Epoch  538
 Epoch  539
 'run_epoch'  0.00 ms
 Epoch  540
-'run_epoch'  0.02 ms
+'run_epoch'  0.00 ms
 Epoch  541
 'run_epoch'  0.00 ms
 Epoch  542
@@ -1171,7 +1171,7 @@ Epoch  556
 Epoch  557
 'run_epoch'  0.00 ms
 Epoch  558
-'run_epoch'  0.02 ms
+'run_epoch'  0.00 ms
 Epoch  559
 'run_epoch'  0.00 ms
 Epoch  560
@@ -1179,7 +1179,7 @@ Epoch  560
 Epoch  561
 'run_epoch'  0.00 ms
 Epoch  562
-'run_epoch'  0.00 ms
+'run_epoch'  0.02 ms
 Epoch  563
 'run_epoch'  0.00 ms
 Epoch  564
@@ -1267,7 +1267,7 @@ Epoch  604
 Epoch  605
 'run_epoch'  0.00 ms
 Epoch  606
-'run_epoch'  0.01 ms
+'run_epoch'  0.00 ms
 Epoch  607
 'run_epoch'  0.00 ms
 Epoch  608
@@ -1325,7 +1325,7 @@ Epoch  633
 Epoch  634
 'run_epoch'  0.00 ms
 Epoch  635
-'run_epoch'  0.00 ms
+'run_epoch'  0.01 ms
 Epoch  636
 'run_epoch'  0.00 ms
 Epoch  637
@@ -1351,7 +1351,7 @@ Epoch  646
 Epoch  647
 'run_epoch'  0.00 ms
 Epoch  648
-'run_epoch'  0.00 ms
+'run_epoch'  0.02 ms
 Epoch  649
 'run_epoch'  0.00 ms
 Epoch  650
