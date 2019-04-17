@@ -4,7 +4,7 @@
 source activate pytorch_p36
 # source activate pytorch
 
-E=3
+E=5
 BN=False
 
 function g() {
