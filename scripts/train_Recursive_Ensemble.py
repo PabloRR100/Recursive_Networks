@@ -330,22 +330,23 @@ def results_backup():
 @timeit
 def run_epoch(epoch):
     
-    lr_schedule(epoch)
-    train(epoch)
-    test(epoch)
-    results_backup()
-        
+#    lr_schedule(epoch)
+#    train(epoch)
+#    test(epoch)
+#    results_backup()
+    print('Epoch ', epoch)
+
     
-results = Results(list(ensemble))
-results.append_time(0)
-
-
-names = [n.name for n in ensemble.values()]
-results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
-
-if device == 'cuda':
-    for net in ensemble.values():
-        net = torch.nn.DataParallel(net)
+#results = Results(list(ensemble))
+#results.append_time(0)
+#
+#
+#names = [n.name for n in ensemble.values()]
+#results.name = names[0][:-2] + '(x' + str(len(names)) + ')'
+#
+#if device == 'cuda':
+#    for net in ensemble.values():
+#        net = torch.nn.DataParallel(net)
         
 # Start Training
 import click
@@ -363,7 +364,7 @@ else:
     print('Exiting...')
     exit()
     
-results.show()
+#results.show()
 
 
 exit()
