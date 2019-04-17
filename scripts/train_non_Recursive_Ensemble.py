@@ -118,7 +118,7 @@ for n in range(1,1+K):
     ensemble['net_{}'.format(n)] = Conv_Net('net_{}'.format(n), L, M)
 
 optimizers = []
-criterion = nn.CrossEntropyLoss()
+criterion = nn.CrossEntropyLoss().cuda() if torch.cuda.is_available() else nn.CrossEntropyLoss()
 
 for n in range(1,1+K):
     optimizers.append(
