@@ -43,19 +43,19 @@ echo Y | python train_non_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_
 
 L=3; M=48; K=16;
 echo Running L=$L M=$M K=$K
-echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
+echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}_Rec.txt
 # g "$K" "$L" "$M"
 
 
 L=5; M=48; K=16;
 echo Running L=$L M=$M K=$K
-echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
+echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}_Rec.txt
 # g "$K" "$L" "$M"
 
 
 L=12; M=48; K=16;
 echo Running L=$L M=$M K=$K
-echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}.txt
+echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}_Rec.txt
 # g "$K" "$L" "$M"
 
 exit
