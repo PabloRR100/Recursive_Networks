@@ -8,8 +8,9 @@ E=700
 BN=False
 
 function g() {
+    arg1=$1; arg2=$2; arg3=$3 
     git add .
-    git commit -m 'changes after training K_${K}_L_${L}_M_${M}'
+    git commit -m 'changes after training K_${arg1}_L_${arg2}_M_${arg3}'
     git push
 }
 
