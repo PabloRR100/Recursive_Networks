@@ -1,0 +1,110 @@
++-----------------+-------------------+
+| Python Version  |       3.6.5       |
++-----------------+-------------------+
+| PyTorch Version |       1.0.1       |
++-----------------+-------------------+
+|     Device      |     Tesla K80     |
++-----------------+-------------------+
+|      Cores      |        32         |
++-----------------+-------------------+
+|      GPUs       |         8         |
++-----------------+-------------------+
+|  CUDNN Enabled  |       True        |
++-----------------+-------------------+
+|  Architecture   | Recursive NN (x8) |
++-----------------+-------------------+
+|     Dataset     |      CIFAR10      |
++-----------------+-------------------+
+|     Testing     |       False       |
++-----------------+-------------------+
+|     Epochs      |         5         |
++-----------------+-------------------+
+|   Batch Size    |        128        |
++-----------------+-------------------+
+|  Learning Rate  |       0.01        |
++-----------------+-------------------+
+|  LR Milestones  |       [550]       |
++-----------------+-------------------+
+|     Layers      |         5         |
++-----------------+-------------------+
+|     Filters     |        48         |
++-----------------+-------------------+
+|    BatchNorm    |       False       |
++-----------------+-------------------+
+==> Preparing data..
+Files already downloaded and verified
+Files already downloaded and verified
+Non Recursive ConvNet
+Conv_Net(
+  (act): ReLU()
+  (V): Conv2d(3, 48, kernel_size=(8, 8), stride=(1, 1), padding=(3, 3))
+  (P): MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+  (W): ModuleList(
+    (0): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (2): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (3): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (4): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  )
+  (C): Linear(in_features=3072, out_features=10, bias=True)
+)
+
+
+		Parameters: 0.143914M
+Current set up
+Testing  False
+[ALERT]: Path to results (this may overwrite ../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_5_M_48_BN_False_K_8.pkl
+[ALERT]: Path to checkpoint (this may overwrite ./checkpoint/Ensemble_Non_Recursive_L_5_M_48_BN_False_K_8.t7
+Do you want to continue? [Y/n]: [OK]: Starting Training of Recursive Ensemble Model
+
+Epoch: 0
+Train :: Loss: 1.45 | Accy: 40.7
+Valid :: Loss: 1.31 | Accy: 52.35
+Saving..
+'run_epoch'  66524.22 ms
+
+Epoch: 1
+Train :: Loss: 1.21 | Accy: 54.42
+Valid :: Loss: 1.01 | Accy: 60.18
+Saving..
+'run_epoch'  64332.82 ms
+
+Epoch: 2
+Train :: Loss: 0.96 | Accy: 60.81
+Valid :: Loss: 0.85 | Accy: 63.45
+Saving..
+'run_epoch'  64513.22 ms
+
+Epoch: 3
+Train :: Loss: 1.06 | Accy: 64.79
+Valid :: Loss: 0.79 | Accy: 68.46
+Saving..
+'run_epoch'  64570.49 ms
+
+Epoch: 4
+Train :: Loss: 1.04 | Accy: 67.8
+Valid :: Loss: 1.04 | Accy: 69.99
+Saving..
+'run_epoch'  64557.83 ms
+Lenght of results collected
++--------------+-------------+-------------+------------+
+|    Model     | Epoch Train | Epoch Valid | Iter Train |
++--------------+-------------+-------------+------------+
+| Individual 1 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 2 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 3 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 4 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 5 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 6 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 7 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+| Individual 8 |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
+|   Ensemble   |      5      |      5      |     0      |
++--------------+-------------+-------------+------------+
