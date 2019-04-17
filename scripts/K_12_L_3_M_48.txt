@@ -1,0 +1,1456 @@
++-----------------+--------------------+
+| Python Version  |       3.7.2        |
++-----------------+--------------------+
+| PyTorch Version |       1.0.0        |
++-----------------+--------------------+
+|     Device      |        CPUs        |
++-----------------+--------------------+
+|      Cores      |         8          |
++-----------------+--------------------+
+|      GPUs       |         0          |
++-----------------+--------------------+
+|  CUDNN Enabled  |        True        |
++-----------------+--------------------+
+|  Architecture   | Recursive NN (x12) |
++-----------------+--------------------+
+|     Dataset     |      CIFAR10       |
++-----------------+--------------------+
+|     Testing     |       False        |
++-----------------+--------------------+
+|     Epochs      |        700         |
++-----------------+--------------------+
+|   Batch Size    |        128         |
++-----------------+--------------------+
+|  Learning Rate  |        0.01        |
++-----------------+--------------------+
+|  LR Milestones  |       [550]        |
++-----------------+--------------------+
+|     Layers      |         3          |
++-----------------+--------------------+
+|     Filters     |         48         |
++-----------------+--------------------+
+|    BatchNorm    |       False        |
++-----------------+--------------------+
+==> Preparing data..
+Files already downloaded and verified
+Files already downloaded and verified
+Non Recursive ConvNet
+Conv_Net(
+  (act): ReLU()
+  (V): Conv2d(3, 48, kernel_size=(8, 8), stride=(1, 1), padding=(3, 3))
+  (P): MaxPool2d(kernel_size=4, stride=4, padding=2, dilation=1, ceil_mode=False)
+  (W): ModuleList(
+    (0): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (1): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (2): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+  )
+  (C): Linear(in_features=3072, out_features=10, bias=True)
+)
+
+
+		Parameters: 0.102346M
+Current set up
+Testing  False
+[ALERT]: Path to results (this may overwrite ../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_3_M_48_BN_False_K_12.pkl
+[ALERT]: Path to checkpoint (this may overwrite ./checkpoint/Ensemble_Non_Recursive_L_3_M_48_BN_False_K_12.t7
+Do you want to continue? [Y/n]: [OK]: Starting Training of Recursive Ensemble Model
+Epoch  0
+'run_epoch'  0.00 ms
+Epoch  1
+'run_epoch'  0.00 ms
+Epoch  2
+'run_epoch'  0.00 ms
+Epoch  3
+'run_epoch'  0.00 ms
+Epoch  4
+'run_epoch'  0.00 ms
+Epoch  5
+'run_epoch'  0.00 ms
+Epoch  6
+'run_epoch'  0.00 ms
+Epoch  7
+'run_epoch'  0.00 ms
+Epoch  8
+'run_epoch'  0.00 ms
+Epoch  9
+'run_epoch'  0.00 ms
+Epoch  10
+'run_epoch'  0.00 ms
+Epoch  11
+'run_epoch'  0.00 ms
+Epoch  12
+'run_epoch'  0.00 ms
+Epoch  13
+'run_epoch'  0.00 ms
+Epoch  14
+'run_epoch'  0.00 ms
+Epoch  15
+'run_epoch'  0.00 ms
+Epoch  16
+'run_epoch'  0.00 ms
+Epoch  17
+'run_epoch'  0.00 ms
+Epoch  18
+'run_epoch'  0.00 ms
+Epoch  19
+'run_epoch'  0.00 ms
+Epoch  20
+'run_epoch'  0.00 ms
+Epoch  21
+'run_epoch'  0.00 ms
+Epoch  22
+'run_epoch'  0.00 ms
+Epoch  23
+'run_epoch'  0.00 ms
+Epoch  24
+'run_epoch'  0.00 ms
+Epoch  25
+'run_epoch'  0.00 ms
+Epoch  26
+'run_epoch'  0.00 ms
+Epoch  27
+'run_epoch'  0.00 ms
+Epoch  28
+'run_epoch'  0.00 ms
+Epoch  29
+'run_epoch'  0.00 ms
+Epoch  30
+'run_epoch'  0.00 ms
+Epoch  31
+'run_epoch'  0.00 ms
+Epoch  32
+'run_epoch'  0.00 ms
+Epoch  33
+'run_epoch'  0.00 ms
+Epoch  34
+'run_epoch'  0.00 ms
+Epoch  35
+'run_epoch'  0.00 ms
+Epoch  36
+'run_epoch'  0.00 ms
+Epoch  37
+'run_epoch'  0.00 ms
+Epoch  38
+'run_epoch'  0.00 ms
+Epoch  39
+'run_epoch'  0.00 ms
+Epoch  40
+'run_epoch'  0.00 ms
+Epoch  41
+'run_epoch'  0.00 ms
+Epoch  42
+'run_epoch'  0.00 ms
+Epoch  43
+'run_epoch'  0.00 ms
+Epoch  44
+'run_epoch'  0.00 ms
+Epoch  45
+'run_epoch'  0.00 ms
+Epoch  46
+'run_epoch'  0.00 ms
+Epoch  47
+'run_epoch'  0.00 ms
+Epoch  48
+'run_epoch'  0.00 ms
+Epoch  49
+'run_epoch'  0.00 ms
+Epoch  50
+'run_epoch'  0.00 ms
+Epoch  51
+'run_epoch'  0.00 ms
+Epoch  52
+'run_epoch'  0.00 ms
+Epoch  53
+'run_epoch'  0.00 ms
+Epoch  54
+'run_epoch'  0.00 ms
+Epoch  55
+'run_epoch'  0.00 ms
+Epoch  56
+'run_epoch'  0.00 ms
+Epoch  57
+'run_epoch'  0.00 ms
+Epoch  58
+'run_epoch'  0.00 ms
+Epoch  59
+'run_epoch'  0.00 ms
+Epoch  60
+'run_epoch'  0.00 ms
+Epoch  61
+'run_epoch'  0.00 ms
+Epoch  62
+'run_epoch'  0.00 ms
+Epoch  63
+'run_epoch'  0.00 ms
+Epoch  64
+'run_epoch'  0.00 ms
+Epoch  65
+'run_epoch'  0.00 ms
+Epoch  66
+'run_epoch'  0.00 ms
+Epoch  67
+'run_epoch'  0.00 ms
+Epoch  68
+'run_epoch'  0.00 ms
+Epoch  69
+'run_epoch'  0.00 ms
+Epoch  70
+'run_epoch'  0.00 ms
+Epoch  71
+'run_epoch'  0.00 ms
+Epoch  72
+'run_epoch'  0.00 ms
+Epoch  73
+'run_epoch'  0.00 ms
+Epoch  74
+'run_epoch'  0.00 ms
+Epoch  75
+'run_epoch'  0.00 ms
+Epoch  76
+'run_epoch'  0.00 ms
+Epoch  77
+'run_epoch'  0.00 ms
+Epoch  78
+'run_epoch'  0.00 ms
+Epoch  79
+'run_epoch'  0.00 ms
+Epoch  80
+'run_epoch'  0.00 ms
+Epoch  81
+'run_epoch'  0.00 ms
+Epoch  82
+'run_epoch'  0.00 ms
+Epoch  83
+'run_epoch'  0.00 ms
+Epoch  84
+'run_epoch'  0.00 ms
+Epoch  85
+'run_epoch'  0.00 ms
+Epoch  86
+'run_epoch'  0.00 ms
+Epoch  87
+'run_epoch'  0.01 ms
+Epoch  88
+'run_epoch'  0.00 ms
+Epoch  89
+'run_epoch'  0.00 ms
+Epoch  90
+'run_epoch'  0.00 ms
+Epoch  91
+'run_epoch'  0.00 ms
+Epoch  92
+'run_epoch'  0.00 ms
+Epoch  93
+'run_epoch'  0.00 ms
+Epoch  94
+'run_epoch'  0.00 ms
+Epoch  95
+'run_epoch'  0.00 ms
+Epoch  96
+'run_epoch'  0.00 ms
+Epoch  97
+'run_epoch'  0.00 ms
+Epoch  98
+'run_epoch'  0.00 ms
+Epoch  99
+'run_epoch'  0.00 ms
+Epoch  100
+'run_epoch'  0.00 ms
+Epoch  101
+'run_epoch'  0.00 ms
+Epoch  102
+'run_epoch'  0.00 ms
+Epoch  103
+'run_epoch'  0.00 ms
+Epoch  104
+'run_epoch'  0.00 ms
+Epoch  105
+'run_epoch'  0.00 ms
+Epoch  106
+'run_epoch'  0.00 ms
+Epoch  107
+'run_epoch'  0.00 ms
+Epoch  108
+'run_epoch'  0.00 ms
+Epoch  109
+'run_epoch'  0.00 ms
+Epoch  110
+'run_epoch'  0.00 ms
+Epoch  111
+'run_epoch'  0.00 ms
+Epoch  112
+'run_epoch'  0.00 ms
+Epoch  113
+'run_epoch'  0.00 ms
+Epoch  114
+'run_epoch'  0.00 ms
+Epoch  115
+'run_epoch'  0.00 ms
+Epoch  116
+'run_epoch'  0.00 ms
+Epoch  117
+'run_epoch'  0.00 ms
+Epoch  118
+'run_epoch'  0.00 ms
+Epoch  119
+'run_epoch'  0.00 ms
+Epoch  120
+'run_epoch'  0.00 ms
+Epoch  121
+'run_epoch'  0.00 ms
+Epoch  122
+'run_epoch'  0.00 ms
+Epoch  123
+'run_epoch'  0.00 ms
+Epoch  124
+'run_epoch'  0.00 ms
+Epoch  125
+'run_epoch'  0.00 ms
+Epoch  126
+'run_epoch'  0.00 ms
+Epoch  127
+'run_epoch'  0.00 ms
+Epoch  128
+'run_epoch'  0.00 ms
+Epoch  129
+'run_epoch'  0.00 ms
+Epoch  130
+'run_epoch'  0.00 ms
+Epoch  131
+'run_epoch'  0.00 ms
+Epoch  132
+'run_epoch'  0.00 ms
+Epoch  133
+'run_epoch'  0.00 ms
+Epoch  134
+'run_epoch'  0.00 ms
+Epoch  135
+'run_epoch'  0.00 ms
+Epoch  136
+'run_epoch'  0.00 ms
+Epoch  137
+'run_epoch'  0.00 ms
+Epoch  138
+'run_epoch'  0.00 ms
+Epoch  139
+'run_epoch'  0.00 ms
+Epoch  140
+'run_epoch'  0.00 ms
+Epoch  141
+'run_epoch'  0.00 ms
+Epoch  142
+'run_epoch'  0.00 ms
+Epoch  143
+'run_epoch'  0.00 ms
+Epoch  144
+'run_epoch'  0.00 ms
+Epoch  145
+'run_epoch'  0.00 ms
+Epoch  146
+'run_epoch'  0.00 ms
+Epoch  147
+'run_epoch'  0.00 ms
+Epoch  148
+'run_epoch'  0.00 ms
+Epoch  149
+'run_epoch'  0.00 ms
+Epoch  150
+'run_epoch'  0.00 ms
+Epoch  151
+'run_epoch'  0.00 ms
+Epoch  152
+'run_epoch'  0.00 ms
+Epoch  153
+'run_epoch'  0.00 ms
+Epoch  154
+'run_epoch'  0.00 ms
+Epoch  155
+'run_epoch'  0.00 ms
+Epoch  156
+'run_epoch'  0.00 ms
+Epoch  157
+'run_epoch'  0.00 ms
+Epoch  158
+'run_epoch'  0.00 ms
+Epoch  159
+'run_epoch'  0.00 ms
+Epoch  160
+'run_epoch'  0.00 ms
+Epoch  161
+'run_epoch'  0.01 ms
+Epoch  162
+'run_epoch'  0.00 ms
+Epoch  163
+'run_epoch'  0.00 ms
+Epoch  164
+'run_epoch'  0.00 ms
+Epoch  165
+'run_epoch'  0.00 ms
+Epoch  166
+'run_epoch'  0.00 ms
+Epoch  167
+'run_epoch'  0.00 ms
+Epoch  168
+'run_epoch'  0.00 ms
+Epoch  169
+'run_epoch'  0.00 ms
+Epoch  170
+'run_epoch'  0.00 ms
+Epoch  171
+'run_epoch'  0.00 ms
+Epoch  172
+'run_epoch'  0.00 ms
+Epoch  173
+'run_epoch'  0.00 ms
+Epoch  174
+'run_epoch'  0.00 ms
+Epoch  175
+'run_epoch'  0.00 ms
+Epoch  176
+'run_epoch'  0.00 ms
+Epoch  177
+'run_epoch'  0.00 ms
+Epoch  178
+'run_epoch'  0.00 ms
+Epoch  179
+'run_epoch'  0.00 ms
+Epoch  180
+'run_epoch'  0.00 ms
+Epoch  181
+'run_epoch'  0.00 ms
+Epoch  182
+'run_epoch'  0.00 ms
+Epoch  183
+'run_epoch'  0.00 ms
+Epoch  184
+'run_epoch'  0.00 ms
+Epoch  185
+'run_epoch'  0.00 ms
+Epoch  186
+'run_epoch'  0.00 ms
+Epoch  187
+'run_epoch'  0.00 ms
+Epoch  188
+'run_epoch'  0.00 ms
+Epoch  189
+'run_epoch'  0.00 ms
+Epoch  190
+'run_epoch'  0.00 ms
+Epoch  191
+'run_epoch'  0.00 ms
+Epoch  192
+'run_epoch'  0.00 ms
+Epoch  193
+'run_epoch'  0.00 ms
+Epoch  194
+'run_epoch'  0.00 ms
+Epoch  195
+'run_epoch'  0.00 ms
+Epoch  196
+'run_epoch'  0.00 ms
+Epoch  197
+'run_epoch'  0.00 ms
+Epoch  198
+'run_epoch'  0.00 ms
+Epoch  199
+'run_epoch'  0.00 ms
+Epoch  200
+'run_epoch'  0.00 ms
+Epoch  201
+'run_epoch'  0.00 ms
+Epoch  202
+'run_epoch'  0.00 ms
+Epoch  203
+'run_epoch'  0.00 ms
+Epoch  204
+'run_epoch'  0.00 ms
+Epoch  205
+'run_epoch'  0.00 ms
+Epoch  206
+'run_epoch'  0.00 ms
+Epoch  207
+'run_epoch'  0.00 ms
+Epoch  208
+'run_epoch'  0.00 ms
+Epoch  209
+'run_epoch'  0.00 ms
+Epoch  210
+'run_epoch'  0.00 ms
+Epoch  211
+'run_epoch'  0.00 ms
+Epoch  212
+'run_epoch'  0.00 ms
+Epoch  213
+'run_epoch'  0.00 ms
+Epoch  214
+'run_epoch'  0.00 ms
+Epoch  215
+'run_epoch'  0.00 ms
+Epoch  216
+'run_epoch'  0.00 ms
+Epoch  217
+'run_epoch'  0.00 ms
+Epoch  218
+'run_epoch'  0.00 ms
+Epoch  219
+'run_epoch'  0.00 ms
+Epoch  220
+'run_epoch'  0.00 ms
+Epoch  221
+'run_epoch'  0.00 ms
+Epoch  222
+'run_epoch'  0.00 ms
+Epoch  223
+'run_epoch'  0.00 ms
+Epoch  224
+'run_epoch'  0.00 ms
+Epoch  225
+'run_epoch'  0.00 ms
+Epoch  226
+'run_epoch'  0.00 ms
+Epoch  227
+'run_epoch'  0.00 ms
+Epoch  228
+'run_epoch'  0.00 ms
+Epoch  229
+'run_epoch'  0.00 ms
+Epoch  230
+'run_epoch'  0.00 ms
+Epoch  231
+'run_epoch'  0.00 ms
+Epoch  232
+'run_epoch'  0.00 ms
+Epoch  233
+'run_epoch'  0.00 ms
+Epoch  234
+'run_epoch'  0.00 ms
+Epoch  235
+'run_epoch'  0.00 ms
+Epoch  236
+'run_epoch'  0.00 ms
+Epoch  237
+'run_epoch'  0.00 ms
+Epoch  238
+'run_epoch'  0.00 ms
+Epoch  239
+'run_epoch'  0.00 ms
+Epoch  240
+'run_epoch'  0.00 ms
+Epoch  241
+'run_epoch'  0.00 ms
+Epoch  242
+'run_epoch'  0.00 ms
+Epoch  243
+'run_epoch'  0.00 ms
+Epoch  244
+'run_epoch'  0.00 ms
+Epoch  245
+'run_epoch'  0.00 ms
+Epoch  246
+'run_epoch'  0.00 ms
+Epoch  247
+'run_epoch'  0.00 ms
+Epoch  248
+'run_epoch'  0.00 ms
+Epoch  249
+'run_epoch'  0.00 ms
+Epoch  250
+'run_epoch'  0.00 ms
+Epoch  251
+'run_epoch'  0.00 ms
+Epoch  252
+'run_epoch'  0.00 ms
+Epoch  253
+'run_epoch'  0.00 ms
+Epoch  254
+'run_epoch'  0.00 ms
+Epoch  255
+'run_epoch'  0.00 ms
+Epoch  256
+'run_epoch'  0.00 ms
+Epoch  257
+'run_epoch'  0.00 ms
+Epoch  258
+'run_epoch'  0.00 ms
+Epoch  259
+'run_epoch'  0.00 ms
+Epoch  260
+'run_epoch'  0.00 ms
+Epoch  261
+'run_epoch'  0.00 ms
+Epoch  262
+'run_epoch'  0.00 ms
+Epoch  263
+'run_epoch'  0.00 ms
+Epoch  264
+'run_epoch'  0.00 ms
+Epoch  265
+'run_epoch'  0.00 ms
+Epoch  266
+'run_epoch'  0.00 ms
+Epoch  267
+'run_epoch'  0.00 ms
+Epoch  268
+'run_epoch'  0.00 ms
+Epoch  269
+'run_epoch'  0.00 ms
+Epoch  270
+'run_epoch'  0.00 ms
+Epoch  271
+'run_epoch'  0.00 ms
+Epoch  272
+'run_epoch'  0.00 ms
+Epoch  273
+'run_epoch'  0.00 ms
+Epoch  274
+'run_epoch'  0.00 ms
+Epoch  275
+'run_epoch'  0.00 ms
+Epoch  276
+'run_epoch'  0.00 ms
+Epoch  277
+'run_epoch'  0.00 ms
+Epoch  278
+'run_epoch'  0.00 ms
+Epoch  279
+'run_epoch'  0.00 ms
+Epoch  280
+'run_epoch'  0.00 ms
+Epoch  281
+'run_epoch'  0.00 ms
+Epoch  282
+'run_epoch'  0.00 ms
+Epoch  283
+'run_epoch'  0.00 ms
+Epoch  284
+'run_epoch'  0.00 ms
+Epoch  285
+'run_epoch'  0.00 ms
+Epoch  286
+'run_epoch'  0.00 ms
+Epoch  287
+'run_epoch'  0.00 ms
+Epoch  288
+'run_epoch'  0.00 ms
+Epoch  289
+'run_epoch'  0.00 ms
+Epoch  290
+'run_epoch'  0.00 ms
+Epoch  291
+'run_epoch'  0.00 ms
+Epoch  292
+'run_epoch'  0.00 ms
+Epoch  293
+'run_epoch'  0.00 ms
+Epoch  294
+'run_epoch'  0.00 ms
+Epoch  295
+'run_epoch'  0.00 ms
+Epoch  296
+'run_epoch'  0.00 ms
+Epoch  297
+'run_epoch'  0.00 ms
+Epoch  298
+'run_epoch'  0.00 ms
+Epoch  299
+'run_epoch'  0.00 ms
+Epoch  300
+'run_epoch'  0.00 ms
+Epoch  301
+'run_epoch'  0.00 ms
+Epoch  302
+'run_epoch'  0.00 ms
+Epoch  303
+'run_epoch'  0.00 ms
+Epoch  304
+'run_epoch'  0.00 ms
+Epoch  305
+'run_epoch'  0.00 ms
+Epoch  306
+'run_epoch'  0.00 ms
+Epoch  307
+'run_epoch'  0.00 ms
+Epoch  308
+'run_epoch'  0.00 ms
+Epoch  309
+'run_epoch'  0.00 ms
+Epoch  310
+'run_epoch'  0.00 ms
+Epoch  311
+'run_epoch'  0.00 ms
+Epoch  312
+'run_epoch'  0.00 ms
+Epoch  313
+'run_epoch'  0.00 ms
+Epoch  314
+'run_epoch'  0.00 ms
+Epoch  315
+'run_epoch'  0.00 ms
+Epoch  316
+'run_epoch'  0.00 ms
+Epoch  317
+'run_epoch'  0.00 ms
+Epoch  318
+'run_epoch'  0.00 ms
+Epoch  319
+'run_epoch'  0.00 ms
+Epoch  320
+'run_epoch'  0.00 ms
+Epoch  321
+'run_epoch'  0.00 ms
+Epoch  322
+'run_epoch'  0.00 ms
+Epoch  323
+'run_epoch'  0.00 ms
+Epoch  324
+'run_epoch'  0.00 ms
+Epoch  325
+'run_epoch'  0.00 ms
+Epoch  326
+'run_epoch'  0.00 ms
+Epoch  327
+'run_epoch'  0.00 ms
+Epoch  328
+'run_epoch'  0.00 ms
+Epoch  329
+'run_epoch'  0.00 ms
+Epoch  330
+'run_epoch'  0.00 ms
+Epoch  331
+'run_epoch'  0.00 ms
+Epoch  332
+'run_epoch'  0.00 ms
+Epoch  333
+'run_epoch'  0.00 ms
+Epoch  334
+'run_epoch'  0.00 ms
+Epoch  335
+'run_epoch'  0.00 ms
+Epoch  336
+'run_epoch'  0.00 ms
+Epoch  337
+'run_epoch'  0.00 ms
+Epoch  338
+'run_epoch'  0.00 ms
+Epoch  339
+'run_epoch'  0.00 ms
+Epoch  340
+'run_epoch'  0.00 ms
+Epoch  341
+'run_epoch'  0.00 ms
+Epoch  342
+'run_epoch'  0.00 ms
+Epoch  343
+'run_epoch'  0.00 ms
+Epoch  344
+'run_epoch'  0.00 ms
+Epoch  345
+'run_epoch'  0.00 ms
+Epoch  346
+'run_epoch'  0.00 ms
+Epoch  347
+'run_epoch'  0.00 ms
+Epoch  348
+'run_epoch'  0.00 ms
+Epoch  349
+'run_epoch'  0.00 ms
+Epoch  350
+'run_epoch'  0.00 ms
+Epoch  351
+'run_epoch'  0.00 ms
+Epoch  352
+'run_epoch'  0.00 ms
+Epoch  353
+'run_epoch'  0.00 ms
+Epoch  354
+'run_epoch'  0.00 ms
+Epoch  355
+'run_epoch'  0.00 ms
+Epoch  356
+'run_epoch'  0.00 ms
+Epoch  357
+'run_epoch'  0.00 ms
+Epoch  358
+'run_epoch'  0.00 ms
+Epoch  359
+'run_epoch'  0.00 ms
+Epoch  360
+'run_epoch'  0.00 ms
+Epoch  361
+'run_epoch'  0.00 ms
+Epoch  362
+'run_epoch'  0.00 ms
+Epoch  363
+'run_epoch'  0.00 ms
+Epoch  364
+'run_epoch'  0.00 ms
+Epoch  365
+'run_epoch'  0.00 ms
+Epoch  366
+'run_epoch'  0.00 ms
+Epoch  367
+'run_epoch'  0.00 ms
+Epoch  368
+'run_epoch'  0.00 ms
+Epoch  369
+'run_epoch'  0.00 ms
+Epoch  370
+'run_epoch'  0.00 ms
+Epoch  371
+'run_epoch'  0.00 ms
+Epoch  372
+'run_epoch'  0.00 ms
+Epoch  373
+'run_epoch'  0.00 ms
+Epoch  374
+'run_epoch'  0.00 ms
+Epoch  375
+'run_epoch'  0.00 ms
+Epoch  376
+'run_epoch'  0.00 ms
+Epoch  377
+'run_epoch'  0.00 ms
+Epoch  378
+'run_epoch'  0.00 ms
+Epoch  379
+'run_epoch'  0.00 ms
+Epoch  380
+'run_epoch'  0.00 ms
+Epoch  381
+'run_epoch'  0.00 ms
+Epoch  382
+'run_epoch'  0.00 ms
+Epoch  383
+'run_epoch'  0.00 ms
+Epoch  384
+'run_epoch'  0.00 ms
+Epoch  385
+'run_epoch'  0.00 ms
+Epoch  386
+'run_epoch'  0.00 ms
+Epoch  387
+'run_epoch'  0.00 ms
+Epoch  388
+'run_epoch'  0.00 ms
+Epoch  389
+'run_epoch'  0.00 ms
+Epoch  390
+'run_epoch'  0.00 ms
+Epoch  391
+'run_epoch'  0.00 ms
+Epoch  392
+'run_epoch'  0.00 ms
+Epoch  393
+'run_epoch'  0.00 ms
+Epoch  394
+'run_epoch'  0.00 ms
+Epoch  395
+'run_epoch'  0.00 ms
+Epoch  396
+'run_epoch'  0.00 ms
+Epoch  397
+'run_epoch'  0.00 ms
+Epoch  398
+'run_epoch'  0.00 ms
+Epoch  399
+'run_epoch'  0.00 ms
+Epoch  400
+'run_epoch'  0.00 ms
+Epoch  401
+'run_epoch'  0.00 ms
+Epoch  402
+'run_epoch'  0.00 ms
+Epoch  403
+'run_epoch'  0.00 ms
+Epoch  404
+'run_epoch'  0.00 ms
+Epoch  405
+'run_epoch'  0.00 ms
+Epoch  406
+'run_epoch'  0.00 ms
+Epoch  407
+'run_epoch'  0.00 ms
+Epoch  408
+'run_epoch'  0.00 ms
+Epoch  409
+'run_epoch'  0.00 ms
+Epoch  410
+'run_epoch'  0.00 ms
+Epoch  411
+'run_epoch'  0.00 ms
+Epoch  412
+'run_epoch'  0.00 ms
+Epoch  413
+'run_epoch'  0.00 ms
+Epoch  414
+'run_epoch'  0.00 ms
+Epoch  415
+'run_epoch'  0.00 ms
+Epoch  416
+'run_epoch'  0.00 ms
+Epoch  417
+'run_epoch'  0.00 ms
+Epoch  418
+'run_epoch'  0.00 ms
+Epoch  419
+'run_epoch'  0.00 ms
+Epoch  420
+'run_epoch'  0.00 ms
+Epoch  421
+'run_epoch'  0.00 ms
+Epoch  422
+'run_epoch'  0.00 ms
+Epoch  423
+'run_epoch'  0.00 ms
+Epoch  424
+'run_epoch'  0.00 ms
+Epoch  425
+'run_epoch'  0.00 ms
+Epoch  426
+'run_epoch'  0.00 ms
+Epoch  427
+'run_epoch'  0.00 ms
+Epoch  428
+'run_epoch'  0.00 ms
+Epoch  429
+'run_epoch'  0.00 ms
+Epoch  430
+'run_epoch'  0.00 ms
+Epoch  431
+'run_epoch'  0.00 ms
+Epoch  432
+'run_epoch'  0.00 ms
+Epoch  433
+'run_epoch'  0.00 ms
+Epoch  434
+'run_epoch'  0.00 ms
+Epoch  435
+'run_epoch'  0.00 ms
+Epoch  436
+'run_epoch'  0.00 ms
+Epoch  437
+'run_epoch'  0.00 ms
+Epoch  438
+'run_epoch'  0.00 ms
+Epoch  439
+'run_epoch'  0.00 ms
+Epoch  440
+'run_epoch'  0.00 ms
+Epoch  441
+'run_epoch'  0.00 ms
+Epoch  442
+'run_epoch'  0.00 ms
+Epoch  443
+'run_epoch'  0.00 ms
+Epoch  444
+'run_epoch'  0.00 ms
+Epoch  445
+'run_epoch'  0.00 ms
+Epoch  446
+'run_epoch'  0.00 ms
+Epoch  447
+'run_epoch'  0.00 ms
+Epoch  448
+'run_epoch'  0.00 ms
+Epoch  449
+'run_epoch'  0.00 ms
+Epoch  450
+'run_epoch'  0.00 ms
+Epoch  451
+'run_epoch'  0.00 ms
+Epoch  452
+'run_epoch'  0.00 ms
+Epoch  453
+'run_epoch'  0.00 ms
+Epoch  454
+'run_epoch'  0.00 ms
+Epoch  455
+'run_epoch'  0.00 ms
+Epoch  456
+'run_epoch'  0.00 ms
+Epoch  457
+'run_epoch'  0.00 ms
+Epoch  458
+'run_epoch'  0.00 ms
+Epoch  459
+'run_epoch'  0.00 ms
+Epoch  460
+'run_epoch'  0.00 ms
+Epoch  461
+'run_epoch'  0.00 ms
+Epoch  462
+'run_epoch'  0.00 ms
+Epoch  463
+'run_epoch'  0.00 ms
+Epoch  464
+'run_epoch'  0.00 ms
+Epoch  465
+'run_epoch'  0.00 ms
+Epoch  466
+'run_epoch'  0.00 ms
+Epoch  467
+'run_epoch'  0.00 ms
+Epoch  468
+'run_epoch'  0.00 ms
+Epoch  469
+'run_epoch'  0.00 ms
+Epoch  470
+'run_epoch'  0.00 ms
+Epoch  471
+'run_epoch'  0.00 ms
+Epoch  472
+'run_epoch'  0.00 ms
+Epoch  473
+'run_epoch'  0.00 ms
+Epoch  474
+'run_epoch'  0.00 ms
+Epoch  475
+'run_epoch'  0.00 ms
+Epoch  476
+'run_epoch'  0.00 ms
+Epoch  477
+'run_epoch'  0.00 ms
+Epoch  478
+'run_epoch'  0.00 ms
+Epoch  479
+'run_epoch'  0.00 ms
+Epoch  480
+'run_epoch'  0.00 ms
+Epoch  481
+'run_epoch'  0.00 ms
+Epoch  482
+'run_epoch'  0.00 ms
+Epoch  483
+'run_epoch'  0.00 ms
+Epoch  484
+'run_epoch'  0.00 ms
+Epoch  485
+'run_epoch'  0.00 ms
+Epoch  486
+'run_epoch'  0.00 ms
+Epoch  487
+'run_epoch'  0.00 ms
+Epoch  488
+'run_epoch'  0.00 ms
+Epoch  489
+'run_epoch'  0.00 ms
+Epoch  490
+'run_epoch'  0.00 ms
+Epoch  491
+'run_epoch'  0.00 ms
+Epoch  492
+'run_epoch'  0.00 ms
+Epoch  493
+'run_epoch'  0.00 ms
+Epoch  494
+'run_epoch'  0.00 ms
+Epoch  495
+'run_epoch'  0.00 ms
+Epoch  496
+'run_epoch'  0.00 ms
+Epoch  497
+'run_epoch'  0.00 ms
+Epoch  498
+'run_epoch'  0.00 ms
+Epoch  499
+'run_epoch'  0.00 ms
+Epoch  500
+'run_epoch'  0.00 ms
+Epoch  501
+'run_epoch'  0.00 ms
+Epoch  502
+'run_epoch'  0.00 ms
+Epoch  503
+'run_epoch'  0.00 ms
+Epoch  504
+'run_epoch'  0.00 ms
+Epoch  505
+'run_epoch'  0.00 ms
+Epoch  506
+'run_epoch'  0.00 ms
+Epoch  507
+'run_epoch'  0.00 ms
+Epoch  508
+'run_epoch'  0.00 ms
+Epoch  509
+'run_epoch'  0.00 ms
+Epoch  510
+'run_epoch'  0.00 ms
+Epoch  511
+'run_epoch'  0.00 ms
+Epoch  512
+'run_epoch'  0.00 ms
+Epoch  513
+'run_epoch'  0.00 ms
+Epoch  514
+'run_epoch'  0.00 ms
+Epoch  515
+'run_epoch'  0.00 ms
+Epoch  516
+'run_epoch'  0.00 ms
+Epoch  517
+'run_epoch'  0.00 ms
+Epoch  518
+'run_epoch'  0.00 ms
+Epoch  519
+'run_epoch'  0.00 ms
+Epoch  520
+'run_epoch'  0.00 ms
+Epoch  521
+'run_epoch'  0.00 ms
+Epoch  522
+'run_epoch'  0.00 ms
+Epoch  523
+'run_epoch'  0.00 ms
+Epoch  524
+'run_epoch'  0.00 ms
+Epoch  525
+'run_epoch'  0.00 ms
+Epoch  526
+'run_epoch'  0.00 ms
+Epoch  527
+'run_epoch'  0.00 ms
+Epoch  528
+'run_epoch'  0.00 ms
+Epoch  529
+'run_epoch'  0.00 ms
+Epoch  530
+'run_epoch'  0.00 ms
+Epoch  531
+'run_epoch'  0.00 ms
+Epoch  532
+'run_epoch'  0.00 ms
+Epoch  533
+'run_epoch'  0.00 ms
+Epoch  534
+'run_epoch'  0.00 ms
+Epoch  535
+'run_epoch'  0.00 ms
+Epoch  536
+'run_epoch'  0.00 ms
+Epoch  537
+'run_epoch'  0.00 ms
+Epoch  538
+'run_epoch'  0.00 ms
+Epoch  539
+'run_epoch'  0.00 ms
+Epoch  540
+'run_epoch'  0.02 ms
+Epoch  541
+'run_epoch'  0.00 ms
+Epoch  542
+'run_epoch'  0.00 ms
+Epoch  543
+'run_epoch'  0.00 ms
+Epoch  544
+'run_epoch'  0.00 ms
+Epoch  545
+'run_epoch'  0.00 ms
+Epoch  546
+'run_epoch'  0.00 ms
+Epoch  547
+'run_epoch'  0.00 ms
+Epoch  548
+'run_epoch'  0.00 ms
+Epoch  549
+'run_epoch'  0.00 ms
+Epoch  550
+'run_epoch'  0.00 ms
+Epoch  551
+'run_epoch'  0.00 ms
+Epoch  552
+'run_epoch'  0.00 ms
+Epoch  553
+'run_epoch'  0.00 ms
+Epoch  554
+'run_epoch'  0.00 ms
+Epoch  555
+'run_epoch'  0.00 ms
+Epoch  556
+'run_epoch'  0.00 ms
+Epoch  557
+'run_epoch'  0.00 ms
+Epoch  558
+'run_epoch'  0.02 ms
+Epoch  559
+'run_epoch'  0.00 ms
+Epoch  560
+'run_epoch'  0.00 ms
+Epoch  561
+'run_epoch'  0.00 ms
+Epoch  562
+'run_epoch'  0.00 ms
+Epoch  563
+'run_epoch'  0.00 ms
+Epoch  564
+'run_epoch'  0.00 ms
+Epoch  565
+'run_epoch'  0.00 ms
+Epoch  566
+'run_epoch'  0.00 ms
+Epoch  567
+'run_epoch'  0.00 ms
+Epoch  568
+'run_epoch'  0.00 ms
+Epoch  569
+'run_epoch'  0.00 ms
+Epoch  570
+'run_epoch'  0.00 ms
+Epoch  571
+'run_epoch'  0.00 ms
+Epoch  572
+'run_epoch'  0.00 ms
+Epoch  573
+'run_epoch'  0.00 ms
+Epoch  574
+'run_epoch'  0.00 ms
+Epoch  575
+'run_epoch'  0.00 ms
+Epoch  576
+'run_epoch'  0.00 ms
+Epoch  577
+'run_epoch'  0.00 ms
+Epoch  578
+'run_epoch'  0.00 ms
+Epoch  579
+'run_epoch'  0.00 ms
+Epoch  580
+'run_epoch'  0.00 ms
+Epoch  581
+'run_epoch'  0.00 ms
+Epoch  582
+'run_epoch'  0.00 ms
+Epoch  583
+'run_epoch'  0.00 ms
+Epoch  584
+'run_epoch'  0.00 ms
+Epoch  585
+'run_epoch'  0.00 ms
+Epoch  586
+'run_epoch'  0.00 ms
+Epoch  587
+'run_epoch'  0.00 ms
+Epoch  588
+'run_epoch'  0.00 ms
+Epoch  589
+'run_epoch'  0.00 ms
+Epoch  590
+'run_epoch'  0.00 ms
+Epoch  591
+'run_epoch'  0.00 ms
+Epoch  592
+'run_epoch'  0.00 ms
+Epoch  593
+'run_epoch'  0.00 ms
+Epoch  594
+'run_epoch'  0.00 ms
+Epoch  595
+'run_epoch'  0.00 ms
+Epoch  596
+'run_epoch'  0.00 ms
+Epoch  597
+'run_epoch'  0.00 ms
+Epoch  598
+'run_epoch'  0.00 ms
+Epoch  599
+'run_epoch'  0.00 ms
+Epoch  600
+'run_epoch'  0.00 ms
+Epoch  601
+'run_epoch'  0.00 ms
+Epoch  602
+'run_epoch'  0.00 ms
+Epoch  603
+'run_epoch'  0.00 ms
+Epoch  604
+'run_epoch'  0.00 ms
+Epoch  605
+'run_epoch'  0.00 ms
+Epoch  606
+'run_epoch'  0.01 ms
+Epoch  607
+'run_epoch'  0.00 ms
+Epoch  608
+'run_epoch'  0.00 ms
+Epoch  609
+'run_epoch'  0.00 ms
+Epoch  610
+'run_epoch'  0.00 ms
+Epoch  611
+'run_epoch'  0.00 ms
+Epoch  612
+'run_epoch'  0.00 ms
+Epoch  613
+'run_epoch'  0.00 ms
+Epoch  614
+'run_epoch'  0.00 ms
+Epoch  615
+'run_epoch'  0.00 ms
+Epoch  616
+'run_epoch'  0.00 ms
+Epoch  617
+'run_epoch'  0.00 ms
+Epoch  618
+'run_epoch'  0.00 ms
+Epoch  619
+'run_epoch'  0.00 ms
+Epoch  620
+'run_epoch'  0.00 ms
+Epoch  621
+'run_epoch'  0.00 ms
+Epoch  622
+'run_epoch'  0.00 ms
+Epoch  623
+'run_epoch'  0.00 ms
+Epoch  624
+'run_epoch'  0.00 ms
+Epoch  625
+'run_epoch'  0.00 ms
+Epoch  626
+'run_epoch'  0.00 ms
+Epoch  627
+'run_epoch'  0.00 ms
+Epoch  628
+'run_epoch'  0.00 ms
+Epoch  629
+'run_epoch'  0.00 ms
+Epoch  630
+'run_epoch'  0.00 ms
+Epoch  631
+'run_epoch'  0.00 ms
+Epoch  632
+'run_epoch'  0.00 ms
+Epoch  633
+'run_epoch'  0.00 ms
+Epoch  634
+'run_epoch'  0.00 ms
+Epoch  635
+'run_epoch'  0.00 ms
+Epoch  636
+'run_epoch'  0.00 ms
+Epoch  637
+'run_epoch'  0.00 ms
+Epoch  638
+'run_epoch'  0.00 ms
+Epoch  639
+'run_epoch'  0.00 ms
+Epoch  640
+'run_epoch'  0.00 ms
+Epoch  641
+'run_epoch'  0.00 ms
+Epoch  642
+'run_epoch'  0.00 ms
+Epoch  643
+'run_epoch'  0.00 ms
+Epoch  644
+'run_epoch'  0.00 ms
+Epoch  645
+'run_epoch'  0.00 ms
+Epoch  646
+'run_epoch'  0.00 ms
+Epoch  647
+'run_epoch'  0.00 ms
+Epoch  648
+'run_epoch'  0.00 ms
+Epoch  649
+'run_epoch'  0.00 ms
+Epoch  650
+'run_epoch'  0.00 ms
+Epoch  651
+'run_epoch'  0.00 ms
+Epoch  652
+'run_epoch'  0.00 ms
+Epoch  653
+'run_epoch'  0.00 ms
+Epoch  654
+'run_epoch'  0.00 ms
+Epoch  655
+'run_epoch'  0.00 ms
+Epoch  656
+'run_epoch'  0.00 ms
+Epoch  657
+'run_epoch'  0.00 ms
+Epoch  658
+'run_epoch'  0.00 ms
+Epoch  659
+'run_epoch'  0.00 ms
+Epoch  660
+'run_epoch'  0.00 ms
+Epoch  661
+'run_epoch'  0.00 ms
+Epoch  662
+'run_epoch'  0.00 ms
+Epoch  663
+'run_epoch'  0.00 ms
+Epoch  664
+'run_epoch'  0.00 ms
+Epoch  665
+'run_epoch'  0.00 ms
+Epoch  666
+'run_epoch'  0.00 ms
+Epoch  667
+'run_epoch'  0.00 ms
+Epoch  668
+'run_epoch'  0.00 ms
+Epoch  669
+'run_epoch'  0.00 ms
+Epoch  670
+'run_epoch'  0.00 ms
+Epoch  671
+'run_epoch'  0.00 ms
+Epoch  672
+'run_epoch'  0.00 ms
+Epoch  673
+'run_epoch'  0.00 ms
+Epoch  674
+'run_epoch'  0.00 ms
+Epoch  675
+'run_epoch'  0.00 ms
+Epoch  676
+'run_epoch'  0.00 ms
+Epoch  677
+'run_epoch'  0.00 ms
+Epoch  678
+'run_epoch'  0.00 ms
+Epoch  679
+'run_epoch'  0.00 ms
+Epoch  680
+'run_epoch'  0.00 ms
+Epoch  681
+'run_epoch'  0.00 ms
+Epoch  682
+'run_epoch'  0.00 ms
+Epoch  683
+'run_epoch'  0.00 ms
+Epoch  684
+'run_epoch'  0.00 ms
+Epoch  685
+'run_epoch'  0.00 ms
+Epoch  686
+'run_epoch'  0.00 ms
+Epoch  687
+'run_epoch'  0.00 ms
+Epoch  688
+'run_epoch'  0.00 ms
+Epoch  689
+'run_epoch'  0.00 ms
+Epoch  690
+'run_epoch'  0.00 ms
+Epoch  691
+'run_epoch'  0.00 ms
+Epoch  692
+'run_epoch'  0.00 ms
+Epoch  693
+'run_epoch'  0.00 ms
+Epoch  694
+'run_epoch'  0.00 ms
+Epoch  695
+'run_epoch'  0.00 ms
+Epoch  696
+'run_epoch'  0.00 ms
+Epoch  697
+'run_epoch'  0.00 ms
+Epoch  698
+'run_epoch'  0.00 ms
+Epoch  699
+'run_epoch'  0.00 ms
