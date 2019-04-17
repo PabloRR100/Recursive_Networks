@@ -4,18 +4,12 @@
 # source activate pytorch_p36
 source activate pytorch
 
-# ensemble_prmts = {'L': 12,  'M': 48, 'BN': False, 'K': 4}       # - TODO
-# ensemble_prmts = {'L': 5,   'M': 48, 'BN': False, 'K': 8}       # - TODO
-# ensemble_prmts = {'L': 3,   'M': 48, 'BN': False, 'K': 12}      # - TODO
-# ensemble_prmts = {'L': 1,   'M': 48, 'BN': False, 'K': 16}      # - TODO & RECURSIVE
-
-
-E=2
+E=700
 BN=False
 
 function g() {
     git add .
-    git commit -m 'changes after training K_${1}_L_${2}_M_${3}'
+    git commit -m 'changes after training K_${K}_L_${L}_M_${M}'
     git push
 }
 
