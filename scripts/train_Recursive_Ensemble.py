@@ -45,8 +45,8 @@ BN = args.batchnorm
 ## TODO: Adjust paths -> Results and checkpoints
 
 # Paths to Results
-check_path = './checkpoint/ckpt_rec_ens.t7'
-path = '../results/dicts/ensemble_recursives/Results_Ensemble_Recursive.pkl'
+check_path = './checkpoint/Ensemble_Recursive_L_{}_M_{}_BN_{}_K_{}.t7'.format(L,M,BN,K)
+path = '../results/dicts/ensemble_recursives/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
 
 
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
@@ -330,10 +330,10 @@ def results_backup():
 @timeit
 def run_epoch(epoch):
     
-#    lr_schedule(epoch)
+    lr_schedule(epoch)
     train(epoch)
     test(epoch)
-#    results_backup()
+    results_backup()
         
     
 results = Results(list(ensemble))
