@@ -86,7 +86,7 @@ class Conv_Recusive_Net(nn.Module):
         self.L = L
         self.M = M
         self.name = name
-        self.act = nn.ReLU(inplace=True)
+        self.act = nn.ReLU()
 
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM  
@@ -129,7 +129,7 @@ class Conv_K_Recusive_Net(nn.Module):
         self.Lo = Lo
         self.Lr = Lr
         self.R = math.ceil(Lr/Lo) # Recursivity withing each block
-        self.act = nn.ReLU(inplace=True)
+        self.act = nn.ReLU()
         self.B = [self.R] * (Lo-1) + [Lr%self.R] if Lr%self.R != 0 else [self.R] * Lo
 
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM
@@ -147,19 +147,19 @@ class Conv_K_Recusive_Net(nn.Module):
                 m.weight.data.normal_(0, math.sqrt(2. / n))
                 if m.bias is not None:
                     m.bias.data.fill_(0.01)
+                
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
-                m.bias.data.zero_()
+                m.bias.data.fill_(0.01)
                         
-        
     def forward(self, x):
         
-        x = self.act(self.V(x))
+        x = nn.ReLU(self.V(x))
         x = self.P(x)
         
         for b,W in zip(self.B, self.Wk):    # for each layer
             for _ in range(b):              # run a recursive block
-                x = self.act(W(x))
+                x = nn.ReLU(W(x))
     
         x = x.view(x.size(0), -1)
         return self.C(x) 
@@ -200,10 +200,8 @@ if '__name__' == '__main__':
     
     exit()
     
-    
-    
-    
-    
+
+
     class Ensemble:
         
         def __init__(self, net:list, size:int=None):
