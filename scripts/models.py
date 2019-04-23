@@ -58,14 +58,10 @@ class Conv_Net(nn.Module):
             
         if not self.normalize:
             x = self.act(self.V(x))         # Out: 32x32xM
-            print(x.shape)
             x = self.P(x)                   # Out: 8x8xM  
-            print(x.shape)
             for w in self.W:
                 x = self.act(w(x))          # Out: 8x8xM  
-                print(x.shape)
             x = x.view(x.size(0), -1)       # Out: 64*M  (M = 32 -> 2048)
-            print(x.shape)
             return self.C(x)
         
         else:
