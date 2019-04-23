@@ -165,6 +165,14 @@ class Conv_K_Recusive_Net(nn.Module):
         return self.C(x) 
 
 
+M = 4
+Lo = 5
+Lr = 12
+from torch.autograd import Variable
+r_convnet_k = Conv_K_Recusive_Net('Custom_Recursive_ConvNet', Lo, Lr, M)
+r_convnet_k(Variable(torch.randn(1,3,32,32)))
+
+
 if '__name__' == '__main__':
     
     from torch.autograd import Variable
@@ -179,7 +187,7 @@ if '__name__' == '__main__':
     
     M = 4
     Lo = 5
-    Lr = 30
+    Lr = 12
 
     
     convnet = Conv_Net('ConvNet', L, M)
