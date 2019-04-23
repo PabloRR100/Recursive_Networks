@@ -154,12 +154,12 @@ class Conv_K_Recusive_Net(nn.Module):
                         
     def forward(self, x):
         
-        x = nn.ReLU(self.V(x))
+        x = self.act(self.V(x))
         x = self.P(x)
         
         for b,W in zip(self.B, self.Wk):    # for each layer
             for _ in range(b):              # run a recursive block
-                x = nn.ReLU(W(x))
+                x = self.act(W(x))
     
         x = x.view(x.size(0), -1)
         return self.C(x) 
