@@ -4,7 +4,7 @@
 source activate pytorch_p36
 # source activate pytorch
 
-E=700
+E=4
 BN=False
 
 # GPU=$1
