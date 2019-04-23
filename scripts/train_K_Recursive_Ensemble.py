@@ -105,7 +105,7 @@ from models import Conv_K_Recusive_Net
 net = Conv_K_Recusive_Net('K-recursive_net', Lo, Lr, M)
 
 print('Recursive ConvNet')
-if comments: print(net)
+if comments: print(net); print('\nLayer Block: ', net.B)
 print('\n\n\t\tParameters: {}M'.format(count_parameters(net)/1e6))
 
 
