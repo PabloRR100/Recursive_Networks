@@ -11,7 +11,7 @@
 +-----------------+----------------------+
 |  CUDNN Enabled  |         True         |
 +-----------------+----------------------+
-|  Architecture   |  Recursive NN (x8)   |
+|  Architecture   |  Recursive NN (x4)   |
 +-----------------+----------------------+
 |     Dataset     |       CIFAR10        |
 +-----------------+----------------------+
@@ -25,7 +25,7 @@
 +-----------------+----------------------+
 |  LR Milestones  |        [550]         |
 +-----------------+----------------------+
-|   Real Layers   |          5           |
+|   Real Layers   |          12          |
 +-----------------+----------------------+
 |  Total Layers   |          32          |
 +-----------------+----------------------+
@@ -47,43 +47,50 @@ Conv_K_Recusive_Net(
     (2): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
     (3): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
     (4): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (5): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (6): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (7): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (8): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (9): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (10): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
+    (11): Conv2d(48, 48, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
   )
   (C): Linear(in_features=3072, out_features=10, bias=True)
 )
 
-Layer Block:  [7, 7, 7, 7, 4]
+Layer Block:  [3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2]
 
 
-		Parameters: 0.143914M
+		Parameters: 0.289402M
 Current set up
 Testing  False
-[ALERT]: Path to results (this may overwrite ../results/dicts/ensemble_recursives/Ensemble_K_Recursive_L_5_M_32_BN_48_K_False.pkl
-[ALERT]: Path to checkpoint (this may overwrite ./checkpoint/Ensemble_K_Recursive_Lo_5_Lr_32_M_48_BN_False_K_8.t7
+[ALERT]: Path to results (this may overwrite ../results/dicts/ensemble_recursives/Ensemble_K_Recursive_L_12_M_32_BN_48_K_False.pkl
+[ALERT]: Path to checkpoint (this may overwrite ./checkpoint/Ensemble_K_Recursive_Lo_12_Lr_32_M_48_BN_False_K_4.t7
 Do you want to continue? [Y/n]: [OK]: Starting Training of Recursive Ensemble Model
 
 Epoch: 0
-Train :: Loss: 2.14 | Accy: 16.72
-Valid :: Loss: 2.15 | Accy: 21.42
+Train :: Loss: 2.03 | Accy: 19.54
+Valid :: Loss: 1.91 | Accy: 26.91
 Saving..
-'run_epoch'  51033.11 ms
+'run_epoch'  28807.00 ms
 
 Epoch: 1
-Train :: Loss: 1.97 | Accy: 24.77
-Valid :: Loss: 1.83 | Accy: 30.79
+Train :: Loss: 1.77 | Accy: 33.45
+Valid :: Loss: 1.63 | Accy: 39.75
 Saving..
-'run_epoch'  50988.60 ms
+'run_epoch'  29321.01 ms
 
 Epoch: 2
-Train :: Loss: 1.81 | Accy: 35.28
-Valid :: Loss: 1.76 | Accy: 40.8
+Train :: Loss: 1.61 | Accy: 40.21
+Valid :: Loss: 1.58 | Accy: 44.22
 Saving..
-'run_epoch'  50954.99 ms
+'run_epoch'  29247.63 ms
 
 Epoch: 3
-Train :: Loss: 1.71 | Accy: 41.09
-Valid :: Loss: 1.65 | Accy: 45.55
+Train :: Loss: 1.46 | Accy: 45.39
+Valid :: Loss: 1.48 | Accy: 48.51
 Saving..
-'run_epoch'  50467.71 ms
+'run_epoch'  29017.19 ms
 Lenght of results collected
 +--------------+-------------+-------------+------------+
 |    Model     | Epoch Train | Epoch Valid | Iter Train |
@@ -95,14 +102,6 @@ Lenght of results collected
 | Individual 3 |      4      |      4      |     0      |
 +--------------+-------------+-------------+------------+
 | Individual 4 |      4      |      4      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 5 |      4      |      4      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 6 |      4      |      4      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 7 |      4      |      4      |     0      |
-+--------------+-------------+-------------+------------+
-| Individual 8 |      4      |      4      |     0      |
 +--------------+-------------+-------------+------------+
 |   Ensemble   |      4      |      4      |     0      |
 +--------------+-------------+-------------+------------+
