@@ -24,7 +24,8 @@ avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
 parser.add_argument('--lr', default=1e-2, type=float, help='learning rate')
-parser.add_argument('--layers', '-L', default=16, type=int, help='# of layers')
+parser.add_argument('--realayers', '-Lo', default=5, type=int, help='# of real layers')
+parser.add_argument('--totalayers', '-Lr', default=32, type=int, help='# of total layers with recursivity')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
 parser.add_argument('--batchnorm', '-bn', default=False, type=bool, help='batch norm')
 parser.add_argument('--epochs', '-E', default=700, type=int, help='num epochs')
@@ -36,17 +37,16 @@ parser.add_argument('--testing', '-t', default=False, type=bool, help='set True 
 args = parser.parse_args()
 
 
-L = args.layers
 M = args.filters
 K = args.ensemble
 BN = args.batchnorm
+Lo = args.realayers
+Lr = args.totalayers
 
-
-## TODO: Adjust paths -> Results and checkpoints
 
 # Paths to Results
-check_path = './checkpoint/Ensemble_Recursive_L_{}_M_{}_BN_{}_K_{}.t7'.format(L,M,BN,K)
-path = '../results/dicts/ensemble_recursives/Ensemble_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
+check_path = './checkpoint/Ensemble_K_Recursive_Lo_{}_Lr_{}_M_{}_BN_{}_K_{}.t7'.format(Lo,Lr,M,BN,K)
+path = '../results/dicts/ensemble_recursives/Ensemble_K_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(Lo,Lr,M,BN,K)
 
 
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
@@ -78,7 +78,8 @@ table.append_row(['Epochs', str(num_epochs)])
 table.append_row(['Batch Size', str(batch_size)])
 table.append_row(['Learning Rate', str(args.lr)])
 table.append_row(['LR Milestones', str(milestones)])
-table.append_row(['Layers', str(L)])
+table.append_row(['Real Layers', str(Lo)])
+table.append_row(['Total Layers', str(Lr)])
 table.append_row(['Filters', str(M)])
 table.append_row(['BatchNorm', str(BN)])
 print(table)
@@ -94,16 +95,14 @@ from data import dataloaders
 trainloader, testloader, classes = dataloaders(dataset, batch_size)
 
 
-
 # Models 
 # ------
     
 avoidWarnings()
 comments = True
-from models import Conv_Recusive_Net
 from utils import count_parameters
-net = Conv_Recusive_Net('recursive_net', L, M)
-
+from models import Conv_K_Recusive_Net
+net = Conv_K_Recusive_Net('K-recursive_net', Lo, Lr, M)
 
 print('Recursive ConvNet')
 if comments: print(net)
@@ -115,7 +114,7 @@ from collections import OrderedDict
 
 ensemble = OrderedDict()
 for n in range(1,1+K):
-    ensemble['net_{}'.format(n)] = Conv_Recusive_Net('net_{}'.format(n), L, M)
+    ensemble['net_{}'.format(n)] = Conv_K_Recusive_Net('net_{}'.format(n), Lo, Lr, M)
 
 optimizers = []
 criterion = nn.CrossEntropyLoss().cuda() if torch.cuda.is_available() else nn.CrossEntropyLoss()
@@ -124,6 +123,11 @@ for n in range(1,1+K):
     optimizers.append(
         optim.SGD(ensemble['net_{}'.format(n)].parameters(), lr=args.lr, momentum=0.9, weight_decay=1e-5)
     )
+
+
+
+# Training
+# --------
 
 def load_model(net, n, check_path, device):
     # Function to load saved models
@@ -159,11 +163,6 @@ if args.resume:
     best_acc = checkpoint['acc']
     start_epoch = checkpoint['epoch']
 
-
-
-
-# Training
-# --------
     
 # Helpers
 from results import TrainResults as Results

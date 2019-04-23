@@ -126,6 +126,8 @@ class Conv_K_Recusive_Net(nn.Module):
         self.name = name
 
         self.M = M
+        self.Lo = Lo
+        self.Lr = Lr
         self.R = math.ceil(Lr/Lo) # Recursivity withing each block
         self.act = nn.ReLU(inplace=True)
         self.B = [self.R] * (Lo-1) + [Lr%self.R] if Lr%self.R != 0 else [self.R] * Lo
@@ -134,7 +136,7 @@ class Conv_K_Recusive_Net(nn.Module):
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM 
         
         self.Wk = nn.ModuleList(                                 
-            [nn.Conv2d(self.M,self.M,3, padding=1) for _ in range(self.R)])  # Out: 8x8xM  
+            [nn.Conv2d(self.M,self.M,3, padding=1) for _ in range(len(self.B))])  # Out: 8x8xM  
         
         self.C = nn.Linear(8*8*self.M, 10)
         
