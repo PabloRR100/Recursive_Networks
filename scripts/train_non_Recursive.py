@@ -232,6 +232,7 @@ def run_epoch(epoch):
 
 # Send model to GPU(s)
 results = Results([net])
+results.name = net.name
 net.to(device)
 if device == 'cuda':
     net = torch.nn.DataParallel(net)
