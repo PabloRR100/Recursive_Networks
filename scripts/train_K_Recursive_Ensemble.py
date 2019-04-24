@@ -5,6 +5,8 @@ Created on Thu Nov  1 09:47:02 2018
 @author: pabloruizruiz
 """
 
+testing = True
+
 import os
 import sys
 import pickle
@@ -185,6 +187,9 @@ def train(epoch):
         inputs, targets = inputs.to(device), targets.to(device)
         individual_outputs = list()
         
+        if testing and batch_idx == 5:
+            break
+        
         for n, net in enumerate(ensemble.values()):
             
             if device == 'cuda':
@@ -247,6 +252,9 @@ def test(epoch):
     with torch.no_grad():
         
         for batch_idx, (inputs, targets) in enumerate(testloader):
+            
+            if testing and batch_idx == 5:
+                break
             
             inputs, targets = inputs.to(device), targets.to(device)
             
