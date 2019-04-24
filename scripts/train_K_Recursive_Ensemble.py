@@ -26,7 +26,7 @@ avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
 parser.add_argument('--lr', default=1e-2, type=float, help='learning rate')
-parser.add_argument('--custominit', default=False, type=bool, help='initialization Pytorch default')
+parser.add_argument('--custominit', action='store_true', help='initialization Pytorch default')
 parser.add_argument('--realayers', '-Lo', default=5, type=int, help='# of real layers')
 parser.add_argument('--totalayers', '-Lr', default=32, type=int, help='# of total layers with recursivity')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
@@ -38,10 +38,6 @@ parser.add_argument('--resume', '-r', action='store_true', help='resume from che
 parser.add_argument('--comments', '-c', default=True, type=bool, help='print all the statements')
 parser.add_argument('--testing', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
-
-print(args.custominit)
-
-exit()
 
 M = args.filters
 K = args.ensemble
