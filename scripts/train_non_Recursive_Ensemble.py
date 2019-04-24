@@ -398,19 +398,19 @@ ensemble_prmts = {'L': 6,  'M': 64, 'BN': False, 'K': 8}    # - done
 # Round 3.1: L = 32, M = 64 -> Soft Constraint  (Me = 48)
 # --------------------------------------------------------
 # Vertical Division
-ensemble_prmts = {'L': 12,  'M': 48, 'BN': False, 'K': 4}       # - TODO
-ensemble_prmts = {'L': 5,   'M': 48, 'BN': False, 'K': 8}       # - TODO
-ensemble_prmts = {'L': 3,   'M': 48, 'BN': False, 'K': 12}      # - TODO
-ensemble_prmts = {'L': 1,   'M': 48, 'BN': False, 'K': 16}      # - TODO & RECURSIVE
+ensemble_prmts = {'L': 12,  'M': 48, 'BN': False, 'K': 4}       # - done
+ensemble_prmts = {'L': 5,   'M': 48, 'BN': False, 'K': 8}       # - done
+ensemble_prmts = {'L': 3,   'M': 48, 'BN': False, 'K': 12}      # - done
+ensemble_prmts = {'L': 1,   'M': 48, 'BN': False, 'K': 16}      # - done 
 
 
 # Round 3.1: L = 32, M = 64 -> Soft Constraint  (Me = 32)
 # --------------------------------------------------------
 # Vertical Division
-ensemble_prmts = {'L': 30,  'M': 32, 'BN': False, 'K': 4}       # - TODO
-ensemble_prmts = {'L': 13,  'M': 32, 'BN': False, 'K': 8}       # - TODO
-ensemble_prmts = {'L': 8,   'M': 32, 'BN': False, 'K': 12}      # - TODO
-ensemble_prmts = {'L': 5,   'M': 32, 'BN': False, 'K': 16}      # - TODO
+ensemble_prmts = {'L': 30,  'M': 32, 'BN': False, 'K': 4}       # - done
+ensemble_prmts = {'L': 13,  'M': 32, 'BN': False, 'K': 8}       # - done
+ensemble_prmts = {'L': 8,   'M': 32, 'BN': False, 'K': 12}      # - done
+ensemble_prmts = {'L': 5,   'M': 32, 'BN': False, 'K': 16}      # - done
 
 
 path = '../results/dicts/ensemble_non_recursives/Ensemble_Non_Recursive_L_{L}_M_{M}_BN_{BN}_K_{K}.pkl'.format(**ensemble_prmts)
