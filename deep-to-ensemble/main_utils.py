@@ -77,7 +77,7 @@ def getL_M(S,K,M):
 
 if __name__ == '__main__':
     
-    K = 16
+    K = 12
     
     S = Net(M = 64, L = 32)
     print('\n\Single')
@@ -117,7 +117,7 @@ if __name__ == '__main__':
     print('|S| / |Ek| = ', S.total() / Ek.total())
     
     ## A21: CONDITIONED HORIZONTAL DIVISION: Fix K, Choose Le > L --> Divide M into Me
-    Le = 20
+    Le = 32
     Me = getM_L(S = S, K = K, L = Le)
     Ek = Net(M = Me, L = Le)
     print('\n\nCONDITIONED HORIZONTAL Le > L')
@@ -149,7 +149,7 @@ if __name__ == '__main__':
     print('|S| / |Ek| = ', S.total() / Ek.total())
     
     ## B22: CONDITIONED VERICAL DIVISION: Fix K, Choose Me > M --> Divide L into Le
-    Me = 48
+    Me = 64
     Le = getL_M(S = S, K = K, M = Me)
     Ek = Net(M = Me, L = Le)
     print('\n\nCONDITIONED VERTICAL Me > M')

@@ -42,8 +42,6 @@ K = args.ensemble
 BN = args.batchnorm
 
 
-## TODO: Adjust paths -> Results and checkpoints
-
 
 # Paths to Results
 check_path = './checkpoint/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.t7'.format(L,M,BN,K)

@@ -46,7 +46,7 @@ BN = args.batchnorm
 
 # Paths to Results
 check_path = './checkpoint/Ensemble_Recursive_L_{}_M_{}_BN_{}_K_{}.t7'.format(L,M,BN,K)
-path = '../results/dicts/ensemble_recursives/Ensemble_Non_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
+path = '../results/dicts/ensemble_recursives/Ensemble_Recursive_L_{}_M_{}_BN_{}_K_{}.pkl'.format(L,M,BN,K)
 
 
 ''' OPTIMIZER PARAMETERS - Analysis on those '''
