@@ -56,20 +56,21 @@ echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}
 # echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_${GPU}_Rec.txt
 '
 
-# : '
+: '
 # K-Recursives
 Lo=5; Lr=32; M=48; K=16;
 echo Running Lo=$Lo Lr=$Lr M=$M K=$K
 echo Y | python train_K_Recursive_Ensemble.py -Lo $Lo -Lr $Lr -M $M -K $K -E $E | tee K_${K}_Lo_${Lo}_Lr_${Lr}_M_${M}_K_Rec.txt
+'
 
 Lo=5; Lr=32; M=48; K=16;
 echo Running Lo=$Lo Lr=$Lr M=$M K=$K
 echo Y | python train_K_Recursive_Ensemble.py -Lo $Lo -Lr $Lr -M $M -K $K -E $E -custominit True| tee K_${K}_Lo_${Lo}_Lr_${Lr}_M_${M}_K_Rec_custominit.txt
 
+: '
 Lo=5; Lr=32; M=48; K=16;
 echo Running Lo=$Lo Lr=$Lr M=$M K=$K
-echo Y | python train_K_Recursive_Ensemble.py -Lo $Lo -Lr $Lr -M $M -K $K -E $E --lr 0.001 | tee K_${K}_Lo_${Lo}_Lr_${Lr}_M_${M}_K_Rec_lr1e-3.txt
-
+echo Y | python train_K_Recursive_Ensemble.py -Lo $Lo -Lr $Lr -M $M -K $K -E $E -lr 0.001 | tee K_${K}_Lo_${Lo}_Lr_${Lr}_M_${M}_K_Rec_lr1e-3.txt
 
 
 Lo=8; Lr=32; M=48; K=12;
@@ -111,7 +112,7 @@ echo Y | python train_K_Recursive_Ensemble.py -Lo $Lo -Lr $Lr -M $M -K $K -E $E 
 Lo=30; Lr=32; M=48; K=4;
 echo Running Lo=$Lo Lr=$Lr M=$M K=$K
 echo Y | python train_K_Recursive_Ensemble.py -Lo $Lo -Lr $Lr -M $M -K $K -E $E --lr 0.001 | tee K_${K}_Lo_${Lo}_Lr_${Lr}_M_${M}_K_Rec_lr1e-3.txt
-
+'
 
 # '
 

@@ -39,6 +39,9 @@ parser.add_argument('--comments', '-c', default=True, type=bool, help='print all
 parser.add_argument('--testing', '-t', default=False, type=bool, help='set True if running without GPU for debugging purposes')
 args = parser.parse_args()
 
+print(args.custominit)
+
+exit()
 
 M = args.filters
 K = args.ensemble
