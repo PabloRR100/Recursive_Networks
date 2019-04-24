@@ -184,6 +184,7 @@ def train(epoch):
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
+        print('Train :: Batch: ', batch_idx)
         inputs, targets = inputs.to(device), targets.to(device)
         individual_outputs = list()
         
@@ -252,7 +253,8 @@ def test(epoch):
     with torch.no_grad():
         
         for batch_idx, (inputs, targets) in enumerate(testloader):
-            
+           
+            print('Valid :: Batch: ', batch_idx)
             if testing and batch_idx == 5:
                 break
             
