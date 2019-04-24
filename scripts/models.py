@@ -1,7 +1,7 @@
 
-import math
 import torch
 from torch import nn
+from math import ceil, floor, sqrt
 
     
 # Convolutional Networks
@@ -41,7 +41,7 @@ class Conv_Net(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.weight.data.normal_(0, sqrt(2. / n))
                 if m.bias is not None:
                     m.bias.data.fill_(0.01)
                     
@@ -93,7 +93,7 @@ class Conv_Recusive_Net(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.weight.data.normal_(0, sqrt(2. / n))
                 if m.bias is not None:
                     m.bias.data.fill_(0.01)
             elif isinstance(m, nn.Linear):
@@ -124,10 +124,9 @@ class Conv_K_Recusive_Net(nn.Module):
         self.M = M
         self.Lo = Lo
         self.Lr = Lr
-        self.R = math.ceil(Lr/Lo) # Recursivity withing each block
         self.act = nn.ReLU()
-        self.B = [self.R] * (Lo-1) + [Lr%self.R] if Lr%self.R != 0 else [self.R] * Lo
-
+        
+        self.R, self.B = self.define_layers()
         self.V = nn.Conv2d(3,self.M,8, stride=1, padding=3)     # Out: 32x32xM
         self.P = nn.MaxPool2d(4, stride=4, padding=2)           # Out: 8x8xM 
         
@@ -136,18 +135,32 @@ class Conv_K_Recusive_Net(nn.Module):
         
         self.C = nn.Linear(8*8*self.M, 10)
         
-        # Custom Initialization
+        # Custom Initialization     --> Try not even using this
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, math.sqrt(2. / n))
+                m.weight.data.normal_(0, sqrt(2. / n))
                 if m.bias is not None:
                     m.bias.data.fill_(0.01)
                 
             elif isinstance(m, nn.Linear):
                 m.weight.data.normal_(0, 0.01)
                 m.bias.data.fill_(0.01)
-                        
+               
+    def define_layers(self):
+    
+        if self.Lr - ceil(self.Lr/self.Lo)*(self.Lo-1) > 0:    
+            r = ceil(self.Lr/self.Lo)
+            res = self.Lr - r*(self.Lo-1)
+            B = [r] * (self.Lo-1) + [res]
+            
+        else:
+            r = floor(self.Lr/self.Lo)
+            res = self.Lr - r*(self.Lo-1)
+            B = [r] * (self.Lo-1) + [res]
+    
+        return r, B
+                    
     def forward(self, x):
         
         x = self.act(self.V(x))
@@ -167,6 +180,7 @@ Lr = 12
 from torch.autograd import Variable
 r_convnet_k = Conv_K_Recusive_Net('Custom_Recursive_ConvNet', Lo, Lr, M)
 r_convnet_k(Variable(torch.randn(1,3,32,32)))
+print(r_convnet_k.B)
 
 
 if '__name__' == '__main__':
