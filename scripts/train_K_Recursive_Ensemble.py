@@ -24,6 +24,7 @@ avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
 parser.add_argument('--lr', default=1e-2, type=float, help='learning rate')
+parser.add_argument('--custominit', default=False, type=float, help='initialization Pytorch default')
 parser.add_argument('--realayers', '-Lo', default=5, type=int, help='# of real layers')
 parser.add_argument('--totalayers', '-Lr', default=32, type=int, help='# of total layers with recursivity')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
@@ -42,6 +43,7 @@ K = args.ensemble
 BN = args.batchnorm
 Lo = args.realayers
 Lr = args.totalayers
+init = args.custominit
 
 
 # Paths to Results
@@ -114,7 +116,7 @@ from collections import OrderedDict
 
 ensemble = OrderedDict()
 for n in range(1,1+K):
-    ensemble['net_{}'.format(n)] = Conv_K_Recusive_Net('net_{}'.format(n), Lo, Lr, M)
+    ensemble['net_{}'.format(n)] = Conv_K_Recusive_Net('net_{}'.format(n), Lo, Lr, M, init)
 
 optimizers = []
 criterion = nn.CrossEntropyLoss().cuda() if torch.cuda.is_available() else nn.CrossEntropyLoss()

@@ -116,7 +116,7 @@ class Conv_K_Recusive_Net(nn.Module):
     '''
     Recursive block of K layers
     '''
-    def __init__(self, name:str, Lo:int, Lr:int, M:int=32):
+    def __init__(self, name:str, Lo:int, Lr:int, M:int=32, randominit=False):
         super(Conv_K_Recusive_Net, self).__init__()
         
         self.name = name
@@ -136,16 +136,17 @@ class Conv_K_Recusive_Net(nn.Module):
         self.C = nn.Linear(8*8*self.M, 10)
         
         # Custom Initialization     --> Try not even using this
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d):
-                n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
-                m.weight.data.normal_(0, sqrt(2. / n))
-                if m.bias is not None:
+        if not randominit:
+            for m in self.modules():
+                if isinstance(m, nn.Conv2d):
+                    n = m.kernel_size[0] * m.kernel_size[1] * m.out_channels
+                    m.weight.data.normal_(0, sqrt(2. / n))
+                    if m.bias is not None:
+                        m.bias.data.fill_(0.01)
+                    
+                elif isinstance(m, nn.Linear):
+                    m.weight.data.normal_(0, 0.01)
                     m.bias.data.fill_(0.01)
-                
-            elif isinstance(m, nn.Linear):
-                m.weight.data.normal_(0, 0.01)
-                m.bias.data.fill_(0.01)
                
     def define_layers(self):
     
@@ -173,14 +174,13 @@ class Conv_K_Recusive_Net(nn.Module):
         x = x.view(x.size(0), -1)
         return self.C(x) 
 
-
-M = 4
-Lo = 5
-Lr = 12
-from torch.autograd import Variable
-r_convnet_k = Conv_K_Recusive_Net('Custom_Recursive_ConvNet', Lo, Lr, M)
-r_convnet_k(Variable(torch.randn(1,3,32,32)))
-print(r_convnet_k.B)
+#M = 4
+#Lo = 5
+#Lr = 12
+#from torch.autograd import Variable
+#r_convnet_k = Conv_K_Recusive_Net('Custom_Recursive_ConvNet', Lo, Lr, M)
+#r_convnet_k(Variable(torch.randn(1,3,32,32)))
+#print(r_convnet_k.B)
 
 
 if '__name__' == '__main__':

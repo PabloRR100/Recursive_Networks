@@ -1,25 +1,36 @@
 
 
 from math import ceil, floor
+#
+#def define_layers(Lr, Lo):
+#    
+#    # I need to split Lr layers in Lo buckets
+#    
+#    # If I have too many  
+#    if Lr - ceil(Lr/Lo)*(Lo-1) > 0:    
+#        r = ceil(Lr/Lo)
+#        res = Lr - r*(Lo-1)
+#        B = [r] * (Lo-1) + [res]
+#        
+#    # If I have too few    
+#    else:
+#        r = floor(Lr/Lo)
+#        res = Lr - r*(Lo-1)
+#        B = [r] * (Lo-1) + [res]
+#
+#    return B
 
-def define_layers(Lr, Lo):
-    
-    # I need to split Lr layers in Lo buckets
-    
-    # If I have too many  
-    if Lr - ceil(Lr/Lo)*(Lo-1) > 0:    
-        r = ceil(Lr/Lo)
-        res = Lr - r*(Lo-1)
-        B = [r] * (Lo-1) + [res]
-        
-    # If I have too few    
-    else:
-        r = floor(Lr/Lo)
-        res = Lr - r*(Lo-1)
-        B = [r] * (Lo-1) + [res]
 
-    return B
+def define_layers(L_r,L_o):
 
+   sub_block_size = round(L_r*1.0/L_o*1.0)
+
+   res = L_r - sub_block_size*(L_o-1)
+   B = [sub_block_size]*(L_o-1) + [res]
+
+   assert(sum(B)==L_r)
+
+   return B
 
 Lo = 6
 Lr = 12
