@@ -43,7 +43,7 @@ BN=False
 
 
 # Recursives
-:'
+: '
 L=3; M=48; K=16;
 echo Running L=$L M=$M K=$K
 echo Y | python train_Recursive_Ensemble.py -L $L -M $M -K $K -E $E | tee K_${K}_L_${L}_M_${M}_Rec.txt
