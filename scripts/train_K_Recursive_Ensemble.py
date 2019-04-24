@@ -5,7 +5,7 @@ Created on Thu Nov  1 09:47:02 2018
 @author: pabloruizruiz
 """
 
-testing = True
+#testing = True
 
 import os
 import sys
@@ -26,7 +26,7 @@ avoidWarnings()
 ## Note: the paper doesn't mention about trainining epochs/iterations
 parser = argparse.ArgumentParser(description='Recursive Networks with Ensemble Learning')
 parser.add_argument('--lr', default=1e-2, type=float, help='learning rate')
-parser.add_argument('--custominit', default=False, type=float, help='initialization Pytorch default')
+parser.add_argument('--custominit', default=False, type=bool, help='initialization Pytorch default')
 parser.add_argument('--realayers', '-Lo', default=5, type=int, help='# of real layers')
 parser.add_argument('--totalayers', '-Lr', default=32, type=int, help='# of total layers with recursivity')
 parser.add_argument('--batch', '-bs', default=128, type=int, help='batch size')
@@ -184,12 +184,12 @@ def train(epoch):
     
     for batch_idx, (inputs, targets) in enumerate(trainloader):
         
-        print('Train :: Batch: ', batch_idx)
         inputs, targets = inputs.to(device), targets.to(device)
         individual_outputs = list()
         
-        if testing and batch_idx == 5:
-            break
+#        print('Train :: Batch: ', batch_idx)
+#        if testing and batch_idx == 5:
+#            break
         
         for n, net in enumerate(ensemble.values()):
             
@@ -254,9 +254,9 @@ def test(epoch):
         
         for batch_idx, (inputs, targets) in enumerate(testloader):
            
-            print('Valid :: Batch: ', batch_idx)
-            if testing and batch_idx == 5:
-                break
+#            print('Valid :: Batch: ', batch_idx)
+#            if testing and batch_idx == 5:
+#                break
             
             inputs, targets = inputs.to(device), targets.to(device)
             
