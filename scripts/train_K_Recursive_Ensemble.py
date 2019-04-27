@@ -168,13 +168,16 @@ if args.resume:
 
     
 # Helpers
+import numpy as np # -> Check nan losses
 from results import TrainResults as Results
 
+nan_losses = 0
 
 def train(epoch):
     
     global device
     global results
+    global nan_losses
     global optimizers    
     print('\nEpoch: %d' % epoch)
 
@@ -189,6 +192,11 @@ def train(epoch):
 #        print('Train :: Batch: ', batch_idx)
 #        if testing and batch_idx == 5:
 #            break
+        
+        # Break training if 5 epochs -> The training has broken
+        if nan_losses >= 10:
+            print('Training broken => Interrunping script...')
+            exit()
         
         for n, net in enumerate(ensemble.values()):
             
@@ -235,6 +243,9 @@ def train(epoch):
         correct += predicted.eq(targets).sum().item()
 
     accuracy = 100 * correct / total
+    
+    if np.isnan(loss.item()):
+        nan_losses += 1
     
     # Store iteration results for Ensemble
     results.append_loss(round(loss.item(), 2), 'train', None)
